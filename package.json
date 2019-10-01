@@ -1,0 +1,38 @@
+{
+  "name": "@nuxtjs/global-components",
+  "version": "0.1.0",
+  "description": "Register global components for Nuxt.js",
+  "repository": "nuxt-community/global-components",
+  "license": "MIT",
+  "contributors": [
+    "Ricardo Gobbo de Souza <ricardogobbosouza@yahoo.com.br>"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/module.js",
+  "scripts": {
+    "dev": "nuxt test/fixture",
+    "lint": "eslint --ext .js,.vue .",
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && jest"
+  },
+  "dependencies": {
+    "globby": "^10.0.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@nuxtjs/eslint-config": "latest",
+    "@nuxtjs/module-test-utils": "latest",
+    "codecov": "latest",
+    "eslint": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "nuxt-edge": "latest",
+    "standard-version": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
