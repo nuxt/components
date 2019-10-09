@@ -22,10 +22,10 @@ yarn add --dev @nuxtjs/global-components # or npm install --save-dev @nuxtjs/glo
 
 2. Add `@nuxtjs/global-components` to the `buildModules` section of `nuxt.config.js`
 
-:warning: If you are using Nuxt `< 2.9.0`, use `modules` instead.
+:warning: If you are using Nuxt older than **v2.9** you have to install module as a `dependency` (No `--dev` or `--save-dev` flags) and also use `modules` section in `nuxt.config.js` instead of `buildModules`.
 
 ```js
-{
+export default {
   buildModules: [
     // Simple usage
     '@nuxtjs/global-components',
@@ -39,7 +39,7 @@ yarn add --dev @nuxtjs/global-components # or npm install --save-dev @nuxtjs/glo
 ### Using top level options
 
 ```js
-{
+export default {
   buildModules: [
     '@nuxtjs/global-components'
   ],
