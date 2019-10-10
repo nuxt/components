@@ -1,7 +1,7 @@
 {
   "name": "@nuxtjs/global-components",
   "version": "0.1.0",
-  "description": "Register global components for Nuxt.js",
+  "description": "Module to register global components for Nuxt.js",
   "repository": "nuxt-community/global-components",
   "license": "MIT",
   "contributors": [
