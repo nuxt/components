@@ -6,7 +6,7 @@
 [![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
-> Register global components for Nuxt.js
+> Module to register global components for Nuxt.js
 
 [📖 **Release Notes**](./CHANGELOG.md)
 
