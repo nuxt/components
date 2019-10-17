@@ -58,10 +58,17 @@ export default {
 
 The directory to find global components.
 
+### `suffixes`
+
+- Type: `Array`
+- Default: `['global']`
+
+The suffixes that files can contain.
+
 ### `extensions`
 
 - Type: `Array`
-- Default: `['global.vue', 'global.js']`
+- Default: `['vue', 'js']`
 
 The extensions that files can contain.
 
