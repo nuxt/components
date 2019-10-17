@@ -68,7 +68,7 @@ The suffixes that files can contain.
 ### `extensions`
 
 - Type: `Array`
-- Default: `['vue', 'js']`
+- Default: `['vue', 'js', 'ts']`
 
 The extensions that files can contain.
 
