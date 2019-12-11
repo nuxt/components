@@ -79,6 +79,13 @@ The extensions that files can contain.
 
 An array of glob patterns to exclude matches.
 
+### `ignoreNameDetection`
+
+- Type: `Boolean`
+- Default: `false`
+
+Ignore name detection using prototype names.
+
 ## Development
 
 1. Clone this repository
