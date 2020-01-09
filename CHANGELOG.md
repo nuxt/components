@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/nuxt-community/global-components/compare/v0.3.0...v0.3.1) (2020-01-09)
+
+
+### Bug Fixes
+
+* use `reduce` and `concat` instead of `flatMap` ([911fef5](https://github.com/nuxt-community/global-components/commit/911fef5))
+
 ## [0.3.0](https://github.com/nuxt-community/global-components/compare/v0.2.0...v0.3.0) (2019-12-11)
 
 
