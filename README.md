@@ -10,7 +10,15 @@
 
 [📖 **Release Notes**](./CHANGELOG.md)
 
-:warning: **ATTENTION**: This module registers components globally which may impair their performance, use with caution.
+## Usage
+
+Suffix your components with `.global.{ext}` to declare your global components.
+
+```bash
+components/
+  my-component.vue # local component, import it to use it
+  my-button.global.vue # global component, no need to register it!
+```
 
 ## Setup
 
