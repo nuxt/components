@@ -20,6 +20,8 @@ components/
   my-button.global.vue # global component, no need to register it!
 ```
 
+See [live demo](https://codesandbox.io/s/nuxtjs-global-components-ujtoq).
+
 ## Setup
 
 1. Add `@nuxtjs/global-components` dependency to your project
