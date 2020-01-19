@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/nuxt-community/global-components/compare/v0.4.0...v0.4.1) (2020-01-19)
+
+
+### Bug Fixes
+
+* **module:** only watch components directory in dev mode ([#9](https://github.com/nuxt-community/global-components/issues/9)) ([870835d](https://github.com/nuxt-community/global-components/commit/870835d))
+
 ## [0.4.0](https://github.com/nuxt-community/global-components/compare/v0.3.1...v0.4.0) (2020-01-14)
 
 
