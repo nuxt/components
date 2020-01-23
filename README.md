@@ -63,10 +63,10 @@ export default {
 
 ### `dir`
 
-- Type: `String`
+- Type: `String|Array`
 - Default: `components`
 
-The directory to find global components.
+A list of directories to find components inside your nuxt project.
 
 ### `suffixes`
 

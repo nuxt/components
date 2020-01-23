@@ -19,11 +19,11 @@ const mockWatcher = {
 chokidar.watch = () => mockWatcher
 const callChokidarEvent = eventName => Promise.all(chokidarWatchers.map(w => w.fn(eventName)))
 
-describe('module', () => {
+describe('dev', () => {
   let nuxt, builder
 
   beforeAll(async () => {
-    nuxt = await init(loadConfig(__dirname, undefined, { dev: true }))
+    nuxt = await init(loadConfig(__dirname, 'basic', { dev: true }))
     builder = {
       generateRoutesAndFiles: jest.fn()
     }

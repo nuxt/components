@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`module discover components and pass as componentOptions 1`] = `
+exports[`dev discover components and pass as componentOptions 1`] = `
 Object {
   "components": Array [
     Object {
       "name": "a.js",
-      "path": "~/components//project/nuxt/a.js",
+      "path": "~//project/nuxt/a.js",
     },
     Object {
       "name": "b",
-      "path": "~/components//project/nuxt/b.global.js",
+      "path": "~//project/nuxt/b.global.js",
     },
     Object {
       "name": "c",
-      "path": "~/components//project/nuxt/c.global.js",
+      "path": "~//project/nuxt/c.global.js",
     },
   ],
   "ignoreNameDetection": false,

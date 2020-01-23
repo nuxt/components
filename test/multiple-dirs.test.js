@@ -1,10 +1,10 @@
 const { setup, loadConfig, get } = require('@nuxtjs/module-test-utils')
 
-describe('module', () => {
+describe('multiple-dirs', () => {
   let nuxt
 
   beforeAll(async () => {
-    ({ nuxt } = (await setup(loadConfig(__dirname))))
+    ({ nuxt } = (await setup(loadConfig(__dirname, 'multiple-dirs'))))
   }, 60000)
 
   afterAll(async () => {
@@ -14,7 +14,7 @@ describe('module', () => {
   test('render', async () => {
     const html = await get('/')
     expect(html).toContain('Works!')
-    expect(html).toContain('foo')
-    expect(html).toContain('bar')
+    expect(html).toContain('foo content')
+    expect(html).toContain('bar content')
   })
 })

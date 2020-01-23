@@ -4,6 +4,6 @@ module.exports = {
     resourceHints: false
   },
   modules: [
-    { handler: require('../../') }
+    { handler: require('../../../') }
   ]
 }
