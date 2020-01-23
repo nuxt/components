@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/nuxt-community/global-components/compare/v0.4.1...v0.5.0) (2020-01-23)
+
+
+### Features
+
+* multiple dirs ([#13](https://github.com/nuxt-community/global-components/issues/13)) ([7fb4be4](https://github.com/nuxt-community/global-components/commit/7fb4be4968ecbca25b2f92b8b6a0c3d6f9571234))
+
+
+### Bug Fixes
+
+* typo in globby options ([#12](https://github.com/nuxt-community/global-components/issues/12)) ([f267120](https://github.com/nuxt-community/global-components/commit/f267120ab6e9201a22189b0d0e417a5d5917c4a2))
+
 ### [0.4.1](https://github.com/nuxt-community/global-components/compare/v0.4.0...v0.4.1) (2020-01-19)
 
 
