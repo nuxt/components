@@ -19,7 +19,7 @@ const mockWatcher = {
 chokidar.watch = () => mockWatcher
 const callChokidarEvent = eventName => Promise.all(chokidarWatchers.map(w => w.fn(eventName)))
 
-describe('dev', () => {
+describe('watch', () => {
   let nuxt, builder
 
   beforeAll(async () => {

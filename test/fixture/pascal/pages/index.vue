@@ -1,8 +1,10 @@
 <template>
   <div>
     Works!
-    <bar />
-    <foo />
+    <Bar />
+    <BarFoo />
+    <Foo />
+    <FooBar />
   </div>
 </template>
 
