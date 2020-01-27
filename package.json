@@ -12,7 +12,6 @@
   ],
   "main": "lib/module.js",
   "scripts": {
-    "dev": "nuxt test/fixture",
     "lint": "eslint --ext .js,.vue .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && jest"
