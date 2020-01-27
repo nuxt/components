@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/nuxt-community/global-components/compare/v0.5.0...v0.5.1) (2020-01-27)
+
+
+### Bug Fixes
+
+* empty suffixes ([#14](https://github.com/nuxt-community/global-components/issues/14)) ([4325117](https://github.com/nuxt-community/global-components/commit/4325117))
+
 ## [0.5.0](https://github.com/nuxt-community/global-components/compare/v0.4.1...v0.5.0) (2020-01-23)
 
 
