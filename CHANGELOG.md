@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/nuxt-community/global-components/compare/v0.5.1...v0.6.0) (2020-01-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* The components will be renamed of snake, kebab case to pascal
+
+### Features
+
+* snake, kebab case to pascal ([#8](https://github.com/nuxt-community/global-components/issues/8)) ([943bb4c](https://github.com/nuxt-community/global-components/commit/943bb4c))
+
 ### [0.5.1](https://github.com/nuxt-community/global-components/compare/v0.5.0...v0.5.1) (2020-01-27)
 
 
