@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/nuxt-community/global-components/compare/v0.6.0...v0.6.1) (2020-02-11)
+
+
+### Bug Fixes
+
+* non-posix pattern given to globby on win32 ([#15](https://github.com/nuxt-community/global-components/issues/15)) ([c4f165c](https://github.com/nuxt-community/global-components/commit/c4f165c))
+
 ## [0.6.0](https://github.com/nuxt-community/global-components/compare/v0.5.1...v0.6.0) (2020-01-27)
 
 
