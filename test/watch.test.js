@@ -1,4 +1,4 @@
-const { join } = require('path')
+const { posix: { join } } = require('path')
 const { loadConfig, init } = require('@nuxtjs/module-test-utils')
 const chokidar = require('chokidar')
 const globby = require('globby')
