@@ -21,7 +21,7 @@ function install (this: WebpackLoader.LoaderContext, content: string, components
   return content
 }
 
-export default async function loader (this: WebpackLoader.LoaderContext, content: string, sourceMap: any) {
+export default async function loader (this: WebpackLoader.LoaderContext, content: string) {
   this.async()
   this.cacheable()
 
@@ -37,5 +37,5 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
     }
   }
 
-  this.callback(null, content, sourceMap)
+  this.callback(null, content)
 }
