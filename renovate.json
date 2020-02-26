@@ -1,5 +1,11 @@
 {
   "extends": [
     "@nuxtjs"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "labels": [
+    "dependencies"
   ]
 }

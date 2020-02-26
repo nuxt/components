@@ -1,5 +1,6 @@
 <template>
   <div>
-    foo bar content
+    <ComponentA />
+    <ComponentB />
   </div>
 </template>

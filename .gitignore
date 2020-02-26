@@ -1,9 +1,30 @@
+# Dependencies
 node_modules
+
+# Only keep yarn.lock in the root
+*/**/yarn.lock
+
+# Logs
+*.log
+
+# Other
+.nuxt*
+!.nuxtignore
+
+# Dist folders
+dist
+
+# Coverage reports
+coverage
+
+# VSCode
+.vscode
+
+# Intellij idea
 *.iml
 .idea
-*.log*
-.nuxt
-.vscode
+
+# OSX
 .DS_Store
-coverage
-dist
+.AppleDouble
+.LSOverride

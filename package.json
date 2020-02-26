@@ -1,38 +1,50 @@
 {
   "name": "@nuxt/components",
-  "version": "0.6.1",
-  "description": "Module to register global components for Nuxt.js",
-  "repository": "nuxt/components",
+  "version": "0.0.1",
+  "description": "Auto Import Components for Nuxt.js",
   "license": "MIT",
   "contributors": [
-    "Ricardo Gobbo de Souza <ricardogobbosouza@yahoo.com.br>"
+    {
+      "name": "Kevin Marrec (@kevinmarrec)"
+    },
+    {
+      "name": "Ricardo Gobbo de Souza <ricardogobbosouza@yahoo.com.br>"
+    }
   ],
-  "files": [
-    "lib"
-  ],
-  "main": "lib/module.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "repository": "nuxt/components",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "lint": "eslint --ext .js,.vue .",
-    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
-    "test": "yarn lint && jest"
+    "dev": "tsc && nuxt-ts test/fixture",
+    "build": "yarn clean && tsc",
+    "clean": "rimraf dist",
+    "lint": "eslint --ext .ts,.js,.vue .",
+    "test": "yarn lint && jest",
+    "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish"
   },
-  "dependencies": {
-    "chokidar": "^3.3.1",
-    "globby": "^11.0.0"
-  },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
-    "@nuxtjs/eslint-config": "latest",
-    "@nuxtjs/module-test-utils": "latest",
+    "@nuxt/typescript-build": "latest",
+    "@nuxt/typescript-runtime": "latest",
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@types/glob": "latest",
+    "@types/jest": "latest",
+    "@types/lodash": "latest",
     "codecov": "latest",
     "eslint": "latest",
     "husky": "latest",
     "jest": "latest",
     "nuxt-edge": "latest",
-    "standard-version": "latest"
-  },
-  "publishConfig": {
-    "access": "public"
+    "rimraf": "latest",
+    "standard-version": "latest",
+    "ts-jest": "latest",
+    "typescript": "~3.8"
   }
 }
