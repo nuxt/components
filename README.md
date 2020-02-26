@@ -1,4 +1,4 @@
-# @nuxtjs/global-components
+# @nuxt/components
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -20,26 +20,26 @@ components/
   my-button.global.vue # global component, no need to register it!
 ```
 
-See [live demo](https://codesandbox.io/s/nuxtjs-global-components-ujtoq).
+See [live demo](https://codesandbox.io/s/nuxtjs-components-ujtoq).
 
 ## Setup
 
-1. Add `@nuxtjs/global-components` dependency to your project
+1. Add `@nuxt/components` dependency to your project
 
 ```bash
-yarn add --dev @nuxtjs/global-components # or npm install --save-dev @nuxtjs/global-components
+yarn add --dev @nuxt/components # or npm install --save-dev @nuxt/components
 ```
 
-2. Add `@nuxtjs/global-components` to the `buildModules` section of `nuxt.config.js`
+2. Add `@nuxt/components` to the `buildModules` section of `nuxt.config.js`
 
 ```js
 export default {
   buildModules: [
     // Simple usage
-    '@nuxtjs/global-components',
+    '@nuxt/components',
 
     // With options
-    ['@nuxtjs/global-components', { /* module options */ }]
+    ['@nuxt/components', { /* module options */ }]
   ]
 }
 ```
@@ -51,7 +51,7 @@ export default {
 ```js
 export default {
   buildModules: [
-    '@nuxtjs/global-components'
+    '@nuxt/components'
   ],
   globalComponents: {
     /* module options */
@@ -105,17 +105,17 @@ Insipired by [nuxtjs.org](https://github.com/nuxt/nuxtjs.org/tree/master/modules
 Copyright (c) Nuxt Community
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/global-components/latest.svg?style=flat-square
-[npm-version-href]: https://npmjs.com/package/@nuxtjs/global-components
+[npm-version-src]: https://img.shields.io/npm/v/@nuxt/components/latest.svg?style=flat-square
+[npm-version-href]: https://npmjs.com/package/@nuxt/components
 
-[npm-downloads-src]: https://img.shields.io/npm/dt/@nuxtjs/global-components.svg?style=flat-square
-[npm-downloads-href]: https://npmjs.com/package/@nuxtjs/global-components
+[npm-downloads-src]: https://img.shields.io/npm/dt/@nuxt/components.svg?style=flat-square
+[npm-downloads-href]: https://npmjs.com/package/@nuxt/components
 
-[circle-ci-src]: https://img.shields.io/circleci/project/github/nuxt-community/global-components.svg?style=flat-square
-[circle-ci-href]: https://circleci.com/gh/nuxt-community/global-components
+[circle-ci-src]: https://img.shields.io/circleci/project/github/nuxt/components.svg?style=flat-square
+[circle-ci-href]: https://circleci.com/gh/nuxt/components
 
-[codecov-src]: https://img.shields.io/codecov/c/github/nuxt-community/global-components.svg?style=flat-square
-[codecov-href]: https://codecov.io/gh/nuxt-community/global-components
+[codecov-src]: https://img.shields.io/codecov/c/github/nuxt/components.svg?style=flat-square
+[codecov-href]: https://codecov.io/gh/nuxt/components
 
-[license-src]: https://img.shields.io/npm/l/@nuxtjs/global-components.svg?style=flat-square
-[license-href]: https://npmjs.com/package/@nuxtjs/global-components
+[license-src]: https://img.shields.io/npm/l/@nuxt/components.svg?style=flat-square
+[license-href]: https://npmjs.com/package/@nuxt/components

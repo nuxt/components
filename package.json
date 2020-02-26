@@ -1,8 +1,8 @@
 {
-  "name": "@nuxtjs/global-components",
+  "name": "@nuxt/components",
   "version": "0.6.1",
   "description": "Module to register global components for Nuxt.js",
-  "repository": "nuxt-community/global-components",
+  "repository": "nuxt/components",
   "license": "MIT",
   "contributors": [
     "Ricardo Gobbo de Souza <ricardogobbosouza@yahoo.com.br>"

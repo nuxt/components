@@ -35,7 +35,7 @@ describe('watch', () => {
   })
 
   test('discover components and pass as componentOptions', () => {
-    const plugin = nuxt.options.build.templates.find(p => p.dst.includes('global-components'))
+    const plugin = nuxt.options.build.templates.find(p => p.dst.includes('components'))
     expect(plugin.options).toMatchSnapshot()
   })
 
