@@ -36,6 +36,7 @@
     "@nuxtjs/eslint-config-typescript": "latest",
     "@types/glob": "latest",
     "@types/jest": "latest",
+    "@types/loader-utils": "^1.1.3",
     "@types/lodash": "latest",
     "codecov": "latest",
     "eslint": "latest",

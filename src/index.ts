@@ -9,21 +9,23 @@ export interface Options {
   scan?: ScanOptions
 }
 
-const autoImportModule: Module<Options> = async function (_moduleOptions) {
+const componentsModule: Module<Options> = function (_moduleOptions) {
   const extensions = ['vue', 'js', ...this.options.build!.additionalExtensions!]
   const dir = path.join(this.options!.srcDir!, 'components')
 
-  const components: any[] = await scanComponents({
-    extensions,
-    dir
-  })
+  this.nuxt.hook('build:before', async () => {
+    const components: any[] = await scanComponents({
+      extensions,
+      dir
+    })
 
-  this.extendBuild((config) => {
-    const { rules }: any = new RuleSet(config.module!.rules)
-    const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
-    vueRule.use.unshift({ loader: require.resolve('./loader'), options: { components } })
-    config.module!.rules = rules
+    this.extendBuild((config) => {
+      const { rules }: any = new RuleSet(config.module!.rules)
+      const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
+      vueRule.use.unshift({ loader: require.resolve('./loader'), options: { components } })
+      config.module!.rules = rules
+    })
   })
 }
 
-export default autoImportModule
+export default componentsModule

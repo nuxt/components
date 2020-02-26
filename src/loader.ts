@@ -1,61 +1,39 @@
-const fs = require('fs')
-const compiler = require('vue-template-compiler')
+import { loader as WebpackLoader } from 'webpack'
+import { extractTags } from './tagExtractor'
+import { Component, matcher } from './scan'
 const loaderUtils = require('loader-utils')
 
-function match (tags: any, components: any) {
-  return tags.reduce((matches: any, tag: any) => {
-    const match = components.find(({ pascalTag, kebabTag }: any) => [pascalTag, kebabTag].includes(tag))
-    match && matches.push(match)
-    return matches
-  }, [] as any[])
-}
+function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
+  const imports = '{' + components.map(c => `${c.name}: ${c.import}`).join(',') + '}'
 
-function install (this: any, content: any, components: any) {
-  const imports = '{' + components.map((c: any) => `${c.name}: ${c.import}`).join(',') + '}'
+  let newContent = '/* nuxt-component-imports */\n'
+  newContent += `import installComponents from ${loaderUtils.stringifyRequest(this, '!' + require.resolve('./runtime/installComponents'))}\n`
+  newContent += `installComponents(component, ${imports})\n`
 
-  if (Object.keys(imports).length) {
-    let newContent = '/* auto-component-imports-loader */\n'
-    newContent += `import installComponents from ${loaderUtils.stringifyRequest(this, '!' + require.resolve('./runtime/installComponents'))}\n`
-    newContent += `installComponents(component, ${imports})\n`
-
-    // Insert our modification before the HMR code
-    const hotReload = content.indexOf('/* hot reload */')
-    if (hotReload > -1) {
-      content = content.slice(0, hotReload) + newContent + '\n\n' + content.slice(hotReload)
-    } else {
-      content += '\n\n' + newContent
-    }
+  // Insert our modification before the HMR code
+  const hotReload = content.indexOf('/* hot reload */')
+  if (hotReload > -1) {
+    content = content.slice(0, hotReload) + newContent + '\n\n' + content.slice(hotReload)
+  } else {
+    content += '\n\n' + newContent
   }
 
   return content
 }
 
-module.exports = async function (this: any, content: any, sourceMap: any) {
+export default async function loader (this: WebpackLoader.LoaderContext, content: string, sourceMap: any) {
   this.async()
   this.cacheable()
 
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
 
-    const tags = new Set()
-    const file = (await fs.readFileSync(this.resourcePath)).toString('utf8')
-    const component = compiler.parseComponent(file)
+    const tags = await extractTags(this.resourcePath)
+    const { components } = loaderUtils.getOptions(this)
+    const matchedComponents = matcher(tags, components)
 
-    if (component.template) {
-      compiler.compile(component.template.content, {
-        modules: [{
-          postTransformNode: (node: any) => {
-            tags.add(node.tag)
-          }
-        }]
-      })
-
-      const { components } = loaderUtils.getOptions(this)
-      const matchedComponents = match([...tags], components)
-
-      if (matchedComponents.length) {
-        content = install.call(this, content, matchedComponents)
-      }
+    if (matchedComponents.length) {
+      content = install.call(this, content, matchedComponents)
     }
   }
 

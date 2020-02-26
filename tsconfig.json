@@ -5,7 +5,7 @@
     "outDir": "dist",
     "declaration": true,
     "sourceMap": true,
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "allowJs": true,
     "skipLibCheck": true,
