@@ -1,33 +1,21 @@
 import path from 'path'
-import glob from 'glob'
 // @ts-ignore
 import RuleSet from 'webpack/lib/RuleSet'
-import { camelCase, kebabCase, upperFirst } from 'lodash'
 import { Module } from '@nuxt/types'
 
+import { scanComponents, ScanOptions } from './scan'
+
 export interface Options {
-  prefix?: string
+  scan?: ScanOptions
 }
 
-const autoImportModule: Module<Options> = async function (moduleOptions) {
-  const options = {
-    prefix: '',
-    ...moduleOptions
-  } as Required<Options>
+const autoImportModule: Module<Options> = async function (_moduleOptions) {
+  const extensions = ['vue', 'js', ...this.options.build!.additionalExtensions!]
+  const dir = path.join(this.options!.srcDir!, 'components')
 
-  const componentExtensions = ['vue', 'js', ...this.options.build!.additionalExtensions!]
-  const globPattern = `**/${options.prefix || ''}*.+(${componentExtensions.join('|')})`
-  const files: string[] = await glob.sync(globPattern, { cwd: path.join(this.options!.srcDir!, 'components') })
-  const components = files.map((file) => {
-    const fileName = path.basename(file, path.extname(file))
-    const [pascalTag, kebabTag] = [upperFirst(camelCase(fileName)), kebabCase(fileName)]
-
-    return {
-      name: pascalTag,
-      pascalTag,
-      kebabTag,
-      import: `() => import('~/components/${file}')`
-    }
+  const components: any[] = await scanComponents({
+    extensions,
+    dir
   })
 
   this.extendBuild((config) => {

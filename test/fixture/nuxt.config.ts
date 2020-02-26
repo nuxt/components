@@ -10,9 +10,7 @@ const config: Partial<Configuration> = {
 
   buildModules: [
     typescriptModule,
-    [componentsModule, {
-      prefix: 'Component'
-    }]
+    componentsModule
   ]
 }
 
