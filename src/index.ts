@@ -15,25 +15,31 @@ const componentsModule: Module<Options> = function (_moduleOptions) {
   const extensions = ['vue', 'js', ...this.options.build!.additionalExtensions!]
   const scanOptions = { dir, extensions }
 
-  this.nuxt.hook('build:before', async () => {
-    const components: any[] = await scanComponents(scanOptions)
+  this.nuxt.hook('build:before', async (builder: any) => {
+    let components: any[] = await scanComponents(scanOptions)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
       const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
-      vueRule.use.unshift({ loader: require.resolve('./loader'), options: { components } })
+      vueRule.use.unshift({
+        loader: require.resolve('./loader'),
+        options: {
+          getComponents: () => components
+        }
+      })
       config.module!.rules = rules
     })
 
     // Watch components directory for dev mode
     if (this.options.dev) {
       const watcher = chokidar.watch(dir, this.options.watchers!.chokidar)
-      watcher.on('all', (eventName) => {
+      watcher.on('all', async (eventName) => {
         if (!['add', 'unlink'].includes(eventName)) {
-          // return
+          return
         }
 
-        // TODO : Alter Webpack Loader options to make it correctly have the updated components list
+        components = await scanComponents(scanOptions)
+        await builder.generateRoutesAndFiles()
       })
 
       // Close watcher on nuxt close

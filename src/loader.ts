@@ -29,8 +29,8 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
     this.addDependency(this.resourcePath)
 
     const tags = await extractTags(this.resourcePath)
-    const { components } = loaderUtils.getOptions(this)
-    const matchedComponents = matcher(tags, components)
+    const { getComponents } = loaderUtils.getOptions(this)
+    const matchedComponents = matcher(tags, getComponents())
 
     if (matchedComponents.length) {
       content = install.call(this, content, matchedComponents)
