@@ -23,7 +23,7 @@ function install (this: WebpackLoader.LoaderContext, content: string, components
 
 export default async function loader (this: WebpackLoader.LoaderContext, content: string) {
   this.async()
-  this.cacheable()
+  this.cacheable(false)
 
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
