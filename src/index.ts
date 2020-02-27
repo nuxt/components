@@ -16,7 +16,7 @@ const componentsModule: Module<Options> = function (_moduleOptions) {
   const scanOptions = { dir, extensions }
 
   this.nuxt.hook('build:before', async (builder: any) => {
-    let components: any[] = await scanComponents(scanOptions)
+    let components = await scanComponents(scanOptions)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)

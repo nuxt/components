@@ -1,7 +1,11 @@
 import { loader as WebpackLoader } from 'webpack'
+import loaderUtils from 'loader-utils'
 import { extractTags } from './tagExtractor'
 import { Component, matcher } from './scan'
-const loaderUtils = require('loader-utils')
+
+interface LoaderOptions {
+  getComponents(): Component[]
+}
 
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
   const imports = '{' + components.map(c => `${c.name}: ${c.import}`).join(',') + '}'
@@ -29,7 +33,7 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
     this.addDependency(this.resourcePath)
 
     const tags = await extractTags(this.resourcePath)
-    const { getComponents } = loaderUtils.getOptions(this)
+    const { getComponents } = loaderUtils.getOptions(this) as LoaderOptions
     const matchedComponents = matcher(tags, getComponents())
 
     if (matchedComponents.length) {
