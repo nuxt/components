@@ -26,7 +26,7 @@ export async function scanComponents (options: ScanOptions): Promise<Component[]
       name: pascalTag,
       pascalTag,
       kebabTag,
-      import: `() => import('~/components/${file}')`
+      import: `function () { return import('~/components/${file}') }`
     }
   })
 

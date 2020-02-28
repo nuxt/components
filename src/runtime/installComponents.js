@@ -1,5 +1,7 @@
-export default function installComponents (component, components) {
-  const options = typeof component.exports === 'function'
+// IMPORTANT: Do NOT use ES6 cause this file will be included in final webpack user bundle (legacy browsers support)
+
+module.exports = function installComponents (component, components) {
+  var options = typeof component.exports === 'function'
     ? component.exports.extendOptions
     : component.options
 
@@ -9,7 +11,7 @@ export default function installComponents (component, components) {
 
   options.components = options.components || {}
 
-  for (const i in components) {
+  for (var i in components) {
     options.components[i] = options.components[i] || components[i]
   }
 }
