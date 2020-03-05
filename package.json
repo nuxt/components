@@ -22,7 +22,7 @@
     "build": "yarn clean && tsc",
     "clean": "rimraf dist",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "test": "yarn lint && jest",
+    "test": "yarn lint && jest --verbose",
     "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish"
   },
   "files": [
