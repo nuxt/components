@@ -11,13 +11,13 @@ export interface Component {
 }
 
 export interface ScanOptions {
-  dir: string
-  extensions: string[]
+  cwd: string
+  pattern: string
+  ignore?: string | string[]
 }
 
-export async function scanComponents (options: ScanOptions): Promise<Component[]> {
-  const globPattern = `**/*.+(${options.extensions.join('|')})`
-  const files: string[] = await glob.sync(globPattern, { cwd: options.dir })
+export async function scanComponents ({ cwd, pattern, ignore }: ScanOptions): Promise<Component[]> {
+  const files: string[] = await glob.sync(pattern, { cwd, ignore })
   const components: Component[] = files.map((file) => {
     const fileName = path.basename(file, path.extname(file))
     const [pascalTag, kebabTag] = [upperFirst(camelCase(fileName)), kebabCase(fileName)]
@@ -26,7 +26,7 @@ export async function scanComponents (options: ScanOptions): Promise<Component[]
       name: pascalTag,
       pascalTag,
       kebabTag,
-      import: `function () { return import('~/components/${file}') }`
+      import: `function () { return import('~/${file}') }`
     }
   })
 

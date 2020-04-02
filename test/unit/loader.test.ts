@@ -1,7 +1,7 @@
 import path from 'path'
 import { loader as WebpackLoader } from 'webpack'
 import loader from '../../src/loader'
-import { scanFixtureComponents } from './utils'
+import { scanFixtureComponents } from './scanner.test'
 
 let testLoader
 
@@ -28,13 +28,15 @@ beforeAll(async () => {
 test('default', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, 'test')
   expect(content).toContain("import('~/components/ComponentA.vue')")
-  expect(content).toContain("import('~/components/ComponentB.vue')")
+  expect(content).toContain("import('~/components/ComponentB.ts')")
+  expect(content).toContain("import('~/components/ComponentC.js')")
 })
 
 test('hot reload', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, '/* hot reload */')
   expect(content).toContain("import('~/components/ComponentA.vue')")
-  expect(content).toContain("import('~/components/ComponentB.vue')")
+  expect(content).toContain("import('~/components/ComponentB.ts')")
+  expect(content).toContain("import('~/components/ComponentC.js')")
 })
 
 test('resourceQuery is truthy', async () => {

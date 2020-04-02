@@ -10,17 +10,19 @@ export interface Options {
   scan?: ScanOptions
 }
 
-const componentsModule: Module<Options> = function (_moduleOptions) {
-  const dir = path.join(this.options!.srcDir!, 'components')
-  const extensions = ['vue', 'js', ...this.options.build!.additionalExtensions!]
-  const scanOptions = { dir, extensions }
+const componentsModule: Module<Options> = function (moduleOptions) {
+  const scanOptions: ScanOptions = {
+    cwd: path.resolve(this.options!.srcDir!),
+    pattern: moduleOptions?.scan?.pattern || 'components/**/*.{vue,ts,tsx,js,jsx}',
+    ignore: moduleOptions?.scan?.ignore
+  }
 
   this.nuxt.hook('build:before', async (builder: any) => {
     let components = await scanComponents(scanOptions)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
-      const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
+      const vueRule = rules.find((rule: any) => rule.use?.find((use: any) => use.loader === 'vue-loader'))
       vueRule.use.unshift({
         loader: require.resolve('./loader'),
         options: {
@@ -32,7 +34,7 @@ const componentsModule: Module<Options> = function (_moduleOptions) {
 
     // Watch components directory for dev mode
     if (this.options.dev) {
-      const watcher = chokidar.watch(dir, this.options.watchers!.chokidar)
+      const watcher = chokidar.watch(path.join(this.options!.srcDir!, 'components'), this.options.watchers!.chokidar)
       watcher.on('all', async (eventName) => {
         if (!['add', 'unlink'].includes(eventName)) {
           return

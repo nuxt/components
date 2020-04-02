@@ -4,8 +4,8 @@ import { extractTags } from '../../src/tagExtractor'
 test('with template', async () => {
   const tags = await extractTags(path.resolve('test/fixture/pages/index.vue'))
 
-  expect(tags).toHaveLength(3)
-  expect(tags).toEqual(['ComponentA', 'ComponentB', 'div'])
+  expect(tags).toHaveLength(4)
+  expect(tags).toEqual(['ComponentA', 'ComponentB', 'ComponentC', 'div'])
 })
 
 test('without template', async () => {
