@@ -2,6 +2,6 @@ import Vue from 'vue'
 
 export default Vue.extend({
   render (h) {
-    return h('div', 'C')
+    return h('div', 'Baz')
   }
 })

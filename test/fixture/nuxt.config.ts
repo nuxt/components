@@ -1,15 +1,13 @@
 import path from 'path'
-import { Configuration } from '@nuxt/types'
-import typescriptModule from '@nuxt/typescript-build'
 import componentsModule from '../../src'
 
-const config: Partial<Configuration> = {
+const config = {
   rootDir: path.resolve(__dirname, '../..'),
   buildDIr: path.resolve(__dirname, '.nuxt'),
   srcDir: __dirname,
 
   buildModules: [
-    typescriptModule,
+    '@nuxt/typescript-build',
     componentsModule
   ]
 }

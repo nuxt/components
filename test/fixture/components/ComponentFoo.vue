@@ -1,5 +1,5 @@
 <template>
   <div>
-    A
+    Foo
   </div>
 </template>

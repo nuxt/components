@@ -5,7 +5,7 @@ test('with template', async () => {
   const tags = await extractTags(path.resolve('test/fixture/pages/index.vue'))
 
   expect(tags).toHaveLength(4)
-  expect(tags).toEqual(['ComponentA', 'ComponentB', 'ComponentC', 'div'])
+  expect(tags).toEqual(['ComponentFoo', 'ComponentBar', 'component-baz', 'div'])
 })
 
 test('without template', async () => {

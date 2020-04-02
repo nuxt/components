@@ -27,16 +27,16 @@ beforeAll(async () => {
 
 test('default', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, 'test')
-  expect(content).toContain("import('~/components/ComponentA.vue')")
-  expect(content).toContain("import('~/components/ComponentB.ts')")
-  expect(content).toContain("import('~/components/ComponentC.js')")
+  expect(content).toContain("import('~/components/ComponentFoo.vue')")
+  expect(content).toContain("import('~/components/ComponentBar.ts')")
+  expect(content).toContain("import('~/components/ComponentBaz.js')")
 })
 
 test('hot reload', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, '/* hot reload */')
-  expect(content).toContain("import('~/components/ComponentA.vue')")
-  expect(content).toContain("import('~/components/ComponentB.ts')")
-  expect(content).toContain("import('~/components/ComponentC.js')")
+  expect(content).toContain("import('~/components/ComponentFoo.vue')")
+  expect(content).toContain("import('~/components/ComponentBar.ts')")
+  expect(content).toContain("import('~/components/ComponentBaz.js')")
 })
 
 test('resourceQuery is truthy', async () => {

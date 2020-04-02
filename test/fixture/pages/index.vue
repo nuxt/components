@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ComponentA />
-    <ComponentB />
-    <ComponentC />
+    <ComponentFoo />
+    <ComponentBar />
+    <component-baz />
   </div>
 </template>
