@@ -31,21 +31,21 @@
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
-    "@nuxt/typescript-build": "0.6.1",
-    "@nuxt/typescript-runtime": "0.4.1",
+    "@nuxt/typescript-build": "latest",
+    "@nuxt/typescript-runtime": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@types/glob": "latest",
-    "@types/jest": "25.1.5",
+    "@types/jest": "latest",
     "@types/loader-utils": "latest",
     "@types/lodash": "latest",
     "codecov": "latest",
     "eslint": "latest",
     "husky": "latest",
-    "jest": "25.2.6",
+    "jest": "latest",
     "nuxt-edge": "latest",
     "rimraf": "latest",
     "standard-version": "latest",
-    "ts-jest": "25.3.0",
-    "typescript": "~3.8.3"
+    "ts-jest": "latest",
+    "typescript": "~3.8"
   }
 }
