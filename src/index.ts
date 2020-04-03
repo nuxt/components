@@ -13,8 +13,8 @@ export interface Options {
 const componentsModule: Module<Options> = function (moduleOptions) {
   const scanOptions: ScanOptions = {
     cwd: path.resolve(this.options!.srcDir!),
-    pattern: moduleOptions?.scan?.pattern || 'components/**/*.{vue,ts,tsx,js,jsx}',
-    ignore: moduleOptions?.scan?.ignore
+    pattern: 'components/**/*.{vue,ts,tsx,js,jsx}',
+    ...moduleOptions.scan
   }
 
   this.nuxt.hook('build:before', async (builder: any) => {
@@ -22,7 +22,7 @@ const componentsModule: Module<Options> = function (moduleOptions) {
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
-      const vueRule = rules.find((rule: any) => rule.use?.find((use: any) => use.loader === 'vue-loader'))
+      const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
       vueRule.use.unshift({
         loader: require.resolve('./loader'),
         options: {
@@ -33,6 +33,7 @@ const componentsModule: Module<Options> = function (moduleOptions) {
     })
 
     // Watch components directory for dev mode
+    // istanbul ignore else
     if (this.options.dev) {
       const watcher = chokidar.watch(path.join(this.options!.srcDir!, 'components'), this.options.watchers!.chokidar)
       watcher.on('all', async (eventName) => {
