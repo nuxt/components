@@ -1,15 +1,13 @@
-import { Nuxt } from '@nuxt/core-edge'
-import { Builder } from '@nuxt/builder-edge'
-import { BundleBuilder } from '@nuxt/webpack-edge'
+import path from 'path'
+import { loadNuxt } from '@nuxt/core-edge'
+import { build } from '@nuxt/builder-edge'
 
 jest.setTimeout(60000)
+jest.mock('esm', () => module => (file: string) => /.(js|mjs)$/.test(file) ? jest.requireActual('esm')(module)(file) : require(file))
 
 test('module', async () => {
-  const config = require('./fixture/nuxt.config').default
-  const nuxt = new Nuxt({ ...config, dev: true })
-
-  const builder = new Builder(nuxt, BundleBuilder)
-  await builder.build()
+  const nuxt = await loadNuxt({ rootDir: path.resolve('test/fixture'), for: 'dev' })
+  await build(nuxt)
 
   const { html } = await nuxt.server.renderRoute('/')
 
