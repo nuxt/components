@@ -37,7 +37,7 @@ describe('module', () => {
     expect(html).toContain('Baz')
   })
 
-  test('watch add/removed files', async () => {
+  test('watch: rebuild on add/remove', async () => {
     builder.generateRoutesAndFiles.mockClear()
     await callChokidarEvent('add')
     expect(builder.generateRoutesAndFiles).toHaveBeenCalledTimes(1)
@@ -45,7 +45,7 @@ describe('module', () => {
     expect(builder.generateRoutesAndFiles).toHaveBeenCalledTimes(2)
   })
 
-  test('watch: other events', async () => {
+  test('watch: no rebuild on other events', async () => {
     builder.generateRoutesAndFiles.mockClear()
     await callChokidarEvent('foo')
     expect(builder.generateRoutesAndFiles).not.toHaveBeenCalled()
