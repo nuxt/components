@@ -77,19 +77,13 @@ export default {
 
 ## Options
 
-### `cwd`
-
-- Type: `String`
-- Default: Root dir of your project
-
-Current Working Directory where the scan pattern will be checked.
-
 ### `pattern`
 
 - Type: `String`
 - Default: `'components/**/*.{vue,ts,tsx,js,jsx}'`
 
 The glob pattern that will find your components.
+This pattern will be run against your [srcDir](https://nuxtjs.org/api/configuration-srcdir)
 
 ### `ignore`
 
