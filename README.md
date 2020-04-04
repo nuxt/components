@@ -34,7 +34,7 @@ No need anymore to manually import them in the `script` section !
 > ℹ Components are automatically lazy imported, which means they will be lazy loaded.  
 > If you need to not lazy load one of them, simply import it in the standard way, the lazy one will be ignored.
 
-> ℹ `components` directory is watched, so it even work with reloading (adding or removing a component) !
+> ℹ `components` directory is watched, so it even works with reloading (adding or removing a component) !
 
 See [live demo](https://codesandbox.io/s/nuxtjs-components-ujtoq).
 
