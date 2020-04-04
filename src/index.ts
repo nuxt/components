@@ -6,15 +6,11 @@ import { Module } from '@nuxt/types'
 
 import { scanComponents, ScanOptions } from './scan'
 
-export interface Options {
-  scan?: ScanOptions
-}
-
-const componentsModule: Module<Options> = function (moduleOptions) {
+const componentsModule: Module<ScanOptions> = function (moduleOptions) {
   const scanOptions: ScanOptions = {
     cwd: path.resolve(this.options!.srcDir!),
     pattern: 'components/**/*.{vue,ts,tsx,js,jsx}',
-    ...moduleOptions.scan
+    ...moduleOptions
   }
 
   this.nuxt.hook('build:before', async (builder: any) => {
