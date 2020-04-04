@@ -8,7 +8,7 @@ import { scanComponents, ScanOptions } from './scan'
 
 const componentsModule: Module<ScanOptions> = function (moduleOptions) {
   const scanOptions: ScanOptions = {
-    cwd: path.resolve(this.options!.srcDir!),
+    cwd: this.options.srcDir!,
     pattern: 'components/**/*.{vue,ts,tsx,js,jsx}',
     ...moduleOptions
   }
@@ -22,6 +22,7 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
       vueRule.use.unshift({
         loader: require.resolve('./loader'),
         options: {
+          componentsDir: this.options.dev ? path.join(this.options.srcDir!, 'components') : /* istanbul ignore next */ undefined,
           getComponents: () => components
         }
       })
