@@ -20,7 +20,7 @@ components/
   ComponentBar.vue
 ```
 
-Use them whenever you want, there will be auto imported :
+Use them whenever you want, there will be auto imported in `.vue` files :
 
 ```html
 <template>
