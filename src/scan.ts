@@ -26,7 +26,7 @@ export async function scanComponents ({ cwd, pattern, ignore }: ScanOptions): Pr
       name: pascalTag,
       pascalTag,
       kebabTag,
-      import: `function () { return import('~/${file}') }`
+      import: `require('~/${file}').default`
     }
   })
 
