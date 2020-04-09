@@ -1,7 +1,5 @@
-// IMPORTANT: Do NOT use ES6 cause this file will be included in final webpack user bundle (legacy browsers support)
-
-module.exports = function installComponents (component, components) {
-  var options = typeof component.exports === 'function'
+global.installComponents = function (component, components) {
+  const options = typeof component.exports === 'function'
     ? component.exports.extendOptions
     : component.options
 
@@ -11,7 +9,7 @@ module.exports = function installComponents (component, components) {
 
   options.components = options.components || {}
 
-  for (var i in components) {
+  for (const i in components) {
     options.components[i] = options.components[i] || components[i]
   }
 }

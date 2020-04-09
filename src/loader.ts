@@ -12,7 +12,6 @@ function install (this: WebpackLoader.LoaderContext, content: string, components
   const imports = '{' + components.map(c => `${c.name}: ${c.import}`).join(',') + '}'
 
   let newContent = '/* nuxt-component-imports */\n'
-  newContent += `import installComponents from ${loaderUtils.stringifyRequest(this, '!' + require.resolve('./runtime/installComponents'))}\n`
   newContent += `installComponents(component, ${imports})\n`
 
   // Insert our modification before the HMR code

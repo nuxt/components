@@ -13,6 +13,11 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
     ...moduleOptions
   }
 
+  this.addPlugin({
+    fileName: 'nuxt/installComponents.js',
+    src: path.resolve(__dirname, 'plugin.js')
+  })
+
   this.nuxt.hook('build:before', async (builder: any) => {
     let components = await scanComponents(scanOptions)
 
