@@ -1,33 +1,35 @@
 {
   "name": "@nuxt/components",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Auto Import Components for Nuxt.js",
+  "repository": "nuxt/components",
   "license": "MIT",
   "contributors": [
     {
       "name": "Kevin Marrec (@kevinmarrec)"
     },
     {
-      "name": "Ricardo Gobbo de Souza <ricardogobbosouza@yahoo.com.br>"
+      "name": "Ricardo Gobbo de Souza",
+      "email": "ricardogobbosouza@yahoo.com.br"
+    },
+    {
+      "name": "Pooya Parsa",
+      "email": "pooya@nuxtjs.com"
     }
   ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "repository": "nuxt/components",
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "dev": "tsc && nuxt-ts test/fixture",
-    "build": "yarn clean && tsc",
-    "clean": "rimraf dist",
-    "lint": "eslint --ext .ts,.js,.vue .",
-    "test": "yarn lint && jest --verbose",
-    "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish"
-  },
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rimraf dist",
+    "dev": "tsc && nuxt-ts test/fixture",
+    "lint": "eslint --ext .ts,.js,.vue .",
+    "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && jest --verbose"
+  },
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
@@ -47,5 +49,8 @@
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "~3.8"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
