@@ -38,7 +38,7 @@ Here are some cases you may want to still import manually :
  - Lazy load of components
  - Child components in functional templates (See edge case [here](https://github.com/vuejs/vue/issues/7492#issuecomment-379570456))
 
-> ℹ If you import manually, it will override any automatic import that matches the same name (automatic import will be in fact ignored).
+> ℹ If you import manually, it will override any automatic import that matches the same component name (automatic import will be in fact ignored).
 
 See [live demo](https://codesandbox.io/s/nuxtjs-components-ujtoq).
 
