@@ -31,10 +31,14 @@ Use them whenever you want, there will be auto imported in `.vue` files :
 
 No need anymore to manually import them in the `script` section !
 
-> ℹ Components are automatically lazy imported, which means they will be lazy loaded.  
-> If you need to not lazy load one of them, simply import it in the standard way, the lazy one will be ignored.
-
 > ℹ `components` directory is watched, so it even works with reloading (adding or removing a component) !
+
+Here are some cases you may want to still import manually :
+ - Third-party library components
+ - Lazy load of components
+ - Child components in functional templates (See edge case [here](https://github.com/vuejs/vue/issues/7492#issuecomment-379570456))
+
+> ℹ If you import manually, it will override any automatic import that matches the same name (automatic import will be in fact ignored).
 
 See [live demo](https://codesandbox.io/s/nuxtjs-components-ujtoq).
 
@@ -61,19 +65,6 @@ export default {
 ```
 
 :warning: If you are using Nuxt **< v2.9** you have to install the module as a `dependency` (No `--dev` or `--save-dev` flags) and use `modules` section in `nuxt.config.js` instead of `buildModules`.
-
-### Using top level options
-
-```js
-export default {
-  buildModules: [
-    '@nuxt/components'
-  ],
-  globalComponents: {
-    /* module options */
-  }
-}
-```
 
 ## Options
 
