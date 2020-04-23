@@ -40,7 +40,7 @@ Here are some cases you may want to still import manually :
 
 > ℹ If you import manually, it will override any automatic import that matches the same component name (automatic import will be in fact ignored).
 
-See [live demo](https://codesandbox.io/s/nuxtjs-components-ujtoq).
+See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
 
 ## Setup
 
