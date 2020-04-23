@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/nuxt/components/compare/v0.1.0...v0.1.1) (2020-04-23)
+
+
+### Bug Fixes
+
+* add webpack entry instead of using nuxt plugin ([eaa4013](https://github.com/nuxt/components/commit/eaa4013541cee918b00c37ea11c7fae9d754fa32))
+
 ## 0.1.0 (2020-04-22)
 
 
