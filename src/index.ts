@@ -1,5 +1,6 @@
 import path from 'path'
 import chokidar from 'chokidar'
+import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 // @ts-ignore
 import RuleSet from 'webpack/lib/RuleSet'
 import { Module } from '@nuxt/types'
@@ -12,11 +13,6 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
     pattern: 'components/**/*.{vue,ts,tsx,js,jsx}',
     ...moduleOptions
   }
-
-  this.addPlugin({
-    fileName: 'nuxt/installComponents.js',
-    src: path.resolve(__dirname, 'plugin.js')
-  })
 
   this.nuxt.hook('build:before', async (builder: any) => {
     let components = await scanComponents(scanOptions)
@@ -51,6 +47,12 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
       this.nuxt.hook('close', () => {
         watcher.close()
       })
+    }
+  })
+
+  this.nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
+    for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
+      ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, 'installComponents.js'))
     }
   })
 }
