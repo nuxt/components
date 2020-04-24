@@ -3,4 +3,4 @@ dist
 .nuxt
 coverage
 
-src/runtime
+src/installComponents.js

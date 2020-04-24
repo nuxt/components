@@ -9,7 +9,7 @@ global.installComponents = function (component, components) {
 
   options.components = options.components || {}
 
-  for (const i in components) {
+  for (var i in components) {
     options.components[i] = options.components[i] || components[i]
   }
 }
