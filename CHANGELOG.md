@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/nuxt/components/compare/v0.1.1...v0.1.2) (2020-04-24)
+
+
+### Bug Fixes
+
+* fix IE compatibility ([7fa2785](https://github.com/nuxt/components/commit/7fa278578b2bb018f26b31adda25f59860a310b8))
+
 ### [0.1.1](https://github.com/nuxt/components/compare/v0.1.0...v0.1.1) (2020-04-23)
 
 
