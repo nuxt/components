@@ -7,10 +7,12 @@ import { Module } from '@nuxt/types'
 
 import { scanComponents, ScanOptions } from './scan'
 
+// const uniq = <T>(arr: T[]) => arr.filter((x, i, a) => a.indexOf(x) === i)
+
 const componentsModule: Module<ScanOptions> = function (moduleOptions) {
   const scanOptions: ScanOptions = {
     cwd: this.options.srcDir!,
-    pattern: 'components/**/*.{vue,ts,tsx,js,jsx}',
+    patterns: ['components/**/*.{vue,ts,tsx,js,jsx}'],
     ...moduleOptions
   }
 

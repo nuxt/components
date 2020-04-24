@@ -9,7 +9,12 @@ const config: Configuration = {
 
   buildModules: [
     '@nuxt/typescript-build',
-    componentsModule
+    [componentsModule, {
+      patterns: [
+        'components/**/*.{vue,ts}',
+        'another/**/*.{vue,ts}'
+      ]
+    }]
   ]
 }
 

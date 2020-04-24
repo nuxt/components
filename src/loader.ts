@@ -9,7 +9,7 @@ interface LoaderOptions {
 }
 
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
-  const imports = '{' + components.map(c => `${c.name}: ${c.import}`).join(',') + '}'
+  const imports = '{' + components.map(c => `${c.pascalName}: ${c.import}`).join(',') + '}'
 
   let newContent = '/* nuxt-component-imports */\n'
   newContent += `installComponents(component, ${imports})\n`
