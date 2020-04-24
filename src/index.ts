@@ -35,7 +35,11 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
     // Watch components directory for dev mode
     // istanbul ignore else
     if (this.options.dev) {
-      const watcher = chokidar.watch(path.join(this.options!.srcDir!, 'components'), this.options.watchers!.chokidar)
+      const watchDirs = components
+        .map(c => c.dirName.split('/')[0])
+        .filter((dir, index, arr) => dir !== '.' && arr.indexOf(dir) === index)
+        .map(dir => path.join(scanOptions.cwd, dir))
+      const watcher = chokidar.watch(watchDirs, this.options.watchers!.chokidar)
       watcher.on('all', async (eventName) => {
         if (!['add', 'unlink'].includes(eventName)) {
           return
