@@ -66,6 +66,19 @@ export default {
 
 :warning: If you are using Nuxt **< v2.9** you have to install the module as a `dependency` (No `--dev` or `--save-dev` flags) and use `modules` section in `nuxt.config.js` instead of `buildModules`.
 
+### Using top level options
+
+```js
+export default {
+  buildModules: [
+    '@nuxt/components',
+  ],
+  components: {
+    /* module options */
+  }
+}
+```
+
 ## Options
 
 ### `pattern`

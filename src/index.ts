@@ -21,7 +21,8 @@ export interface Options {
 export default <Module<Options>> function (moduleOptions) {
   const options: Options = {
     dirs: ['~/components'],
-    ...moduleOptions
+    ...moduleOptions,
+    ...this.options.components
   }
 
   this.nuxt.hook('build:before', async (builder: any) => {
