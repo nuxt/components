@@ -8,7 +8,7 @@ const pascalCase = (str: string) => upperFirst(camelCase(str))
 export interface ScanDir {
   path: string
   pattern: string
-  ignore?: string
+  ignore?: string[]
   prefix?: string
 }
 

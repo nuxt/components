@@ -11,7 +11,7 @@ export interface Options {
   dirs: Array<string | {
     path: string
     pattern?: string
-    ignore?: string
+    ignore?: string[]
     prefix?: string
     watch?: boolean
     transpile?: boolean
@@ -44,6 +44,11 @@ export default <Module<Options>> function (moduleOptions) {
   }
 
   this.nuxt.hook('build:before', async (builder: any) => {
+    const nuxtIgnorePatterns: string[] = builder.ignore.ignore._rules.map((rule: any) => rule.pattern)
+    for (const dir of componentDirs) {
+      dir.ignore = nuxtIgnorePatterns.concat(dir.ignore || [])
+    }
+
     let components = await scanComponents(componentDirs)
 
     this.extendBuild((config) => {
