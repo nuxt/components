@@ -32,16 +32,7 @@ export default <Module<Options>> function (moduleOptions) {
   })
 
   // Transpile
-  const toTranspile = componentDirs.filter(dir => dir.transpile).map(dir => dir.path)
-  // istanbul ignore next
-  if (toTranspile.length) {
-    const transpile = this.options.build!.transpile!
-    if (typeof transpile === 'function') {
-      this.options.build!.transpile! = ctx => [...transpile(ctx), ...toTranspile]
-    } else {
-      transpile.push(...toTranspile)
-    }
-  }
+  this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
   this.nuxt.hook('build:before', async (builder: any) => {
     const nuxtIgnorePatterns: string[] = builder.ignore.ignore._rules.map((rule: any) => rule.pattern)
