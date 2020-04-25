@@ -16,6 +16,7 @@ beforeAll(async () => {
       cacheable: (_bool) => {},
       callback: (_, newContent) => { finalContent = newContent },
       query: {
+        dependencies: [],
         getComponents: () => fixtureComponents
       },
       ...context
@@ -25,18 +26,21 @@ beforeAll(async () => {
   }
 })
 
+function expectToContainImports (content: string) {
+  const fixturePath = path.resolve('test/fixture')
+  expect(content).toContain(`require('${fixturePath}/components/Foo.vue')`)
+  expect(content).toContain(`require('${fixturePath}/prefixed/Foo.vue')`)
+  expect(content).toContain(`function () { return import('${fixturePath}/components/Bar.ts') }`)
+}
+
 test('default', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, 'test')
-  expect(content).toContain("require('~/components/Foo.vue')")
-  expect(content).toContain("require('~/another/Foo.vue')")
-  expect(content).toContain("function () { return import('~/components/Bar.ts') }")
+  expectToContainImports(content)
 })
 
 test('hot reload', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, '/* hot reload */')
-  expect(content).toContain("require('~/components/Foo.vue')")
-  expect(content).toContain("require('~/another/Foo.vue')")
-  expect(content).toContain("function () { return import('~/components/Bar.ts') }")
+  expectToContainImports(content)
 })
 
 test('resourceQuery is truthy', async () => {

@@ -10,9 +10,13 @@ const config: Configuration = {
   buildModules: [
     '@nuxt/typescript-build',
     [componentsModule, {
-      patterns: [
-        'components/**/*.{vue,ts}',
-        'another/**/*.{vue,ts}'
+      dirs: [
+        '~/components',
+        {
+          path: '~/prefixed',
+          prefix: 'prefixed',
+          transpile: true // Only for coverage purpose
+        }
       ]
     }]
   ]

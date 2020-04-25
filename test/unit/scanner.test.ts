@@ -8,7 +8,7 @@ test('scanner', async () => {
     'LazyBar',
     'Foo',
     'LazyFoo',
-    'AnotherFoo',
-    'LazyAnotherFoo'
+    'PrefixedFoo',
+    'LazyPrefixedFoo'
   ])
 })

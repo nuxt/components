@@ -33,7 +33,7 @@ describe('module', () => {
   test('displays autoImported components', async () => {
     const { html } = await nuxt.server.renderRoute('/')
     expect(html).toContain('Foo')
-    expect(html).toContain('Another Foo')
+    expect(html).toContain('Prefixed Foo')
     expect(html).toContain('Bar')
   })
 

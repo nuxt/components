@@ -4,7 +4,7 @@ import { extractTags } from './tagExtractor'
 import { Component, matcher } from './scan'
 
 interface LoaderOptions {
-  componentsDir?: string
+  dependencies: string[]
   getComponents(): Component[]
 }
 
@@ -32,10 +32,10 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
 
-    const { componentsDir, getComponents } = loaderUtils.getOptions(this) as LoaderOptions
+    const { dependencies, getComponents } = loaderUtils.getOptions(this) as LoaderOptions
 
-    if (componentsDir) {
-      this.addDependency(componentsDir)
+    for (const dependency of dependencies) {
+      this.addDependency(dependency)
     }
 
     const tags = await extractTags(this.resourcePath)

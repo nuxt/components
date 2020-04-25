@@ -1,7 +1,7 @@
 <template>
   <div>
     <Foo />
-    <AnotherFoo />
+    <PrefixedFoo />
     <LazyBar />
   </div>
 </template>

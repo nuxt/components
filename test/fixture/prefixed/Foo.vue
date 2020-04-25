@@ -1,5 +1,5 @@
 <template>
   <div>
-    Another Foo
+    Prefixed Foo
   </div>
 </template>

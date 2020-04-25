@@ -3,7 +3,7 @@ import { scanFixtureComponents } from './utils'
 
 test('matcher', async () => {
   const components = await scanFixtureComponents()
-  const tags = ['Foo', 'AnotherFoo', 'LazyBar']
+  const tags = ['Foo', 'PrefixedFoo', 'LazyBar']
 
   const matchedComponents = matcher(tags, components).sort((a, b) => a.pascalName < b.pascalName ? -1 : 1)
 

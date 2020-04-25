@@ -1,52 +1,42 @@
-import path from 'path'
+import { basename, extname, join } from 'path'
 import glob from 'glob'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 
+const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => upperFirst(camelCase(str))
 
+export interface ScanDir {
+  path: string
+  pattern: string
+  ignore?: string
+  prefix?: string
+}
+
 export interface Component {
-  dirName: string
   pascalName: string
   kebabName: string
   import: string
 }
 
-export interface ScanOptions {
-  cwd: string
-  patterns: string[]
-  ignore?: string | string[]
-}
-
-export async function scanComponents ({ cwd, patterns, ignore }: ScanOptions): Promise<Component[]> {
+export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
   const components: Component[] = []
 
-  for (const pattern of patterns) {
-    for (const file of await glob.sync(pattern, { cwd, ignore })) {
-      const dirName = path.dirname(file)
-      const fileName = path.basename(file, path.extname(file))
-      let pascalName = pascalCase(fileName)
-      let kebabName = kebabCase(fileName)
-
-      // Handle duplicate name components in different dirs by prefixing them
-      if (components.some(component => component.pascalName === pascalName)) {
-        pascalName = pascalCase(dirName) + pascalName
-        kebabName = kebabCase(dirName) + kebabName
-      }
-
-      const lazyPrefix = 'lazy'
+  for (const { path, pattern, ignore, prefix = '' } of dirs) {
+    for (const file of await glob.sync(pattern, { cwd: path, ignore })) {
+      const fileName = basename(file, extname(file))
+      const pascalName = pascalCase(prefix) + pascalCase(fileName)
+      const kebabName = (prefix ? kebabCase(prefix) + '-' : '') + kebabCase(fileName)
 
       components.push(...[
         {
-          dirName,
           pascalName,
           kebabName,
-          import: `require('~/${file}').default`
+          import: `require('${join(path, file)}').default`
         },
         {
-          dirName,
-          pascalName: upperFirst(lazyPrefix) + pascalName,
-          kebabName: lazyPrefix + '-' + kebabName,
-          import: `function () { return import('~/${file}') }`
+          pascalName: pascalCase(LAZY_PREFIX) + pascalName,
+          kebabName: kebabCase(LAZY_PREFIX) + '-' + kebabName,
+          import: `function () { return import('${join(path, file)}') }`
         }
       ])
     }

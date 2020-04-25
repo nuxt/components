@@ -5,19 +5,46 @@ import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import RuleSet from 'webpack/lib/RuleSet'
 import { Module } from '@nuxt/types'
 
-import { scanComponents, ScanOptions } from './scan'
+import { scanComponents } from './scan'
 
-// const uniq = <T>(arr: T[]) => arr.filter((x, i, a) => a.indexOf(x) === i)
+export interface Options {
+  dirs: Array<string | {
+    path: string
+    pattern?: string
+    ignore?: string
+    prefix?: string
+    watch?: boolean
+    transpile?: boolean
+  }>
+}
 
-const componentsModule: Module<ScanOptions> = function (moduleOptions) {
-  const scanOptions: ScanOptions = {
-    cwd: this.options.srcDir!,
-    patterns: ['components/**/*.{vue,ts,tsx,js,jsx}'],
+export default <Module<Options>> function (moduleOptions) {
+  const options: Options = {
+    dirs: ['~/components'],
     ...moduleOptions
   }
 
+  // Flatten dirs, resolve paths and set default pattern
+  const componentDirs = options.dirs.map((dir) => {
+    const path = this.nuxt.resolver.resolvePath(typeof dir === 'object' ? dir.path : dir)
+    const pattern = (typeof dir === 'object' && dir.pattern) || '**/*.{vue,ts}'
+    return typeof dir === 'object' ? { ...dir, path, pattern } : { path, pattern }
+  })
+
+  // Transpile
+  const toTranspile = componentDirs.filter(dir => dir.transpile).map(dir => dir.path)
+  // istanbul ignore next
+  if (toTranspile.length) {
+    const transpile = this.options.build!.transpile!
+    if (typeof transpile === 'function') {
+      this.options.build!.transpile! = ctx => [...transpile(ctx), ...toTranspile]
+    } else {
+      transpile.push(...toTranspile)
+    }
+  }
+
   this.nuxt.hook('build:before', async (builder: any) => {
-    let components = await scanComponents(scanOptions)
+    let components = await scanComponents(componentDirs)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
@@ -25,27 +52,23 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
       vueRule.use.unshift({
         loader: require.resolve('./loader'),
         options: {
-          componentsDir: this.options.dev ? path.join(this.options.srcDir!, 'components') : /* istanbul ignore next */ undefined,
+          dependencies: this.options.dev ? componentDirs.map(dir => dir.path) : /* istanbul ignore next */ [],
           getComponents: () => components
         }
       })
       config.module!.rules = rules
     })
 
-    // Watch components directory for dev mode
+    // Watch
     // istanbul ignore else
-    if (this.options.dev) {
-      const watchDirs = components
-        .map(c => c.dirName.split('/')[0])
-        .filter((dir, index, arr) => dir !== '.' && arr.indexOf(dir) === index)
-        .map(dir => path.join(scanOptions.cwd, dir))
-      const watcher = chokidar.watch(watchDirs, this.options.watchers!.chokidar)
+    if (this.options.dev && componentDirs.some(dir => dir.watch !== false)) {
+      const watcher = chokidar.watch(componentDirs.filter(dir => dir.watch !== false).map(dir => dir.path), this.options.watchers!.chokidar)
       watcher.on('all', async (eventName) => {
         if (!['add', 'unlink'].includes(eventName)) {
           return
         }
 
-        components = await scanComponents(scanOptions)
+        components = await scanComponents(componentDirs)
         await builder.generateRoutesAndFiles()
       })
 
@@ -56,11 +79,10 @@ const componentsModule: Module<ScanOptions> = function (moduleOptions) {
     }
   })
 
+  // Add Webpack entry for runtime installComponents function
   this.nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
     for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
       ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, 'installComponents.js'))
     }
   })
 }
-
-export default componentsModule
