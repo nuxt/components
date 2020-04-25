@@ -25,7 +25,7 @@ export default <Module<Options>> function (moduleOptions) {
   }
 
   this.nuxt.hook('build:before', async (builder: any) => {
-    const nuxtIgnorePatterns: string[] = builder.ignore.ignore._rules.map((rule: any) => rule.pattern)
+    const nuxtIgnorePatterns: string[] = builder.ignore.ignore ? builder.ignore.ignore._rules.map((rule: any) => rule.pattern) : /* istanbul ignore next */ []
     const componentDirs = options.dirs.map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
       return {
