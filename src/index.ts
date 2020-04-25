@@ -27,7 +27,7 @@ export default <Module<Options>> function (moduleOptions) {
   // Flatten dirs, resolve paths and set default pattern
   const componentDirs = options.dirs.map((dir) => {
     const path = this.nuxt.resolver.resolvePath(typeof dir === 'object' ? dir.path : dir)
-    const pattern = (typeof dir === 'object' && dir.pattern) || '**/*.{vue,ts}'
+    const pattern = (typeof dir === 'object' && dir.pattern) || '**/*.{vue,ts,tsx,js,jsx}'
     return typeof dir === 'object' ? { ...dir, path, pattern } : { path, pattern }
   })
 
