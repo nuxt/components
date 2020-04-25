@@ -24,21 +24,19 @@ export default <Module<Options>> function (moduleOptions) {
     ...moduleOptions
   }
 
-  // Flatten dirs, resolve paths and set default pattern
-  const componentDirs = options.dirs.map((dir) => {
-    const path = this.nuxt.resolver.resolvePath(typeof dir === 'object' ? dir.path : dir)
-    const pattern = (typeof dir === 'object' && dir.pattern) || '**/*.{vue,ts,tsx,js,jsx}'
-    return typeof dir === 'object' ? { ...dir, path, pattern } : { path, pattern }
-  })
-
-  // Transpile
-  this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
-
   this.nuxt.hook('build:before', async (builder: any) => {
     const nuxtIgnorePatterns: string[] = builder.ignore.ignore._rules.map((rule: any) => rule.pattern)
-    for (const dir of componentDirs) {
-      dir.ignore = nuxtIgnorePatterns.concat(dir.ignore || [])
-    }
+    const componentDirs = options.dirs.map((dir) => {
+      const dirOptions = typeof dir === 'object' ? dir : { path: dir }
+      return {
+        ...dirOptions,
+        path: this.nuxt.resolver.resolvePath(dirOptions.path),
+        pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
+        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || [])
+      }
+    })
+
+    this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
     let components = await scanComponents(componentDirs)
 
