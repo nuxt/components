@@ -68,13 +68,13 @@ export default {
 
 ## Options
 
-### `patterns`
+### `pattern`
 
-- Type: `Array` of `String`
-- Default: `['components/**/*.{vue,ts,tsx,js,jsx}']`
+- Type: `String`
+- Default: `'components/**/*.{vue,ts,tsx,js,jsx}'`
 
-The glob patterns that will find your components.
-These patterns will be run against your [srcDir](https://nuxtjs.org/api/configuration-srcdir)
+The glob pattern that will find your components.
+This pattern will be run against your [srcDir](https://nuxtjs.org/api/configuration-srcdir)
 
 ### `ignore`
 
