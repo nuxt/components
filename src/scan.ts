@@ -27,18 +27,16 @@ export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
       const pascalName = pascalCase(prefix) + pascalCase(fileName)
       const kebabName = (prefix ? kebabCase(prefix) + '-' : '') + kebabCase(fileName)
 
-      components.push(...[
-        {
-          pascalName,
-          kebabName,
-          import: `require('${join(path, file)}').default`
-        },
-        {
-          pascalName: pascalCase(LAZY_PREFIX) + pascalName,
-          kebabName: kebabCase(LAZY_PREFIX) + '-' + kebabName,
-          import: `function () { return import('${join(path, file)}') }`
-        }
-      ])
+      components.push({
+        pascalName,
+        kebabName,
+        import: `require('${join(path, file)}').default`
+      },
+      {
+        pascalName: pascalCase(LAZY_PREFIX) + pascalName,
+        kebabName: kebabCase(LAZY_PREFIX) + '-' + kebabName,
+        import: `function () { return import('${join(path, file)}') }`
+      })
     }
   }
 
