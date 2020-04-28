@@ -1,5 +1,5 @@
 <template>
   <div>
-    Prefixed Foo
+    Base Button
   </div>
 </template>

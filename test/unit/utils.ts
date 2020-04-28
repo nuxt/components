@@ -8,9 +8,14 @@ export function scanFixtureComponents () {
       pattern: '**/*.{vue,ts}'
     },
     {
-      path: path.resolve('test/fixture/prefixed'),
+      path: path.resolve('test/fixture/components/base'),
       pattern: '**/*.{vue,ts}',
-      prefix: 'prefixed'
+      prefix: 'base'
+    },
+    {
+      path: path.resolve('test/fixture/components/icons'),
+      pattern: '**/*.{vue,ts}',
+      prefix: 'icon'
     }
   ])
 }

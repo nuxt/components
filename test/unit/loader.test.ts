@@ -29,8 +29,9 @@ beforeAll(async () => {
 function expectToContainImports (content: string) {
   const fixturePath = path.resolve('test/fixture')
   expect(content).toContain(`require('${fixturePath}/components/Foo.vue')`)
-  expect(content).toContain(`require('${fixturePath}/prefixed/Foo.vue')`)
   expect(content).toContain(`function () { return import('${fixturePath}/components/Bar.ts') }`)
+  expect(content).toContain(`require('${fixturePath}/components/base/Button.vue')`)
+  expect(content).toContain(`require('${fixturePath}/components/icons/Home.vue')`)
 }
 
 test('default', async () => {

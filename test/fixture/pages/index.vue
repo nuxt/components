@@ -1,7 +1,8 @@
 <template>
   <div>
     <Foo />
-    <PrefixedFoo />
     <LazyBar />
+    <BaseButton />
+    <IconHome />
   </div>
 </template>

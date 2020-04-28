@@ -18,6 +18,10 @@ export interface Component {
   import: string
 }
 
+function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
+  return pathB.split('/').filter(Boolean).length - pathA.split('/').filter(Boolean).length
+}
+
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
     pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
@@ -28,17 +32,26 @@ function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest 
 
 export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
   const components: Component[] = []
+  const processedPaths: string[] = []
 
-  for (const { path, pattern, ignore, prefix } of dirs) {
+  for (const { path, pattern, ignore, prefix } of dirs.sort(sortDirsByPathLength)) {
     for (const file of await glob.sync(pattern, { cwd: path, ignore })) {
+      const filePath = join(path, file)
+
+      if (processedPaths.includes(filePath)) {
+        continue
+      }
+
       const fileName = basename(file, extname(file))
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
 
       components.push(
-        prefixComponent(prefix, { pascalName, kebabName, import: `require('${join(path, file)}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { pascalName, kebabName, import: `function () { return import('${join(path, file)}') }` }))
+        prefixComponent(prefix, { pascalName, kebabName, import: `require('${filePath}').default` }),
+        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { pascalName, kebabName, import: `function () { return import('${filePath}') }` }))
       )
+
+      processedPaths.push(filePath)
     }
   }
 

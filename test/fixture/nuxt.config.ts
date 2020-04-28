@@ -12,11 +12,8 @@ const config: Configuration = {
   components: {
     dirs: [
       '~/components',
-      {
-        path: '~/prefixed',
-        prefix: 'prefixed',
-        transpile: true // Only for coverage purpose
-      }
+      { path: '@/components/base', prefix: 'Base' },
+      { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ }
     ]
   }
 }
