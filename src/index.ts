@@ -5,6 +5,7 @@ import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import RuleSet from 'webpack/lib/RuleSet'
 import { Module } from '@nuxt/types'
 
+import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
 
 export interface Options {
@@ -21,6 +22,8 @@ export interface Options {
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 
 export default <Module<Options>> function (moduleOptions) {
+  requireNuxtVersion.call(this, '2.10')
+
   const options: Options = {
     dirs: ['~/components'],
     ...moduleOptions,
