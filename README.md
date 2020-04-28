@@ -6,7 +6,7 @@
 [![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
-> Module to scan and auto import components for Nuxt.js
+> Module to scan and auto import components for Nuxt.js 2.10+
 
 [📖 **Release Notes**](./CHANGELOG.md)
 
@@ -44,13 +44,15 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
 
 ## Setup
 
-1. Add `@nuxt/components` dependency to your project
+1. Ensure you're using **Nuxt 2.10** or [higher version](https://github.com/nuxt/nuxt.js/releases)
+
+2. Add `@nuxt/components` dependency to your project
 
 ```bash
 yarn add --dev @nuxt/components # or npm install --save-dev @nuxt/components
 ```
 
-2. Add `@nuxt/components` to the `buildModules` section of `nuxt.config.js`
+3. Add `@nuxt/components` to the `buildModules` section of `nuxt.config.js`
 
 ```js
 export default {
@@ -63,8 +65,6 @@ export default {
   ]
 }
 ```
-
-:warning: If you are using Nuxt **< v2.9** you have to install the module as a `dependency` (No `--dev` or `--save-dev` flags) and use `modules` section in `nuxt.config.js` instead of `buildModules`.
 
 ### Using top level options
 
