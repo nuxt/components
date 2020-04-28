@@ -1,15 +1,16 @@
-import path from 'path'
-import { scanComponents } from '../../src/scan'
-
-export function scanFixtureComponents () {
-  return scanComponents({
-    cwd: path.resolve('test/fixture'),
-    pattern: 'components/**/*.{vue,ts,js}'
-  })
-}
+import { scanFixtureComponents } from './utils'
 
 test('scanner', async () => {
   const components = await scanFixtureComponents()
 
-  expect(components).toHaveLength(3)
+  expect(components.map(c => c.pascalName)).toEqual([
+    'BaseButton',
+    'LazyBaseButton',
+    'IconHome',
+    'LazyIconHome',
+    'Bar',
+    'LazyBar',
+    'Foo',
+    'LazyFoo'
+  ])
 })

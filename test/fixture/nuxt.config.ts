@@ -7,10 +7,15 @@ const config: Configuration = {
   buildDIr: path.resolve(__dirname, '.nuxt'),
   srcDir: __dirname,
 
-  buildModules: [
-    '@nuxt/typescript-build',
-    componentsModule
-  ]
+  buildModules: ['@nuxt/typescript-build', componentsModule],
+
+  components: {
+    dirs: [
+      '~/components',
+      { path: '@/components/base', prefix: 'Base' },
+      { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ }
+    ]
+  }
 }
 
 export default config

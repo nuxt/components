@@ -1,7 +1,7 @@
 import path from 'path'
 import { loader as WebpackLoader } from 'webpack'
 import loader from '../../src/loader'
-import { scanFixtureComponents } from './scanner.test'
+import { scanFixtureComponents } from './utils'
 
 let testLoader
 
@@ -16,6 +16,7 @@ beforeAll(async () => {
       cacheable: (_bool) => {},
       callback: (_, newContent) => { finalContent = newContent },
       query: {
+        dependencies: [],
         getComponents: () => fixtureComponents
       },
       ...context
@@ -25,18 +26,22 @@ beforeAll(async () => {
   }
 })
 
+function expectToContainImports (content: string) {
+  const fixturePath = path.resolve('test/fixture')
+  expect(content).toContain(`require('${fixturePath}/components/Foo.vue')`)
+  expect(content).toContain(`function () { return import('${fixturePath}/components/Bar.ts') }`)
+  expect(content).toContain(`require('${fixturePath}/components/base/Button.vue')`)
+  expect(content).toContain(`require('${fixturePath}/components/icons/Home.vue')`)
+}
+
 test('default', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, 'test')
-  expect(content).toContain("require('~/components/ComponentFoo.vue')")
-  expect(content).toContain("require('~/components/ComponentBar.ts')")
-  expect(content).toContain("require('~/components/ComponentBaz.js')")
+  expectToContainImports(content)
 })
 
 test('hot reload', async () => {
   const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, '/* hot reload */')
-  expect(content).toContain("require('~/components/ComponentFoo.vue')")
-  expect(content).toContain("require('~/components/ComponentBar.ts')")
-  expect(content).toContain("require('~/components/ComponentBaz.js')")
+  expectToContainImports(content)
 })
 
 test('resourceQuery is truthy', async () => {

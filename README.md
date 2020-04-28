@@ -66,6 +66,19 @@ export default {
 }
 ```
 
+### Using top level options
+
+```js
+export default {
+  buildModules: [
+    '@nuxt/components',
+  ],
+  components: {
+    /* module options */
+  }
+}
+```
+
 ## Options
 
 ### `pattern`

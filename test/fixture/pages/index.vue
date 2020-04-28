@@ -1,7 +1,8 @@
 <template>
   <div>
-    <ComponentFoo />
-    <ComponentBar />
-    <component-baz />
+    <Foo />
+    <LazyBar />
+    <BaseButton />
+    <IconHome />
   </div>
 </template>

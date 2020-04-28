@@ -4,12 +4,12 @@ import { extractTags } from './tagExtractor'
 import { Component, matcher } from './scan'
 
 interface LoaderOptions {
-  componentsDir?: string
+  dependencies: string[]
   getComponents(): Component[]
 }
 
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
-  const imports = '{' + components.map(c => `${c.name}: ${c.import}`).join(',') + '}'
+  const imports = '{' + components.map(c => `${c.pascalName}: ${c.import}`).join(',') + '}'
 
   let newContent = '/* nuxt-component-imports */\n'
   newContent += `installComponents(component, ${imports})\n`
@@ -32,10 +32,10 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
 
-    const { componentsDir, getComponents } = loaderUtils.getOptions(this) as LoaderOptions
+    const { dependencies, getComponents } = loaderUtils.getOptions(this) as LoaderOptions
 
-    if (componentsDir) {
-      this.addDependency(componentsDir)
+    for (const dependency of dependencies) {
+      this.addDependency(dependency)
     }
 
     const tags = await extractTags(this.resourcePath)

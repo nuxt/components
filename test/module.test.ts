@@ -34,7 +34,8 @@ describe('module', () => {
     const { html } = await nuxt.server.renderRoute('/')
     expect(html).toContain('Foo')
     expect(html).toContain('Bar')
-    expect(html).toContain('Baz')
+    expect(html).toContain('Base Button')
+    expect(html).toContain('Icon Home')
   })
 
   test('watch: rebuild on add/remove', async () => {
