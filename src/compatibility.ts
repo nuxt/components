@@ -10,7 +10,7 @@ export function requireNuxtVersion (this: ModuleThis, version: string) {
 
   if (semver.lt(currentVersion, requiredVersion)) {
     throw new Error(`\n
-      ${chalk.cyan(pkgName)} is not compatible with your current Nuxt version : ${chalk.red('v' + currentVersion)}\n
+      ${chalk.cyan(pkgName)} is not compatible with your current Nuxt version : ${chalk.yellow('v' + currentVersion)}\n
       Required: ${chalk.green('v' + requiredVersion)} or ${chalk.cyan('higher')}
     `)
   }
