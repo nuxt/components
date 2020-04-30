@@ -91,7 +91,8 @@ export default {
   - Items: `String` or `Object` (see definition below)
 - Default: `['~/components']`
 
-List of directories to scan, with customizable options when using `Object` syntax.  
+List of directories to scan, with customizable options when using `Object` syntax.
+
 `String` items are shortcut to `Object` with only `path` provided :
 
 ```js
@@ -138,7 +139,7 @@ Ignore patterns that will be run against specified `path`.
 - Type: `String`
 - Default: `''` (no prefix)
 
-Prefix components for specified `path`
+Prefix components for specified `path`.
 
 ```js
 // nuxt.config.js
