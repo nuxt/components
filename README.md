@@ -203,8 +203,8 @@ Copyright (c) Nuxt Community
 [npm-downloads-src]: https://img.shields.io/npm/dt/@nuxt/components.svg?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/@nuxt/components
 
-[github-actions-ci-src]: https://github.com/nuxt/components/workflows/Test/badge.svg
-[github-actions-ci-href]: https://github.com/nuxt/components/actions?query=workflow%3ATest
+[github-actions-ci-src]: https://github.com/nuxt/components/workflows/ci/badge.svg
+[github-actions-ci-href]: https://github.com/nuxt/components/actions?query=workflow%3Aci
 
 [codecov-src]: https://img.shields.io/codecov/c/github/nuxt/components.svg?style=flat-square
 [codecov-href]: https://codecov.io/gh/nuxt/components
