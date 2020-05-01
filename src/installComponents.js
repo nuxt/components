@@ -1,15 +1,10 @@
-global.installComponents = function (component, components) {
-  const options = typeof component.exports === 'function'
-    ? component.exports.extendOptions
-    : component.options
+global.installComponents = function (c, l) {
+  const t = typeof c.exports === 'function'
+  const o = t ? c.exports.extendOptions : c.options
 
-  if (typeof component.exports === 'function') {
-    options.components = component.exports.options.components
-  }
+  o.components = (t ? c.exports.options.components : o.components) || {}
 
-  options.components = options.components || {}
-
-  for (var i in components) {
-    options.components[i] = options.components[i] || components[i]
+  for (var i in l) {
+    o.components[i] = o.components[i] || l[i]
   }
 }
