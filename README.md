@@ -22,7 +22,6 @@
 - Fully tested !
 
 
-
 ## Usage
 
 Create your components :
@@ -204,7 +203,7 @@ Copyright (c) Nuxt Community
 [npm-downloads-src]: https://img.shields.io/npm/dt/@nuxt/components.svg?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/@nuxt/components
 
-[github-actions-ci-src]: https://github.com/nuxt/components/workflows/ci/badge.svg
+[github-actions-ci-src]: https://img.shields.io/github/workflow/status/nuxt/typescript/test?label=ci&style=flat-square
 [github-actions-ci-href]: https://github.com/nuxt/components/actions?query=workflow%3Aci
 
 [codecov-src]: https://img.shields.io/codecov/c/github/nuxt/components.svg?style=flat-square
