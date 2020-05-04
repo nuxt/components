@@ -1,3 +1,5 @@
+![nuxt-components](https://user-images.githubusercontent.com/904724/80954041-f0d53100-8dfc-11ea-9594-cd621cfdf437.png)
+
 # @nuxt/components
 
 [![npm version][npm-version-src]][npm-version-href]
@@ -193,7 +195,7 @@ Useful for library authors who want to leverage `@nuxt/components` to add auto i
 
 [MIT License](./LICENSE)
 
-Copyright (c) Nuxt Community
+Copyright (c) NuxtJS
 
 <!-- Badges -->
 
