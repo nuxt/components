@@ -107,7 +107,7 @@ List of directories to scan, with customizable options when using `Object` synta
 #### path
 
 - Required
-- Type: `String
+- Type: `String`
 
 Path (absolute or relative) to the directory containing your components.
 
