@@ -47,6 +47,38 @@ No need anymore to manually import them in the `script` section !
 
 See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
 
+### Dynamic imports
+
+To make a component imported dynamically (lazy loaded), all you need is adding a `Lazy` prefix in your templates.
+
+> If you think this prefix should be customizable, feel free to create a feature issue !
+
+You are now being able to easily import a component on-demand :
+
+```html
+<template>
+  <LazyComponentFoo v-if="foo" />
+  <button @click="loadFoo">
+    Load Foo
+  </button>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      foo: null
+    }
+  },
+  methods: {
+    async loadFoo () {
+      this.foo = await this.$axios.$get('foo')
+    }
+  }
+}
+</script>
+```
+
 ## Setup
 
 1. Ensure you're using **Nuxt 2.10** or [higher version](https://github.com/nuxt/nuxt.js/releases)
