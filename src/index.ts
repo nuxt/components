@@ -44,6 +44,7 @@ export default <Module<Options>> function (moduleOptions) {
 
     this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
+    await this.nuxt.callHook('components:dirs', componentDirs)
     let components = await scanComponents(componentDirs)
 
     this.extendBuild((config) => {
