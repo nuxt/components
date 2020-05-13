@@ -219,7 +219,7 @@ Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/conf
 
 ## Library authors
 
-Shipping a UI librairies with Vue components with automatic tree-shaking is now damn easy to create ✨
+ Making Vue Component libraries with automatic tree-shaking and component registration is now damn easy ✨
 
 This module expose a hook named `components:dirs` so you can easily extend the directory list without updating user configuration in your Nuxt module.
 
