@@ -1,6 +1,6 @@
 {
   "name": "@nuxt/components",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Auto Import Components for Nuxt.js",
   "repository": "nuxt/components",
   "license": "MIT",
@@ -46,7 +46,7 @@
     "husky": "latest",
     "jest": "latest",
     "nuxt-edge": "latest",
-    "rimraf": "latest",
+    "rimraf": "^3.0.2",
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "~3.8"
