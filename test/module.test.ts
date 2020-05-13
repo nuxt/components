@@ -52,6 +52,10 @@ describe('module', () => {
     expect(builder.generateRoutesAndFiles).not.toHaveBeenCalled()
   })
 
+  test('hook: components:dirs hook is called', () => {
+    expect(nuxt.options._componentsDirsHook).toBeDefined()
+  })
+
   afterAll(async () => {
     await nuxt.close()
   })
