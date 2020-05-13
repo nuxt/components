@@ -8,6 +8,14 @@ import { Module } from '@nuxt/types'
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
 
+declare module '@nuxt/types/config/hooks' {
+  interface NuxtConfigurationHooks {
+      components?: {
+        dirs?(dirs: Options['dirs']): void
+    }
+  }
+}
+
 export interface Options {
   dirs: Array<string | {
     path: string

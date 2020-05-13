@@ -21,11 +21,13 @@ jest.mock('chokidar', () => ({
 const callChokidarEvent = eventName => Promise.all(watchers.map(w => w.fn(eventName)))
 
 describe('module', () => {
-  let nuxt, builder
+  let nuxt, builder, hookFn
 
   beforeAll(async () => {
     nuxt = await loadNuxt({ rootDir: path.resolve('test/fixture'), for: 'dev' })
     builder = getBuilder(nuxt)
+    hookFn = jest.fn()
+    nuxt.hook('components:dirs', hookFn)
     await builder.build()
     builder.generateRoutesAndFiles = jest.fn()
   })
@@ -53,7 +55,7 @@ describe('module', () => {
   })
 
   test('hook: components:dirs hook is called', () => {
-    expect(nuxt.options._componentsDirsHook).toBeDefined()
+    expect(hookFn).toHaveBeenCalled()
   })
 
   afterAll(async () => {

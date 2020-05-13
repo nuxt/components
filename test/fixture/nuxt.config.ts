@@ -2,16 +2,6 @@ import path from 'path'
 import { Configuration } from '@nuxt/types'
 import componentsModule, { Options } from '../../src'
 
-declare module '@nuxt/types' {
-  interface Configuration {
-    hooks?: {
-      components?: {
-        dirs?(dirs: Options['dirs']): void
-      }
-    }
-  }
-}
-
 const config: Configuration = {
   rootDir: path.resolve(__dirname, '../..'),
   buildDIr: path.resolve(__dirname, '.nuxt'),
