@@ -8,6 +8,14 @@ import { Module } from '@nuxt/types'
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
 
+declare module '@nuxt/types/config/hooks' {
+  interface NuxtConfigurationHooks {
+      components?: {
+        dirs?(dirs: Options['dirs']): void
+    }
+  }
+}
+
 export interface Options {
   dirs: Array<string | {
     path: string
@@ -15,7 +23,7 @@ export interface Options {
     ignore?: string[]
     prefix?: string
     watch?: boolean
-    transpile?: boolean
+    transpile?: 'auto' | boolean
   }>
 }
 
@@ -32,13 +40,18 @@ export default <Module<Options>> function (moduleOptions) {
 
   this.nuxt.hook('build:before', async (builder: any) => {
     const nuxtIgnorePatterns: string[] = builder.ignore.ignore ? builder.ignore.ignore._rules.map((rule: any) => rule.pattern) : /* istanbul ignore next */ []
+    await this.nuxt.callHook('components:dirs', options.dirs)
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
+      const dirPath = this.nuxt.resolver.resolvePath(dirOptions.path)
+      const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
+
       return {
         ...dirOptions,
-        path: this.nuxt.resolver.resolvePath(dirOptions.path),
+        path: dirPath,
         pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
-        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || [])
+        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
+        transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
     })
 
