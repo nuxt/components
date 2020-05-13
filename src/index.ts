@@ -32,6 +32,7 @@ export default <Module<Options>> function (moduleOptions) {
 
   this.nuxt.hook('build:before', async (builder: any) => {
     const nuxtIgnorePatterns: string[] = builder.ignore.ignore ? builder.ignore.ignore._rules.map((rule: any) => rule.pattern) : /* istanbul ignore next */ []
+    await this.nuxt.callHook('components:dirs', options.dirs)
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
       return {
@@ -44,7 +45,6 @@ export default <Module<Options>> function (moduleOptions) {
 
     this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
-    await this.nuxt.callHook('components:dirs', componentDirs)
     let components = await scanComponents(componentDirs)
 
     this.extendBuild((config) => {

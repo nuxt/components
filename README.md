@@ -20,9 +20,8 @@
 - Multiple paths with customizable prefixes and lookup/ignore patterns
 - Dynamic import (**aka** Lazy loading) Support
 - Hot reloading Support
-- Transpiling Support (useful for component libraries' authors)
-- Fully tested !
-
+- Transpiling Support (useful for component [libraries' authors](#library-authors))
+- Fully tested!
 
 ## Usage
 
@@ -132,8 +131,6 @@ List of directories to scan, with customizable options when using `Object` synta
 '~/components' === { path: '~/components' }
 ```
 
-
-
 #### `Object` syntax properties
 
 #### path
@@ -219,9 +216,69 @@ Watch specified `path` for changes, including file additions and file deletions.
 
 Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/configuration-build#transpile).
 
-Useful for library authors who want to leverage `@nuxt/components` to add auto import feature of their components.
 
+## Library authors
 
+Shipping a UI librairies with Vue components with automatic tree-shaking is now damn easy to create ✨
+
+This module expose a hook named `components:dirs` so you can easily extend the directory list without updating user configuration in your Nuxt module.
+
+Imagine a directory structure like this:
+
+```bash
+| modules/
+---| awesome-ui/
+------| components/
+---------| Alert.vue
+---------| Button.vue
+------| index.js
+| pages/
+---| index.vue
+| nuxt.config.js
+```
+
+Then in `awesome-ui/index.js` you can do use the `components:dir` hook:
+
+```js
+import { join } from 'path'
+
+export default function () {
+  this.nuxt.hook('components:dirs', (dirs) => {
+    // Add ./components dir to the list
+    dirs.push({
+      path: join(__dirname, 'components'),
+      prefix: 'awesome',
+      transpile: true
+    })
+  })
+}
+```
+
+That's it! Now in your project, you can import your local module in your `nuxt.config.js`:
+
+```js
+export default {
+  buildModules: [
+    '@nuxt/components',
+    '@/modules/awesome-ui/'
+  ]
+}
+```
+
+And directly use the module components (prefixed with `awesome-`), our `pages/index.vue`:
+
+```vue
+<template>
+  <div>
+    My <AwesomeButton>UI button</AwesomeButton>!
+    <awesome-alert>Here's an alert!</awesome-alert>
+  </div>
+</template>
+```
+
+It will automatically import the components only if used and also support HMR when updating your components in `modules/awesome-ui/components/`.
+
+Next: publish your `awesome-ui` module to [NPM](https://www.npmjs.com) and share it with the other Nuxters ✨
 
 ## License
 
