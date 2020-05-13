@@ -46,13 +46,6 @@ export default <Module<Options>> function (moduleOptions) {
       const path = this.nuxt.resolver.resolvePath(dirOptions.path)
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
-      console.log({
-        ...dirOptions,
-        path,
-        pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
-        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
-        transpile: (transpile === 'auto' ? path.includes('node_modules/') : transpile)
-      })
       return {
         ...dirOptions,
         path,
