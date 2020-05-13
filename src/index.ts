@@ -23,7 +23,7 @@ export interface Options {
     ignore?: string[]
     prefix?: string
     watch?: boolean
-    transpile?: boolean
+    transpile?: 'auto' | boolean
   }>
 }
 
@@ -43,11 +43,22 @@ export default <Module<Options>> function (moduleOptions) {
     await this.nuxt.callHook('components:dirs', options.dirs)
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
+      const path = this.nuxt.resolver.resolvePath(dirOptions.path)
+      const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
+
+      console.log({
+        ...dirOptions,
+        path,
+        pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
+        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
+        transpile: (transpile === 'auto' ? path.includes('node_modules/') : transpile)
+      })
       return {
         ...dirOptions,
-        path: this.nuxt.resolver.resolvePath(dirOptions.path),
+        path,
         pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
-        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || [])
+        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
+        transpile: (transpile === 'auto' ? path.includes('node_modules/') : transpile)
       }
     })
 

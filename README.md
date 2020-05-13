@@ -212,10 +212,9 @@ Watch specified `path` for changes, including file additions and file deletions.
 #### transpile
 
 - Type: `Boolean`
-- Default: `false`
+- Default: `'auto'`
 
-Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/configuration-build#transpile).
-
+Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/configuration-build#transpile), by default (`'auto'`) it will set `transpile: true` if `node_modules/` is in `path`.
 
 ## Library authors
 
@@ -247,8 +246,7 @@ export default function () {
     // Add ./components dir to the list
     dirs.push({
       path: join(__dirname, 'components'),
-      prefix: 'awesome',
-      transpile: true
+      prefix: 'awesome'
     })
   })
 }
