@@ -218,25 +218,25 @@ Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/conf
 
 ## Library authors
 
- Making Vue Component libraries with automatic tree-shaking and component registration is now damn easy ✨
+Making Vue Component libraries with automatic tree-shaking and component registration is now damn easy ✨
 
 This module expose a hook named `components:dirs` so you can easily extend the directory list without updating user configuration in your Nuxt module.
 
 Imagine a directory structure like this:
 
 ```bash
-| modules/
+| node_modules/
 ---| awesome-ui/
 ------| components/
 ---------| Alert.vue
 ---------| Button.vue
-------| index.js
+------| nuxt.js
 | pages/
 ---| index.vue
 | nuxt.config.js
 ```
 
-Then in `awesome-ui/index.js` you can do use the `components:dir` hook:
+Then in `awesome-ui/nuxt.js` you can use the `components:dir` hook:
 
 ```js
 import { join } from 'path'
@@ -252,13 +252,13 @@ export default function () {
 }
 ```
 
-That's it! Now in your project, you can import your local module in your `nuxt.config.js`:
+That's it! Now in your project, you can import your ui library as a Nuxt module in your `nuxt.config.js`:
 
 ```js
 export default {
   buildModules: [
     '@nuxt/components',
-    '@/modules/awesome-ui/'
+    'awesome-ui/nuxt'
   ]
 }
 ```
@@ -274,7 +274,7 @@ And directly use the module components (prefixed with `awesome-`), our `pages/in
 </template>
 ```
 
-It will automatically import the components only if used and also support HMR when updating your components in `modules/awesome-ui/components/`.
+It will automatically import the components only if used and also support HMR when updating your components in `node_modules/awesome-ui/components/`.
 
 Next: publish your `awesome-ui` module to [NPM](https://www.npmjs.com) and share it with the other Nuxters ✨
 
