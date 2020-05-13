@@ -43,15 +43,15 @@ export default <Module<Options>> function (moduleOptions) {
     await this.nuxt.callHook('components:dirs', options.dirs)
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
-      const path = this.nuxt.resolver.resolvePath(dirOptions.path)
+      const dirPath = this.nuxt.resolver.resolvePath(dirOptions.path)
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
       return {
         ...dirOptions,
-        path,
+        path: dirPath,
         pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
         ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
-        transpile: (transpile === 'auto' ? path.includes('node_modules/') : transpile)
+        transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
     })
 
