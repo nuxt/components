@@ -4,6 +4,7 @@ import { camelCase, kebabCase, upperFirst } from 'lodash'
 
 const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => upperFirst(camelCase(str))
+const unixPath = (p: string) => p.replace(/\\/g, '/')
 
 export interface ScanDir {
   path: string
@@ -19,7 +20,7 @@ export interface Component {
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
-  return pathB.split('/').filter(Boolean).length - pathA.split('/').filter(Boolean).length
+  return unixPath(pathB).split('/').filter(Boolean).length - unixPath(pathA).split('/').filter(Boolean).length
 }
 
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
@@ -36,7 +37,7 @@ export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
 
   for (const { path, pattern, ignore, prefix } of dirs.sort(sortDirsByPathLength)) {
     for (const file of await glob.sync(pattern, { cwd: path, ignore })) {
-      const filePath = join(path, file)
+      const filePath = unixPath(join(path, file))
 
       if (processedPaths.includes(filePath)) {
         continue
