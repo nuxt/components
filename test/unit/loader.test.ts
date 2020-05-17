@@ -29,7 +29,7 @@ beforeAll(async () => {
 function expectToContainImports (content: string) {
   const fixturePath = path.resolve('test/fixture').replace(/\\/g, '/')
   expect(content).toContain(`require('${fixturePath}/components/Foo.vue')`)
-  expect(content).toContain(`function () { return import('${fixturePath}/components/Bar.ts') }`)
+  expect(content).toContain(`function () { return import('${fixturePath}/components/Bar.ts' /* webpackChunkName: "components/bar" */) }`)
   expect(content).toContain(`require('${fixturePath}/components/base/Button.vue')`)
   expect(content).toContain(`require('${fixturePath}/components/icons/Home.vue')`)
 }

@@ -49,7 +49,7 @@ export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
 
       components.push(
         prefixComponent(prefix, { pascalName, kebabName, import: `require('${filePath}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { pascalName, kebabName, import: `function () { return import('${filePath}') }` }))
+        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { pascalName, kebabName, import: `function () { return import('${filePath}' /* webpackChunkName: "components/${kebabName}" */) }` }))
       )
 
       processedPaths.push(filePath)
