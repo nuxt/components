@@ -1,4 +1,4 @@
-import path from 'path'
+import { posix as path } from 'path'
 import { scanComponents } from '../../src/scan'
 
 export function scanFixtureComponents () {

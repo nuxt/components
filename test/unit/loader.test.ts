@@ -1,4 +1,4 @@
-import path from 'path'
+import { posix as path } from 'path'
 import { loader as WebpackLoader } from 'webpack'
 import loader from '../../src/loader'
 import { scanFixtureComponents } from './utils'
