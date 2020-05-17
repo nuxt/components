@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/nuxt/components/compare/v0.2.1...v0.2.2) (2020-05-17)
+
+
+### Bug Fixes
+
+* **scan:** use unix paths for windows ([9b5e6c6](https://github.com/nuxt/components/commit/9b5e6c6ea6bdd38dd03156428dc9c917165b1b45))
+
 ### [0.2.1](https://github.com/nuxt/components/compare/v0.2.0...v0.2.1) (2020-05-13)
 
 
