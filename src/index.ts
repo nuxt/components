@@ -33,6 +33,7 @@ export default <Module<Options>> function (moduleOptions) {
   requireNuxtVersion.call(this, '2.10')
 
   const options: Options = {
+    // @ts-ignore This is expected as default dirs will be overriden by user config
     dirs: ['~/components'],
     ...moduleOptions,
     ...this.options.components
