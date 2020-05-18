@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/nuxt/components/compare/v0.2.2...v0.2.3) (2020-05-18)
+
+
+### Features
+
+* set chunk name for async components ([3cb6aaa](https://github.com/nuxt/components/commit/3cb6aaaec83d9641ebd85b22e6e4bad4607bc33b))
+
+
+### Bug Fixes
+
+* remove moduleOptions to only use components key ([58c7e26](https://github.com/nuxt/components/commit/58c7e26f72576dfbbcaf790f332a73f73090936a))
+
 ### [0.2.2](https://github.com/nuxt/components/compare/v0.2.1...v0.2.2) (2020-05-17)
 
 
