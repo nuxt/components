@@ -42,7 +42,7 @@ components/
   ComponentBar.vue
 ```
 
-Use them whenever you want, there will be auto imported in `.vue` files :
+Use them whenever you want, they will be auto imported in `.vue` files :
 
 ```html
 <template>
@@ -197,7 +197,7 @@ List of directories to scan, with customizable options when using `Object` synta
 
 Path (absolute or relative) to the directory containing your components.
 
-We highly recommend using Nuxt aliases : 
+We highly recommend using Nuxt aliases :
 
 | Alias        | Directory                                               |
 | ------------ | ------------------------------------------------------- |
@@ -206,7 +206,7 @@ We highly recommend using Nuxt aliases :
 
 #### pattern
 
-- Type: `String` (must follow glob pattern style : https://github.com/isaacs/node-glob#glob-primer)  
+- Type: `String` (must follow glob pattern style : https://github.com/isaacs/node-glob#glob-primer)
 - Default: `**/*.${extensions.join(',')}`
   - `extensions` being Nuxt `builder.supportedExtensions`
   - Resulting in `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
