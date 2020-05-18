@@ -53,7 +53,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const meta = { filePath, pascalName, kebabName, shortPath }
       components.push(
         prefixComponent(prefix, { ...meta, import: `require('${filePath}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${shortPath}" */) }` }))
+        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${shortPath.replace(extname(shortPath), '')}" */) }` }))
       )
 
       processedPaths.push(filePath)
