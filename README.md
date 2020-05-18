@@ -80,9 +80,19 @@ export default {
 
 ## Setup
 
-1. Ensure you're using **Nuxt 2.10** or [higher version](https://github.com/nuxt/nuxt.js/releases)
+### Nuxt 2.13+
 
-2. Add `@nuxt/components` dependency to your project
+If you are using [nuxt-edge](https://www.npmjs.com/package/nuxt-edge) or Nuxt `2.13+` (release soon :eyes:) simply set `components: true` in your `nuxt.config.js`:
+
+```js
+export default {
+  components: true
+}
+```
+
+### Nuxt 2.10+
+
+1. Add `@nuxt/components` dependency to your project
 
 ```bash
 yarn add --dev @nuxt/components # or npm install --save-dev @nuxt/components
@@ -93,16 +103,19 @@ yarn add --dev @nuxt/components # or npm install --save-dev @nuxt/components
 ```js
 export default {
   buildModules: [
-    // Simple usage
-    '@nuxt/components',
-
-    // With options
-    ['@nuxt/components', { /* module options */ }]
+    '@nuxt/components'
   ]
 }
 ```
 
-### Using top level options
+### Nuxt < `2.10`
+
+Please upgrade your Nuxt version in order to use this module.
+
+
+## Options
+
+You can define the options of the module in the `components` property of your `nuxt.config.js`:
 
 ```js
 export default {
@@ -114,8 +127,6 @@ export default {
   }
 }
 ```
-
-## Options
 
 ### `dirs`
 
