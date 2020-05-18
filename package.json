@@ -49,7 +49,7 @@
     "rimraf": "latest",
     "standard-version": "latest",
     "ts-jest": "latest",
-    "typescript": "~3.8"
+    "typescript": "~3.9"
   },
   "publishConfig": {
     "access": "public"
