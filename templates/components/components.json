@@ -1,3 +1,6 @@
 <%= JSON.stringify(options.getComponents().map(component => {
-  const c = { ...component }; delete c.import ; return c
+  const c = { ...component }
+  delete c.import
+  c.filePath = c.filePath.replace(nuxtOptions.srcDir, '').replace(/^[\/\\]/, '')
+  return c
 }), null, 2) %>
