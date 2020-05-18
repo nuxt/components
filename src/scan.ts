@@ -44,6 +44,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       if (processedPaths.includes(filePath)) {
         continue
       }
+      processedPaths.push(filePath)
 
       const fileName = basename(file, extname(file))
       const pascalName = pascalCase(fileName)
@@ -61,8 +62,6 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         prefixComponent(prefix, { ...meta, import: `require('${filePath}').default` }),
         prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${cuhnkName}" */) }` }))
       )
-
-      processedPaths.push(filePath)
     }
   }
 

@@ -3,6 +3,8 @@ import { loader as WebpackLoader } from 'webpack'
 import loader from '../../src/loader'
 import { scanFixtureComponents } from './utils'
 
+const isWindows = process.platform.startsWith('win')
+
 let testLoader
 
 beforeAll(async () => {
@@ -27,9 +29,9 @@ beforeAll(async () => {
 })
 
 function expectToContainImports (content: string) {
-  const fixturePath = p => path.resolve('test/fixture', p)
+  const fixturePath = p => path.resolve('test/fixture', p).replace(/\\/g, '\\\\')
   expect(content).toContain(`require('${fixturePath('components/Foo.vue')}')`)
-  expect(content).toContain(`function () { return import('${fixturePath('components/Bar.ts')}' /* webpackChunkName: "components/Bar" */) }`)
+  expect(content).toContain(`function () { return import('${fixturePath('components/Bar.ts')}' /* webpackChunkName: "components${isWindows ? '_' : '/'}Bar" */) }`)
   expect(content).toContain(`require('${fixturePath('components/base/Button.vue')}')`)
   expect(content).toContain(`require('${fixturePath('components/icons/Home.vue')}')`)
 }
