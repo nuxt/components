@@ -1,1 +1,3 @@
-<%= JSON.stringify(options.getComponents(), null, 2) %>
+<%= JSON.stringify(options.getComponents().map(component => {
+  const c = { ...component }; delete c.import ; return c
+}), null, 2) %>
