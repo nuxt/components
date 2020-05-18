@@ -1,4 +1,4 @@
-import { posix as path } from 'path'
+import path from 'path'
 import { loader as WebpackLoader } from 'webpack'
 import loader from '../../src/loader'
 import { scanFixtureComponents } from './utils'
@@ -27,11 +27,11 @@ beforeAll(async () => {
 })
 
 function expectToContainImports (content: string) {
-  const fixturePath = path.resolve('test/fixture').replace(/\\/g, '/')
-  expect(content).toContain(`require('${fixturePath}/components/Foo.vue')`)
-  expect(content).toContain(`function () { return import('${fixturePath}/components/Bar.ts' /* webpackChunkName: "components/Bar" */) }`)
-  expect(content).toContain(`require('${fixturePath}/components/base/Button.vue')`)
-  expect(content).toContain(`require('${fixturePath}/components/icons/Home.vue')`)
+  const fixturePath = p => path.resolve('test/fixture', p)
+  expect(content).toContain(`require('${fixturePath('components/Foo.vue')}')`)
+  expect(content).toContain(`function () { return import('${fixturePath('components/Bar.ts')}' /* webpackChunkName: "components/Bar" */) }`)
+  expect(content).toContain(`require('${fixturePath('components/base/Button.vue')}')`)
+  expect(content).toContain(`require('${fixturePath('components/icons/Home.vue')}')`)
 }
 
 test('default', async () => {

@@ -4,7 +4,6 @@ import { camelCase, kebabCase, upperFirst } from 'lodash'
 
 const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => upperFirst(camelCase(str))
-const unixPath = (p: string) => p.replace(/\\/g, '/')
 
 export interface ScanDir {
   path: string
@@ -22,7 +21,7 @@ export interface Component {
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
-  return unixPath(pathB).split('/').filter(Boolean).length - unixPath(pathA).split('/').filter(Boolean).length
+  return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
 }
 
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
@@ -39,7 +38,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
   for (const { path, pattern, ignore, prefix } of dirs.sort(sortDirsByPathLength)) {
     for (const file of await glob.sync(pattern, { cwd: path, ignore })) {
-      const filePath = unixPath(join(path, file))
+      const filePath = join(path, file)
 
       if (processedPaths.includes(filePath)) {
         continue
@@ -48,7 +47,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const fileName = basename(file, extname(file))
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
-      const shortPath = filePath.replace(srcDir, '').replace(/\\/, '/').replace(/^\//, '')
+      const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
 
       const meta = { filePath, pascalName, kebabName, shortPath }
       components.push(

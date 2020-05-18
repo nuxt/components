@@ -1,4 +1,4 @@
-import { posix as path } from 'path'
+import path from 'path'
 import { extractTags } from '../../src/tagExtractor'
 
 test('with template', async () => {
