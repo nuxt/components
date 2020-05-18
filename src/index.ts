@@ -45,17 +45,25 @@ export default <Module> function () {
     await this.nuxt.callHook('components:dirs', options.dirs)
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
-      const dirPath = getDir(this.nuxt.resolver.resolvePath(dirOptions.path))
+      let dirPath = dirOptions.path
+      try { dirPath = getDir(this.nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) { }
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
+
+      const enabled = fs.existsSync(dirPath)
+      if (!enabled && dirOptions.path !== '~/components') {
+        // eslint-disable-next-line no-console
+        console.warn('Components directory not found: `' + dirPath + '`')
+      }
 
       return {
         ...dirOptions,
+        enabled,
         path: dirPath,
         pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
         ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
         transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
-    })
+    }).filter(d => d.enabled)
 
     this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
