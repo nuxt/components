@@ -17,6 +17,8 @@ export interface Component {
   pascalName: string
   kebabName: string
   import: string
+  filePath: string,
+  async?: boolean
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
@@ -47,9 +49,10 @@ export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
 
+      const meta = { filePath, pascalName, kebabName }
       components.push(
-        prefixComponent(prefix, { pascalName, kebabName, import: `require('${filePath}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { pascalName, kebabName, import: `function () { return import('${filePath}' /* webpackChunkName: "components/${kebabName}" */) }` }))
+        prefixComponent(prefix, { ...meta, import: `require('${filePath}').default` }),
+        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "components/${kebabName}" */) }` }))
       )
 
       processedPaths.push(filePath)

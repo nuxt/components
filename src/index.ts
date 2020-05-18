@@ -90,6 +90,22 @@ export default <Module> function () {
         watcher.close()
       })
     }
+
+    // Add templates
+    const templates = [
+      'components/components.js',
+      'components/components.json',
+      'vetur/tags.json'
+    ]
+    for (const t of templates) {
+      this.addTemplate({
+        src: path.resolve(__dirname, '../templates', t),
+        fileName: t,
+        options: {
+          getComponents: () => components
+        }
+      })
+    }
   })
 
   // Add Webpack entry for runtime installComponents function
