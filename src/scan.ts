@@ -4,6 +4,7 @@ import { camelCase, kebabCase, upperFirst } from 'lodash'
 
 const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => upperFirst(camelCase(str))
+const isWindows = process.platform.startsWith('win')
 
 export interface ScanDir {
   path: string
@@ -38,7 +39,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
   for (const { path, pattern, ignore, prefix } of dirs.sort(sortDirsByPathLength)) {
     for (const file of await glob.sync(pattern, { cwd: path, ignore })) {
-      const filePath = join(path, file)
+      let filePath = join(path, file)
 
       if (processedPaths.includes(filePath)) {
         continue
@@ -49,10 +50,16 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const kebabName = kebabCase(fileName)
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
 
+      let cuhnkName = shortPath.replace(extname(shortPath), '')
+      if (isWindows) {
+        filePath = filePath.replace(/\\/g, '\\\\')
+        cuhnkName = cuhnkName.replace('/', '_')
+      }
+
       const meta = { filePath, pascalName, kebabName, shortPath }
       components.push(
         prefixComponent(prefix, { ...meta, import: `require('${filePath}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${shortPath.replace(extname(shortPath), '')}" */) }` }))
+        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${cuhnkName}" */) }` }))
       )
 
       processedPaths.push(filePath)
