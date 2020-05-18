@@ -4,6 +4,6 @@ module.exports = function install(Vue) {
   if (c.async) {
     i = `Promise.resolve(${i})`
   }
-  return `  Vue.component('${c.pascalName}', ${i})`
+  return `// ${c.shortPath}\nVue.component('${c.pascalName}', ${i})\n`
 }).join('\n') %>
 }

@@ -33,7 +33,7 @@ function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest 
   }
 }
 
-export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
+export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<Component[]> {
   const components: Component[] = []
   const processedPaths: string[] = []
 
@@ -48,11 +48,12 @@ export async function scanComponents (dirs: ScanDir[]): Promise<Component[]> {
       const fileName = basename(file, extname(file))
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
+      const shortPath = filePath.replace(srcDir, '').replace(/\\/, '/').replace(/^\//, '')
 
-      const meta = { filePath, pascalName, kebabName }
+      const meta = { filePath, pascalName, kebabName, shortPath }
       components.push(
         prefixComponent(prefix, { ...meta, import: `require('${filePath}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "components/${kebabName}" */) }` }))
+        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${shortPath}" */) }` }))
       )
 
       processedPaths.push(filePath)

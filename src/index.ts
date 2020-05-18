@@ -57,7 +57,7 @@ export default <Module> function () {
 
     this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
-    let components = await scanComponents(componentDirs)
+    let components = await scanComponents(componentDirs, this.options.srcDir as string)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
@@ -81,7 +81,7 @@ export default <Module> function () {
           return
         }
 
-        components = await scanComponents(componentDirs)
+        components = await scanComponents(componentDirs, this.options.srcDir as string)
         await builder.generateRoutesAndFiles()
       })
 
