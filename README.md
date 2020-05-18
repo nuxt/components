@@ -14,6 +14,15 @@
 - [🎬 Demonstration video (49s)](https://www.youtube.com/watch?v=lQ8OBrgVVr8)
 - [📖 Release Notes](./CHANGELOG.md)
 
+## Table of Contents
+
+- [Features](#features)
+- [Usage](#usage)
+- [Setup](#setup)
+- [Options](#options)
+- [Library authors](#library-authors)
+- [License](#license)
+
 ## Features
 
 - Scan and auto import components
@@ -76,6 +85,42 @@ export default {
   }
 }
 </script>
+```
+
+### Nested components
+
+If you have components in nested directories:
+
+```bash
+components/
+  foo/
+    Bar.vue
+````
+
+The component name will be based on **its filename**:
+
+```html
+<Bar />
+```
+
+We do recommend to use the directory name in the filename for clarity in order to use `<FooBar />`:
+
+```bash
+components/
+  foo/
+    FooBar.vue
+```
+
+If you want to keep the filename as `Bar.vue`, consider using the `prefix` option:
+
+```js
+components: [
+  '~/components/',
+  {
+    path: '~/components/foo/',
+    prefix: 'foo'
+  }
+]
 ```
 
 ## Setup
