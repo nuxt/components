@@ -29,13 +29,12 @@ export interface Options {
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 
-export default <Module<Options>> function (moduleOptions) {
+export default <Module> function () {
   requireNuxtVersion.call(this, '2.10')
 
   const options: Options = {
     // @ts-ignore This is expected as default dirs will be overriden by user config
     dirs: ['~/components'],
-    ...moduleOptions,
     ...this.options.components
   }
 
