@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 import chokidar from 'chokidar'
 import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 // @ts-ignore
@@ -28,6 +29,7 @@ export interface Options {
 }
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
+const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
 export default <Module> function () {
   requireNuxtVersion.call(this, '2.10')
@@ -43,7 +45,7 @@ export default <Module> function () {
     await this.nuxt.callHook('components:dirs', options.dirs)
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions = typeof dir === 'object' ? dir : { path: dir }
-      const dirPath = this.nuxt.resolver.resolvePath(dirOptions.path)
+      const dirPath = getDir(this.nuxt.resolver.resolvePath(dirOptions.path))
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
       return {
