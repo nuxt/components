@@ -10,11 +10,16 @@ import { requireNuxtVersion } from './compatibility'
 import { scanComponents, ScanDir } from './scan'
 
 type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
+type componentsExtendHook = (components: (ComponentsDir|ScanDir)[]) => void | Promise<void>
 
 declare module '@nuxt/types/config/hooks' {
   interface NuxtConfigurationHooks {
-    components?: { dirs?: componentsDirHook }
     'components:dirs'?: componentsDirHook
+    'components:extend'?: componentsExtendHook
+    components?: {
+      dirs?: componentsDirHook
+      extend?: componentsExtendHook
+    }
   }
 }
 
@@ -95,6 +100,9 @@ export default <Module> function () {
         }
 
         components = await scanComponents(componentDirs, this.options.srcDir!)
+
+        await this.nuxt.callHook('components:extend', components)
+
         await builder.generateRoutesAndFiles()
       })
 
