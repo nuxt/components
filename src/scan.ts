@@ -8,17 +8,22 @@ const isWindows = process.platform.startsWith('win')
 
 export interface ScanDir {
   path: string
-  pattern: string
+  pattern?: string
   ignore?: string[]
   prefix?: string
+  extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
 export interface Component {
   pascalName: string
   kebabName: string
   import: string
-  filePath: string,
+  asyncImport: string
+  export: string
+  filePath: string
+  shortPath: string
   async?: boolean
+  chunkName: string
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
@@ -37,8 +42,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const components: Component[] = []
   const processedPaths: string[] = []
 
-  for (const { path, pattern, ignore, prefix } of dirs.sort(sortDirsByPathLength)) {
-    for (const file of await glob.sync(pattern, { cwd: path, ignore })) {
+  for (const { path, pattern, ignore, prefix, extendComponent } of dirs.sort(sortDirsByPathLength)) {
+    for (const file of await glob.sync(pattern!, { cwd: path, ignore })) {
       let filePath = join(path, file)
 
       if (processedPaths.includes(filePath)) {
@@ -50,18 +55,41 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
-
       let chunkName = shortPath.replace(extname(shortPath), '')
+
       if (isWindows) {
         filePath = filePath.replace(/\\/g, '\\\\')
         chunkName = chunkName.replace('/', '_')
       }
 
-      const meta = { filePath, pascalName, kebabName, shortPath }
-      components.push(
-        prefixComponent(prefix, { ...meta, import: `require('${filePath}').default` }),
-        prefixComponent(LAZY_PREFIX, prefixComponent(prefix, { ...meta, async: true, import: `function () { return import('${filePath}' /* webpackChunkName: "${chunkName}" */) }` }))
-      )
+      let _c = prefixComponent(prefix, {
+        filePath,
+        pascalName,
+        kebabName,
+        chunkName,
+        shortPath,
+        import: '',
+        asyncImport: '',
+        export: 'default'
+      })
+
+      if (typeof extendComponent === 'function') {
+        _c = (await extendComponent(_c)) || _c
+      }
+
+      const _import = `require('${_c.filePath}').${_c.export}`
+      const _asyncImport = `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
+
+      components.push({
+        ..._c,
+        import: _import
+      })
+
+      components.push(prefixComponent(LAZY_PREFIX, {
+        ..._c,
+        async: true,
+        import: _asyncImport
+      }))
     }
   }
 
