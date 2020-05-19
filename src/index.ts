@@ -67,7 +67,7 @@ export default <Module> function () {
 
     this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
-    let components = await scanComponents(componentDirs)
+    let components = await scanComponents(componentDirs, this.options.srcDir!)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
@@ -91,13 +91,29 @@ export default <Module> function () {
           return
         }
 
-        components = await scanComponents(componentDirs)
+        components = await scanComponents(componentDirs, this.options.srcDir!)
         await builder.generateRoutesAndFiles()
       })
 
       // Close watcher on nuxt close
       this.nuxt.hook('close', () => {
         watcher.close()
+      })
+    }
+
+    // Add templates
+    const templates = [
+      'components/components.js',
+      'components/components.json',
+      'vetur/tags.json'
+    ]
+    for (const t of templates) {
+      this.addTemplate({
+        src: path.resolve(__dirname, '../templates', t),
+        fileName: t,
+        options: {
+          getComponents: () => components
+        }
       })
     }
   })
