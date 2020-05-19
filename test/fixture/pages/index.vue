@@ -4,5 +4,6 @@
     <LazyBar />
     <BaseButton />
     <IconHome />
+    <MAwesome />
   </div>
 </template>
