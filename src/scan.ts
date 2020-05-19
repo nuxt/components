@@ -77,8 +77,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         _c = (await extendComponent(_c)) || _c
       }
 
-      const _import = `require('${_c.filePath}').${_c.export}`
-      const _asyncImport = `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
+      const _import = _c.import || `require('${_c.filePath}').${_c.export}`
+      const _asyncImport = _c.asyncImport || `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
 
       components.push({
         ..._c,
