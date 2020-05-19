@@ -31,7 +31,7 @@ describe('module', () => {
 
     /* eslint-disable no-console */
     const _warn = console.warn
-    console.warn = jest.fn
+    console.warn = jest.fn()
     await builder.build()
     expect(console.warn).toBeCalledTimes(1)
     expect(console.warn).toBeCalledWith('Components directory not found: `~/non-existent`')
