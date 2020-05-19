@@ -7,25 +7,24 @@ import RuleSet from 'webpack/lib/RuleSet'
 import { Module } from '@nuxt/types'
 
 import { requireNuxtVersion } from './compatibility'
-import { scanComponents } from './scan'
+import { scanComponents, ScanDir } from './scan'
+
+type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
 
 declare module '@nuxt/types/config/hooks' {
   interface NuxtConfigurationHooks {
-      components?: {
-        dirs?(dirs: Options['dirs']): void
-    }
+    components?: { dirs?: componentsDirHook }
+    'components:dirs'?: componentsDirHook
   }
 }
 
+export interface ComponentsDir extends ScanDir {
+  watch?: boolean
+  transpile?: 'auto' | boolean
+}
+
 export interface Options {
-  dirs: Array<string | {
-    path: string
-    pattern?: string
-    ignore?: string[]
-    prefix?: string
-    watch?: boolean
-    transpile?: 'auto' | boolean
-  }>
+  dirs: (string | ComponentsDir)[]
 }
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
@@ -42,11 +41,15 @@ export default <Module> function () {
 
   this.nuxt.hook('build:before', async (builder: any) => {
     const nuxtIgnorePatterns: string[] = builder.ignore.ignore ? builder.ignore.ignore._rules.map((rule: any) => rule.pattern) : /* istanbul ignore next */ []
+
     await this.nuxt.callHook('components:dirs', options.dirs)
+
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
-      const dirOptions = typeof dir === 'object' ? dir : { path: dir }
+      const dirOptions: ComponentsDir = typeof dir === 'object' ? dir : { path: dir }
+
       let dirPath = dirOptions.path
       try { dirPath = getDir(this.nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) { }
+
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
       const enabled = fs.existsSync(dirPath)
