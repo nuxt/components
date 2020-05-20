@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.4](https://github.com/nuxt/components/compare/v0.2.3...v0.2.4) (2020-05-20)
+
+
+### Features
+
+* `components:extend` hook ([462834f](https://github.com/nuxt/components/commit/462834f7cdd77fadad842367db9bceb7cdad6637))
+* auto generate components.json, global plugin for tests and vetur tags ([#14](https://github.com/nuxt/components/issues/14)) ([12d546d](https://github.com/nuxt/components/commit/12d546d3f98183626693f3b4c0c13aadef7afc93))
+* support `extendComponent` option for scan ([4baa840](https://github.com/nuxt/components/commit/4baa8405800e711bcf58c799f85e3954b0a3c741))
+
+
+### Bug Fixes
+
+* don't override imports if extendComponent already provided ([01959b1](https://github.com/nuxt/components/commit/01959b16c554408fd78c1bf1c2248f8e806e0275))
+* properly resolve components dir name and warn about non existent dirs ([#12](https://github.com/nuxt/components/issues/12)) ([1ffea77](https://github.com/nuxt/components/commit/1ffea77fb3a800a4e14670d651a615c2862a6540))
+
 ### [0.2.3](https://github.com/nuxt/components/compare/v0.2.2...v0.2.3) (2020-05-18)
 
 
