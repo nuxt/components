@@ -76,6 +76,7 @@ export default <Module> function () {
     this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
     let components = await scanComponents(componentDirs, this.options.srcDir!)
+    await this.nuxt.callHook('components:extend', components)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
@@ -100,7 +101,6 @@ export default <Module> function () {
         }
 
         components = await scanComponents(componentDirs, this.options.srcDir!)
-
         await this.nuxt.callHook('components:extend', components)
 
         await builder.generateRoutesAndFiles()
