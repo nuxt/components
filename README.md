@@ -145,7 +145,7 @@ export default {
 yarn add --dev @nuxt/components # or npm install --save-dev @nuxt/components
 ```
 
-3. Add `@nuxt/components` to the `buildModules` section of `nuxt.config.js`
+2. Add `@nuxt/components` to the `buildModules` section of `nuxt.config.js`
 
 ```js
 export default {
