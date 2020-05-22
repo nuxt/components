@@ -114,12 +114,14 @@ components/
 If you want to keep the filename as `Bar.vue`, consider using the `prefix` option:
 
 ```js
-components: [
-  '~/components/',
-  {
-    path: '~/components/foo/',
-    prefix: 'foo'
-  }
+components: {
+  dirs: [
+    '~/components/',
+    {
+      path: '~/components/foo/',
+      prefix: 'foo'
+    }
+  ]
 ]
 ```
 
