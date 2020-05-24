@@ -12,6 +12,12 @@ export async function extractTags (resourcePath: string): Promise<string[]> {
   const component = parseComponent(file)
 
   if (component.template) {
+    if (component.template.lang === 'pug') {
+      try {
+        const pug = require('pug')
+        component.template.content = pug.render(component.template.content, { filename: resourcePath })
+      } catch (err) { /* Ignore compilation errors, they'll be picked up by other loaders */ }
+    }
     compile(component.template.content, {
       modules: [{
         postTransformNode: (el) => {

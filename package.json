@@ -47,6 +47,8 @@
     "husky": "latest",
     "jest": "latest",
     "nuxt-edge": "latest",
+    "pug": "^2.0.4",
+    "pug-plain-loader": "^1.0.0",
     "rimraf": "latest",
     "standard-version": "latest",
     "ts-jest": "latest",
