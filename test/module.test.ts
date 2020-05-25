@@ -49,6 +49,14 @@ describe('module', () => {
     expect(html).toContain('Icon Home')
   })
 
+  test('displays autoImported components in pug template', async () => {
+    const { html } = await nuxt.server.renderRoute('/pug')
+    expect(html).toContain('Foo')
+    expect(html).toContain('Bar')
+    expect(html).toContain('Base Button')
+    expect(html).toContain('Icon Home')
+  })
+
   test('watch: rebuild on add/remove', async () => {
     builder.generateRoutesAndFiles.mockClear()
     await callChokidarEvent('add')
