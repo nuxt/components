@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/nuxt/components/compare/v0.2.5...v0.3.0) (2020-05-25)
+
+
+### Features
+
+* add pug support ([#21](https://github.com/nuxt/components/issues/21)) ([52584dd](https://github.com/nuxt/components/commit/52584dda4ea949e307fbe7880bdc5322e147c453))
+
 ### [0.2.5](https://github.com/nuxt/components/compare/v0.2.4...v0.2.5) (2020-05-21)
 
 
