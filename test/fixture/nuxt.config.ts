@@ -12,9 +12,19 @@ const config: Configuration = {
   components: {
     dirs: [
       '~/components',
+      '~/non-existent',
       { path: '@/components/base', prefix: 'Base' },
       { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ }
     ]
+  },
+
+  hooks: {
+    'components:dirs' (dirs) {
+      dirs.push({
+        path: path.resolve(__dirname, 'my-lib/components'),
+        extendComponent: _c => ({ ..._c, export: _c.pascalName })
+      })
+    }
   }
 }
 

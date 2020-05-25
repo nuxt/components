@@ -21,17 +21,36 @@ jest.mock('chokidar', () => ({
 const callChokidarEvent = eventName => Promise.all(watchers.map(w => w.fn(eventName)))
 
 describe('module', () => {
-  let nuxt, builder
+  let nuxt, builder, hookFn
 
   beforeAll(async () => {
     nuxt = await loadNuxt({ rootDir: path.resolve('test/fixture'), for: 'dev' })
     builder = getBuilder(nuxt)
+    hookFn = jest.fn()
+    nuxt.hook('components:dirs', hookFn)
+
+    /* eslint-disable no-console */
+    const _warn = console.warn
+    console.warn = jest.fn()
     await builder.build()
+    expect(console.warn).toBeCalledTimes(1)
+    expect(console.warn).toBeCalledWith('Components directory not found: `~/non-existent`')
+    console.warn = _warn
+    /* eslint-enable no-console */
+
     builder.generateRoutesAndFiles = jest.fn()
   })
 
   test('displays autoImported components', async () => {
     const { html } = await nuxt.server.renderRoute('/')
+    expect(html).toContain('Foo')
+    expect(html).toContain('Bar')
+    expect(html).toContain('Base Button')
+    expect(html).toContain('Icon Home')
+  })
+
+  test('displays autoImported components in pug template', async () => {
+    const { html } = await nuxt.server.renderRoute('/pug')
     expect(html).toContain('Foo')
     expect(html).toContain('Bar')
     expect(html).toContain('Base Button')
@@ -50,6 +69,10 @@ describe('module', () => {
     builder.generateRoutesAndFiles.mockClear()
     await callChokidarEvent('foo')
     expect(builder.generateRoutesAndFiles).not.toHaveBeenCalled()
+  })
+
+  test('hook: components:dirs hook is called', () => {
+    expect(hookFn).toHaveBeenCalled()
   })
 
   afterAll(async () => {
