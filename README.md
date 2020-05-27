@@ -122,7 +122,7 @@ components: {
       prefix: 'foo'
     }
   ]
-]
+}
 ```
 
 ## Setup
