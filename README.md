@@ -170,7 +170,7 @@ You can use nuxt aliases (`~` and `@`) to refer to directories inside project or
 
 #### pattern
 
-- Type: `String` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
+- Type: `string` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
 - Default: `**/*.${extensions.join(',')}`
   - `extensions` being Nuxt `builder.supportedExtensions`
   - Resulting in `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
@@ -180,7 +180,7 @@ Accept Pattern that will be run against specified `path`.
 #### ignore
 
 - Type: `Array`
-- Items: `String` (must follow glob pattern style : https://github.com/isaacs/node-glob#glob-primer)
+- Items: `string` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
 - Default: `[]`
 
 Ignore patterns that will be run against specified `path`.
