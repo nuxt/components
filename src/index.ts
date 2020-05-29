@@ -41,7 +41,7 @@ export default <Module> function () {
   const { components } = this.options
 
   const options: Options = {
-    dirs: ['~/components'],
+    dirs: components !== undefined ? ['~/components'] : [],
     ...Array.isArray(components) ? { dirs: components } : components
   }
 
