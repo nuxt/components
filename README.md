@@ -161,7 +161,7 @@ Each item can be either string or object. String is shortcut to `{ path }`.
 
 Path (absolute or relative) to the directory containing your components.
 
-You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a NPM package path similar to require.
+You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
 
 #### pattern
 
@@ -294,7 +294,7 @@ And directly use the module components (prefixed with `awesome-`), our `pages/in
 
 It will automatically import the components only if used and also support HMR when updating your components in `node_modules/awesome-ui/components/`.
 
-Next: publish your `awesome-ui` module to [NPM](https://www.npmjs.com) and share it with the other Nuxters ✨
+Next: publish your `awesome-ui` module to [npm](https://www.npmjs.com) and share it with the other Nuxters ✨
 
 ## License
 
