@@ -34,11 +34,11 @@
 
 ## Usage
 
-Ensure using nuxt `2.13+` and `components` option is in `nuxt.config`:
+Ensure using nuxt `2.13+` and `components` option is set in `nuxt.config`:
 
 ```js
 export default {
-  components: true,
+  components: true
 }
 ```
 
@@ -66,7 +66,7 @@ No need anymore to manually import them in the `script` section!
 
 See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
 
-### Dynamic imports
+### Dynamic Imports
 
 To make a component imported dynamically (lazy loaded), all you need is adding a `Lazy` prefix in your templates.
 
@@ -98,7 +98,7 @@ export default {
 </script>
 ```
 
-### Nested components
+### Nested Components
 
 If you have components in nested directories:
 
@@ -139,7 +139,7 @@ components: {
 ## Directories
 
 By setting `components: true`, default `~/components` directory will be included.
-However you can customize module behaviour by proividing directories to scan.
+However you can customize module behaviour by proividing directories to scan:
 
 ```js
 export default {
@@ -150,9 +150,11 @@ export default {
 }
 ```
 
-Each item can be either `string` or `object`. String is shortcut to `{ path }` and don't worry about ordering or overlapping directories! Components module will take care of it! (each component will be only matched once by most precise path)
+Each item can be either string or object. String is shortcut to `{ path }`.
 
-### Object properties
+**Note:** Don't worry about ordering or overlapping directories! Components module will take care of it. Each component will be only matched once with longest path.
+
+### Directory Properties
 
 #### path
 
@@ -239,7 +241,7 @@ Watch specified `path` for changes, including file additions and file deletions.
 
 Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/configuration-build#transpile), by default (`'auto'`) it will set `transpile: true` if `node_modules/` is in `path`.
 
-## Library authors
+## Library Authors
 
 Making Vue Component libraries with automatic tree-shaking and component registration is now damn easy ✨
 
