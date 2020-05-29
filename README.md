@@ -8,7 +8,7 @@
 [![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
-> Module to scan and auto import components for Nuxt.js 2.10+
+> Module to scan and auto import components for Nuxt.js 2.13+
 
 - [🎲 Play on CodeSandbox](https://codesandbox.io/s/nuxt-components-cou9k)
 - [🎬 Demonstration video (49s)](https://www.youtube.com/watch?v=lQ8OBrgVVr8)
@@ -34,7 +34,17 @@
 
 ## Usage
 
-Create your components :
+Ensure using nuxt `2.13+` and `components` option is in `nuxt.config`.
+
+**Note:** If using nuxt `2.10...2.13`, you have to manually install and add `@nuxt/components` to `buildModules` inside `nuxt.config`.
+
+```js
+export default {
+  components: true,
+}
+```
+
+**Create your components:**
 
 ```bash
 components/
@@ -42,7 +52,7 @@ components/
   ComponentBar.vue
 ```
 
-Use them whenever you want, they will be auto imported in `.vue` files :
+**Use them whenever you want, they will be auto imported in `.vue` files :**
 
 ```html
 <template>
@@ -51,7 +61,7 @@ Use them whenever you want, they will be auto imported in `.vue` files :
 </template>
 ```
 
-No need anymore to manually import them in the `script` section !
+No need anymore to manually import them in the `script` section!
 
 See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
 
@@ -59,7 +69,7 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
 
 To make a component imported dynamically (lazy loaded), all you need is adding a `Lazy` prefix in your templates.
 
-> If you think this prefix should be customizable, feel free to create a feature issue !
+> If you think this prefix should be customizable, feel free to create a feature request issue!
 
 You are now being able to easily import a component on-demand :
 
@@ -125,72 +135,23 @@ components: {
 }
 ```
 
-## Setup
+## Directories
 
-### Nuxt 2.13+
-
-If you are using [nuxt-edge](https://www.npmjs.com/package/nuxt-edge) or Nuxt `2.13+` (release soon :eyes:) simply set `components: true` in your `nuxt.config.js`:
-
-```js
-export default {
-  components: true
-}
-```
-
-### Nuxt 2.10+
-
-1. Add `@nuxt/components` dependency to your project
-
-```bash
-yarn add --dev @nuxt/components # or npm install --save-dev @nuxt/components
-```
-
-2. Add `@nuxt/components` to the `buildModules` section of `nuxt.config.js`
+By setting `components: true`, default `~/components` directory will be included.
+However you can customize module behaviour by proividing directories to scan.
 
 ```js
 export default {
-  buildModules: [
-    // TODO: Remove when upgrading to nuxt 2.13+
-    '@nuxt/components'
-  ]
-}
-```
-
-### Nuxt < `2.10`
-
-Please upgrade your Nuxt version in order to use this module.
-
-
-## Options
-
-You can define the options of the module in the `components` property of your `nuxt.config.js`:
-
-```js
-export default {
-  buildModules: [
-    '@nuxt/components',
+  components: [
+    '~/components', // shortcut to { path: '~/components' }
+    { path: '~/components/awesome/', prefix: 'awesome' }
   ],
-  components: {
-    /* module options */
-  }
 }
 ```
 
-### `dirs`
+Each item can be either `string` or `object`. String is shortcut to `{ path }` and don't worry about ordering or overlapping directories! Components module will take care of it! (each component will be only matched once by most precise path)
 
-- Type: `Array`
-  - Items: `String` or `Object` (see definition below)
-- Default: `['~/components']`
-
-List of directories to scan, with customizable options when using `Object` syntax.
-
-`String` items are shortcut to `Object` with only `path` provided :
-
-```js
-'~/components' === { path: '~/components' }
-```
-
-#### `Object` syntax properties
+### Object properties
 
 #### path
 
@@ -199,7 +160,7 @@ List of directories to scan, with customizable options when using `Object` synta
 
 Path (absolute or relative) to the directory containing your components.
 
-We highly recommend using Nuxt aliases :
+You can use nuxt aliases (`~` and `@`) to refer to directories inside project or directly use a NPM package path similar to require.
 
 | Alias        | Directory                                               |
 | ------------ | ------------------------------------------------------- |
@@ -208,7 +169,7 @@ We highly recommend using Nuxt aliases :
 
 #### pattern
 
-- Type: `String` (must follow glob pattern style : https://github.com/isaacs/node-glob#glob-primer)
+- Type: `String` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
 - Default: `**/*.${extensions.join(',')}`
   - `extensions` being Nuxt `builder.supportedExtensions`
   - Resulting in `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
@@ -228,7 +189,9 @@ Ignore patterns that will be run against specified `path`.
 - Type: `String`
 - Default: `''` (no prefix)
 
-Prefix components for specified `path`.
+Prefix all matched components.
+
+Example below adds `awesome-`/`Awesome` prefix to the name of components in `awesome/` directory.
 
 ```js
 // nuxt.config.js
