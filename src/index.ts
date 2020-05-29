@@ -38,10 +38,11 @@ const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 export default <Module> function () {
   requireNuxtVersion.call(this, '2.10')
 
+  const { components } = this.options
+
   const options: Options = {
-    // @ts-ignore This is expected as default dirs will be overriden by user config
-    dirs: ['~/components'],
-    ...this.options.components
+    dirs: components !== undefined ? ['~/components'] : [],
+    ...Array.isArray(components) ? { dirs: components } : components
   }
 
   this.nuxt.hook('build:before', async (builder: any) => {
