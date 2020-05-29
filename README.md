@@ -150,7 +150,7 @@ export default {
 
 Each item can be either string or object. String is shortcut to `{ path }`.
 
-**Note:** Don't worry about ordering or overlapping directories! Components module will take care of it. Each component will be only matched once with longest path.
+**Note:** Don't worry about ordering or overlapping directories! Components module will take care of it. Each file will be only matched once with longest path.
 
 ### Directory Properties
 
@@ -161,12 +161,7 @@ Each item can be either string or object. String is shortcut to `{ path }`.
 
 Path (absolute or relative) to the directory containing your components.
 
-You can use nuxt aliases (`~` and `@`) to refer to directories inside project or directly use a NPM package path similar to require.
-
-| Alias        | Directory                                               |
-| ------------ | ------------------------------------------------------- |
-| `~` or `@`   | [srcDir](https://nuxtjs.org/api/configuration-srcdir)   |
-| `~~` or `@@` | [rootDir](https://nuxtjs.org/api/configuration-rootdir) |
+You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a NPM package path similar to require.
 
 #### pattern
 
