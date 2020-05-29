@@ -34,15 +34,16 @@
 
 ## Usage
 
-Ensure using nuxt `2.13+` and `components` option is in `nuxt.config`.
-
-**Note:** If using nuxt `2.10...2.13`, you have to manually install and add `@nuxt/components` to `buildModules` inside `nuxt.config`.
+Ensure using nuxt `2.13+` and `components` option is in `nuxt.config`:
 
 ```js
 export default {
   components: true,
 }
 ```
+
+**Note:** If using nuxt `2.10...2.13`, you have to also manually install and add `@nuxt/components` to `buildModules` inside `nuxt.config`.
+
 
 **Create your components:**
 
