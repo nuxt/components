@@ -5,6 +5,8 @@ import { getBuilder } from '@nuxt/builder-edge'
 jest.setTimeout(60000)
 jest.mock('esm', () => module => (file: string) => /.(js|mjs)$/.test(file) ? jest.requireActual('esm')(module)(file) : require(file))
 
+const warn = console.warn = jest.fn() // eslint-disable-line no-console
+
 const watchers: any[] = []
 
 jest.mock('chokidar', () => ({
@@ -29,14 +31,8 @@ describe('module', () => {
     hookFn = jest.fn()
     nuxt.hook('components:dirs', hookFn)
 
-    /* eslint-disable no-console */
-    const _warn = console.warn
-    console.warn = jest.fn()
     await builder.build()
-    expect(console.warn).toBeCalledTimes(1)
-    expect(console.warn).toBeCalledWith('Components directory not found: `~/non-existent`')
-    console.warn = _warn
-    /* eslint-enable no-console */
+    expect(warn).toBeCalledWith('Components directory not found: `~/non-existent`')
 
     builder.generateRoutesAndFiles = jest.fn()
   })
