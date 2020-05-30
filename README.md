@@ -210,15 +210,10 @@ Example below adds `awesome-`/`Awesome` prefix to the name of components in `awe
 ```js
 // nuxt.config.js
 export default {
-  components: {
-    dirs: [
+  components: [
       '~/components',
-      {
-        path: '~/components/awesome/',
-        prefix: 'awesome'
-      }
-    ]
-  }
+      { path: '~/components/awesome/', prefix: 'awesome' }
+  ]
 }
 ```
 
