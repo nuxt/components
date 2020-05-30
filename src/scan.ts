@@ -1,4 +1,4 @@
-import { basename, extname, join } from 'path'
+import { basename, extname, join, dirname } from 'path'
 import glob from 'glob'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 
@@ -51,7 +51,11 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       }
       processedPaths.push(filePath)
 
-      const fileName = basename(file, extname(file))
+      let fileName = basename(file, extname(file))
+      if (fileName === 'index') {
+        fileName = basename(dirname(file), extname(file))
+      }
+
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
