@@ -40,21 +40,31 @@ function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest 
 
 export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<Component[]> {
   const components: Component[] = []
-  const processedPaths: string[] = []
+  const filePaths = new Set<string>()
 
   for (const { path, pattern, ignore, prefix, extendComponent } of dirs.sort(sortDirsByPathLength)) {
-    for (const file of await glob.sync(pattern!, { cwd: path, ignore })) {
-      let filePath = join(path, file)
+    const resolvedNames = new Map<string, string>()
 
-      if (processedPaths.includes(filePath)) {
+    for (const _file of await glob.sync(pattern!, { cwd: path, ignore })) {
+      let filePath = join(path, _file)
+
+      if (filePaths.has(filePath)) { continue }
+      filePaths.add(filePath)
+
+      let fileName = basename(filePath, extname(filePath))
+      if (fileName === 'index') {
+        fileName = basename(dirname(filePath), extname(filePath))
+      }
+
+      if (resolvedNames.has(fileName)) {
+        // eslint-disable-next-line no-console
+        console.warn(`Two component files resolving to the same name \`${fileName}\`:\n` +
+          `\n - ${filePath}` +
+          `\n - ${resolvedNames.get(fileName)}`
+        )
         continue
       }
-      processedPaths.push(filePath)
-
-      let fileName = basename(file, extname(file))
-      if (fileName === 'index') {
-        fileName = basename(dirname(file), extname(file))
-      }
+      resolvedNames.set(fileName, filePath)
 
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
