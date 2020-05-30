@@ -163,12 +163,30 @@ Path (absolute or relative) to the directory containing your components.
 
 You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
 
+#### extensions
+
+- Type: `Array<string>`
+- Default:
+  - Extensions supported by nuxt builder (`builder.supportedExtensions`)
+  - Default supported extensions `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
+
+**Example:** Support multi-file component structure
+
+If you prefer to split your SFCs into `.js`, `.vue` and `.css`, you can only enable `.vue` files to be scanned:
+
+```js
+// nuxt.config.js
+export default {
+  components: [
+    { path: '~/components', extensions: ['vue'] }
+  ]
+}
+```
+
 #### pattern
 
 - Type: `string` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
 - Default: `**/*.${extensions.join(',')}`
-  - `extensions` being Nuxt `builder.supportedExtensions`
-  - Resulting in `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
 
 Accept Pattern that will be run against specified `path`.
 
