@@ -1,6 +1,8 @@
 import path from 'path'
 import { scanComponents } from '../../src/scan'
 
+export const warn = console.warn = jest.fn() // eslint-disable-line no-console
+
 export function scanFixtureComponents () {
   const srcDir = path.resolve('test/fixture')
   return scanComponents([

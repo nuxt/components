@@ -1,5 +1,5 @@
 <template>
   <div>
-    Base Button
+    Second Button
   </div>
 </template>

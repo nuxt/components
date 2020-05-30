@@ -1,16 +1,22 @@
-import { scanFixtureComponents } from './utils'
+import { warn, scanFixtureComponents } from './utils'
 
 test('scanner', async () => {
   const components = await scanFixtureComponents()
 
-  expect(components.map(c => c.pascalName)).toEqual([
+  const expectedComponents = [
     'BaseButton',
-    'LazyBaseButton',
+    'BaseSecondButton',
     'IconHome',
-    'LazyIconHome',
     'Bar',
-    'LazyBar',
-    'Foo',
-    'LazyFoo'
-  ])
+    'Foo'
+  ]
+
+  expect(components.map(c => c.pascalName).sort()).toEqual([
+    ...expectedComponents,
+    ...expectedComponents.map(n => 'Lazy' + n)
+  ].sort())
+
+  expect(warn).toBeCalledWith(
+    expect.stringMatching('Two component files resolving to the same name `SecondButton`')
+  )
 })
