@@ -127,10 +127,7 @@ If you want to keep the filename as `Bar.vue`, consider using the `prefix` optio
 ```js
 components: [
     '~/components/',
-    {
-      path: '~/components/foo/',
-      prefix: 'foo'
-    }
+    { path: '~/components/foo/', prefix: 'foo' }
 ]
 ```
 
@@ -163,12 +160,39 @@ Path (absolute or relative) to the directory containing your components.
 
 You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
 
+#### extensions
+
+- Type: `Array<string>`
+- Default:
+  - Extensions supported by nuxt builder (`builder.supportedExtensions`)
+  - Default supported extensions `['vue', 'js']` or `['vue', 'js', 'ts', 'tsx']` depending on your environment
+
+**Example:** Support multi-file component structure
+
+If you prefer to split your SFCs into `.js`, `.vue` and `.css`, you can only enable `.vue` files to be scanned:
+
+```
+├── src
+│   └── components
+│         └── componentC
+│           └── componentC.vue
+│           └── componentC.js
+│           └── componentC.scss
+```
+
+```js
+// nuxt.config.js
+export default {
+  components: [
+    { path: '~/components', extensions: ['vue'] }
+  ]
+}
+```
+
 #### pattern
 
 - Type: `string` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
 - Default: `**/*.${extensions.join(',')}`
-  - `extensions` being Nuxt `builder.supportedExtensions`
-  - Resulting in `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
 
 Accept Pattern that will be run against specified `path`.
 
@@ -192,15 +216,10 @@ Example below adds `awesome-`/`Awesome` prefix to the name of components in `awe
 ```js
 // nuxt.config.js
 export default {
-  components: {
-    dirs: [
+  components: [
       '~/components',
-      {
-        path: '~/components/awesome/',
-        prefix: 'awesome'
-      }
-    ]
-  }
+      { path: '~/components/awesome/', prefix: 'awesome' }
+  ]
 }
 ```
 
@@ -298,9 +317,7 @@ Next: publish your `awesome-ui` module to [npm](https://www.npmjs.com) and share
 
 ## License
 
-[MIT License](./LICENSE)
-
-Copyright (c) Nuxt.js Team
+[MIT](./LICENSE)
 
 <!-- Badges -->
 

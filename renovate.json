@@ -7,8 +7,5 @@
   },
   "labels": [
     "dependencies"
-  ],
-  "ignoreDeps": [
-    "typescript"
   ]
 }
