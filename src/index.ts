@@ -139,6 +139,6 @@ const componentsModule = <Module> function () {
 }
 
 // @ts-ignore
-compnentsModule.meta = { name: '@nuxt/components' }
+componentsModule.meta = { name: '@nuxt/components' }
 
 export default componentsModule
