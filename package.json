@@ -27,6 +27,7 @@
     "semver": "^7.3.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.10.2",
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
