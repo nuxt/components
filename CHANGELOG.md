@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/nuxt/components/compare/v0.3.1...v0.3.2) (2020-06-01)
+
+
+### Features
+
+* support `dir.extensions` ([#32](https://github.com/nuxt/components/issues/32)) ([0b76ddd](https://github.com/nuxt/components/commit/0b76dddd5513ee9048c73142d8fbafb383d36f6f))
+* use globby ([#33](https://github.com/nuxt/components/issues/33)) ([cdac9b9](https://github.com/nuxt/components/commit/cdac9b9856fad581d3392042c307d3839288edb7))
+
+
+### Bug Fixes
+
+* **scan:** support index.{ext} ([#30](https://github.com/nuxt/components/issues/30)) ([8fcf984](https://github.com/nuxt/components/commit/8fcf984487b7babef1b58e6a5fca172f8e96d5b4))
+
 ### [0.3.1](https://github.com/nuxt/components/compare/v0.3.0...v0.3.1) (2020-05-29)
 
 
