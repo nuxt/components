@@ -1,5 +1,5 @@
 import { basename, extname, join, dirname } from 'path'
-import glob from 'glob'
+import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 
 const LAZY_PREFIX = 'lazy'
@@ -8,7 +8,7 @@ const isWindows = process.platform.startsWith('win')
 
 export interface ScanDir {
   path: string
-  pattern?: string
+  pattern?: string | string[]
   ignore?: string[]
   prefix?: string
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
@@ -42,10 +42,10 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const components: Component[] = []
   const filePaths = new Set<string>()
 
-  for (const { path, pattern, ignore, prefix, extendComponent } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
-    for (const _file of await glob.sync(pattern!, { cwd: path, ignore })) {
+    for (const _file of await globby(pattern!, { cwd: path, ignore })) {
       let filePath = join(path, _file)
 
       if (filePaths.has(filePath)) { continue }
