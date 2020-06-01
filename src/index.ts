@@ -72,7 +72,7 @@ export default <Module> function () {
         enabled,
         path: dirPath,
         extensions,
-        pattern: dirOptions.pattern || `**/*.{${extensions.join(',')}}`,
+        pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
         ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
         transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
