@@ -36,7 +36,7 @@ export interface Options {
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
-export default <Module> function () {
+const componentsModule = <Module> function () {
   requireNuxtVersion.call(this, '2.10')
 
   const { components } = this.options
@@ -137,7 +137,12 @@ export default <Module> function () {
   // Add Webpack entry for runtime installComponents function
   this.nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
     for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
-      ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, 'installComponents.js'))
+      ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
     }
   })
 }
+
+// @ts-ignore
+componentsModule.meta = { name: '@nuxt/components' }
+
+export default componentsModule

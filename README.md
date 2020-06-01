@@ -317,9 +317,7 @@ Next: publish your `awesome-ui` module to [npm](https://www.npmjs.com) and share
 
 ## License
 
-[MIT License](./LICENSE)
-
-Copyright (c) Nuxt.js Team
+[MIT](./LICENSE)
 
 <!-- Badges -->
 

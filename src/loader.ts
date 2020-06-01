@@ -3,11 +3,6 @@ import loaderUtils from 'loader-utils'
 import { extractTags } from './tagExtractor'
 import { Component, matcher } from './scan'
 
-interface LoaderOptions {
-  dependencies: string[]
-  getComponents(): Component[]
-}
-
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
   const imports = '{' + components.map(c => `${c.pascalName}: ${c.import}`).join(',') + '}'
 
@@ -32,7 +27,11 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
 
-    const { dependencies, getComponents } = loaderUtils.getOptions(this) as LoaderOptions
+    const { dependencies, getComponents } = {
+      dependencies: [],
+      getComponents: () => [],
+      ...loaderUtils.getOptions(this)
+    }
 
     for (const dependency of dependencies) {
       this.addDependency(dependency)
