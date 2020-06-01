@@ -12,6 +12,7 @@ const config: Configuration = {
   components: {
     dirs: [
       '~/components',
+      { path: '~/components/multifile', extensions: ['vue'] },
       '~/non-existent',
       { path: '@/components/base', prefix: 'Base' },
       { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ }

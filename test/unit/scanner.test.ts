@@ -5,6 +5,7 @@ test('scanner', async () => {
 
   const expectedComponents = [
     'BaseButton',
+    'ComponentC',
     'BaseSecondButton',
     'IconHome',
     'Bar',

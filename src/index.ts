@@ -25,6 +25,7 @@ declare module '@nuxt/types/config/hooks' {
 
 export interface ComponentsDir extends ScanDir {
   watch?: boolean
+  extensions?: string[]
   transpile?: 'auto' | boolean
 }
 
@@ -64,11 +65,14 @@ export default <Module> function () {
         console.warn('Components directory not found: `' + dirPath + '`')
       }
 
+      const extensions = dirOptions.extensions || builder.supportedExtensions
+
       return {
         ...dirOptions,
         enabled,
         path: dirPath,
-        pattern: dirOptions.pattern || `**/*.{${builder.supportedExtensions.join(',')}}`,
+        extensions,
+        pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
         ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
         transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
