@@ -127,10 +127,7 @@ If you want to keep the filename as `Bar.vue`, consider using the `prefix` optio
 ```js
 components: [
     '~/components/',
-    {
-      path: '~/components/foo/',
-      prefix: 'foo'
-    }
+    { path: '~/components/foo/', prefix: 'foo' }
 ]
 ```
 
@@ -173,6 +170,15 @@ You can use nuxt aliases (`~` or `@`) to refer to directories inside project or 
 **Example:** Support multi-file component structure
 
 If you prefer to split your SFCs into `.js`, `.vue` and `.css`, you can only enable `.vue` files to be scanned:
+
+```
+├── src
+│   └── components
+│         └── componentC
+│           └── componentC.vue
+│           └── componentC.js
+│           └── componentC.scss
+```
 
 ```js
 // nuxt.config.js
