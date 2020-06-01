@@ -3,4 +3,4 @@ dist
 .nuxt
 coverage
 templates
-src/installComponents.js
+lib/installComponents.js

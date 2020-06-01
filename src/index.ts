@@ -133,7 +133,7 @@ export default <Module> function () {
   // Add Webpack entry for runtime installComponents function
   this.nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
     for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
-      ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, 'installComponents.js'))
+      ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
     }
   })
 }
