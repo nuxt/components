@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/nuxt/components/compare/v0.3.2...v0.3.3) (2020-06-01)
+
+
+### Bug Fixes
+
+* **build:** add loader entrypoint ([b2275bb](https://github.com/nuxt/components/commit/b2275bb4deb6f777609d5bb08be0bf4614bbc32d))
+
 ### [0.3.2](https://github.com/nuxt/components/compare/v0.3.1...v0.3.2) (2020-06-01)
 
 
