@@ -165,7 +165,7 @@ You can use nuxt aliases (`~` or `@`) to refer to directories inside project or 
 - Type: `Array<string>`
 - Default:
   - Extensions supported by nuxt builder (`builder.supportedExtensions`)
-  - Default supported extensions `**/*.{vue,js}` or `**/*.{vue,js,ts,tsx}` depending on your environment
+  - Default supported extensions `['vue', 'js']` or `['vue', 'js', 'ts', 'tsx']` depending on your environment
 
 **Example:** Support multi-file component structure
 
