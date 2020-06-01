@@ -30,6 +30,7 @@
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
+    "@types/glob": "^7.1.1",
     "@types/jest": "latest",
     "@types/loader-utils": "latest",
     "@types/lodash": "latest",
