@@ -46,7 +46,7 @@
     "rollup-plugin-typescript2": "latest",
     "standard-version": "latest",
     "ts-jest": "latest",
-    "typescript": "~3.8"
+    "typescript": "latest"
   },
   "peerDependencies": {
     "webpack": "*"
