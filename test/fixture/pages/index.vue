@@ -5,5 +5,6 @@
     <BaseButton />
     <IconHome />
     <MAwesome />
+    <Functional />
   </div>
 </template>
