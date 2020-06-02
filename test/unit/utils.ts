@@ -8,16 +8,16 @@ export function scanFixtureComponents () {
   return scanComponents([
     {
       path: path.resolve(srcDir, 'components'),
-      pattern: '**/*.{vue,ts}'
+      pattern: '**/*.{vue,js,ts}'
     },
     {
       path: path.resolve(srcDir, 'components/base'),
-      pattern: '**/*.{vue,ts}',
+      pattern: '**/*.{vue,js,ts}',
       prefix: 'base'
     },
     {
       path: path.resolve(srcDir, 'components/icons'),
-      pattern: '**/*.{vue,ts}',
+      pattern: '**/*.{vue,js,ts}',
       prefix: 'icon'
     }
   ], srcDir)
