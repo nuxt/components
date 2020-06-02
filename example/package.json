@@ -1,7 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "nuxt": "npm:nuxt-edge"
+    "nuxt": "npm:nuxt-edge",
+    "@nuxt/components": "latest"
   },
   "scripts": {
     "dev": "nuxt",
