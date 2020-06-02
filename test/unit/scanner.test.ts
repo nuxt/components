@@ -9,6 +9,7 @@ test('scanner', async () => {
     'BaseSecondButton',
     'IconHome',
     'Bar',
+    'Big',
     'Foo',
     'Functional',
     'FunctionalChild'
