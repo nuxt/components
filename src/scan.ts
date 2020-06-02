@@ -71,6 +71,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
       let chunkName = shortPath.replace(extname(shortPath), '')
 
+      // istanbul ignore if
       if (isWindows) {
         filePath = filePath.replace(/\\/g, '\\\\')
         chunkName = chunkName.replace('/', '_')

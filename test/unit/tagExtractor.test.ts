@@ -4,8 +4,7 @@ import { extractTags } from '../../src/tagExtractor'
 test('with template', async () => {
   const tags = await extractTags(path.resolve('test/fixture/pages/index.vue'))
 
-  expect(tags).toHaveLength(6)
-  expect(tags).toEqual(['Foo', 'LazyBar', 'BaseButton', 'IconHome', 'MAwesome', 'div'])
+  expect(tags).toEqual(['Foo', 'LazyBar', 'BaseButton', 'IconHome', 'MAwesome', 'Functional', 'div'])
 })
 
 test('without template', async () => {

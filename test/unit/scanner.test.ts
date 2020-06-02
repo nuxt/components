@@ -9,7 +9,9 @@ test('scanner', async () => {
     'BaseSecondButton',
     'IconHome',
     'Bar',
-    'Foo'
+    'Foo',
+    'Functional',
+    'FunctionalChild'
   ]
 
   expect(components.map(c => c.pascalName).sort()).toEqual([
