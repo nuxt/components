@@ -119,8 +119,7 @@ const componentsModule = <Module> function () {
 
     // Add templates
     const templates = [
-      'components/components.js',
-      'components/components.json',
+      'components.js',
       'vetur/tags.json'
     ]
     for (const t of templates) {

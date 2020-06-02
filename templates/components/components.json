@@ -1,6 +1,0 @@
-<%= JSON.stringify(options.getComponents().map(component => {
-  const c = { ...component }
-  delete c.import
-  delete c.filePath // Making meta fs-independent
-  return c
-}), null, 2) %>
