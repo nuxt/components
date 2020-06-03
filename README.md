@@ -34,7 +34,7 @@
 
 ## Usage
 
-Ensure using nuxt `2.13+` and `components` option is set in `nuxt.config`:
+Set the `components` option in `nuxt.config`:
 
 ```js
 export default {
