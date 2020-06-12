@@ -1,3 +1,5 @@
 <template>
-  <div>ComponentB</div>
+  <div>
+    Component B
+  </div>
 </template>

@@ -1,6 +1,5 @@
-<template functional>
+<template>
   <div>
     Component A
-    <componentB />
   </div>
 </template>
