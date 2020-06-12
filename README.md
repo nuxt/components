@@ -10,7 +10,7 @@
 
 > Module to scan and auto import components for Nuxt.js 2.13+
 
-- [🎲 Play on CodeSandbox](https://codesandbox.io/s/nuxt-components-cou9k)
+- [🎲 Play on CodeSandbox](https://githubbox.com/nuxt/components/tree/master/example)
 - [🎬 Demonstration video (49s)](https://www.youtube.com/watch?v=lQ8OBrgVVr8)
 - [📖 Release Notes](./CHANGELOG.md)
 
