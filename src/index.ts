@@ -37,25 +37,27 @@ const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val ==
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
 const componentsModule = <Module> function () {
-  requireNuxtVersion.call(this, '2.10')
+  const { nuxt } = this
 
-  const { components } = this.options
+  requireNuxtVersion(nuxt, '2.10')
+
+  const { components } = nuxt.options
 
   const options: Options = {
     dirs: components !== undefined ? ['~/components'] : [],
     ...Array.isArray(components) ? { dirs: components } : components
   }
 
-  this.nuxt.hook('build:before', async (builder: any) => {
+  nuxt.hook('build:before', async (builder: any) => {
     const nuxtIgnorePatterns: string[] = builder.ignore.ignore ? builder.ignore.ignore._rules.map((rule: any) => rule.pattern) : /* istanbul ignore next */ []
 
-    await this.nuxt.callHook('components:dirs', options.dirs)
+    await nuxt.callHook('components:dirs', options.dirs)
 
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions: ComponentsDir = typeof dir === 'object' ? dir : { path: dir }
 
       let dirPath = dirOptions.path
-      try { dirPath = getDir(this.nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) { }
+      try { dirPath = getDir(nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) { }
 
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
@@ -78,10 +80,10 @@ const componentsModule = <Module> function () {
       }
     }).filter(d => d.enabled)
 
-    this.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
+    nuxt.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
 
-    let components = await scanComponents(componentDirs, this.options.srcDir!)
-    await this.nuxt.callHook('components:extend', components)
+    let components = await scanComponents(componentDirs, nuxt.options.srcDir!)
+    await nuxt.callHook('components:extend', components)
 
     this.extendBuild((config) => {
       const { rules }: any = new RuleSet(config.module!.rules)
@@ -89,7 +91,7 @@ const componentsModule = <Module> function () {
       vueRule.use.unshift({
         loader: require.resolve('./loader'),
         options: {
-          dependencies: this.options.dev ? componentDirs.map(dir => dir.path) : /* istanbul ignore next */ [],
+          dependencies: nuxt.options.dev ? componentDirs.map(dir => dir.path) : /* istanbul ignore next */ [],
           getComponents: () => components
         }
       })
@@ -98,21 +100,21 @@ const componentsModule = <Module> function () {
 
     // Watch
     // istanbul ignore else
-    if (this.options.dev && componentDirs.some(dir => dir.watch !== false)) {
-      const watcher = chokidar.watch(componentDirs.filter(dir => dir.watch !== false).map(dir => dir.path), this.options.watchers!.chokidar)
+    if (nuxt.options.dev && componentDirs.some(dir => dir.watch !== false)) {
+      const watcher = chokidar.watch(componentDirs.filter(dir => dir.watch !== false).map(dir => dir.path), nuxt.options.watchers!.chokidar)
       watcher.on('all', async (eventName) => {
         if (!['add', 'unlink'].includes(eventName)) {
           return
         }
 
-        components = await scanComponents(componentDirs, this.options.srcDir!)
-        await this.nuxt.callHook('components:extend', components)
+        components = await scanComponents(componentDirs, nuxt.options.srcDir!)
+        await nuxt.callHook('components:extend', components)
 
         await builder.generateRoutesAndFiles()
       })
 
       // Close watcher on nuxt close
-      this.nuxt.hook('close', () => {
+      nuxt.hook('close', () => {
         watcher.close()
       })
     }
@@ -136,7 +138,7 @@ const componentsModule = <Module> function () {
   })
 
   // Add Webpack entry for runtime installComponents function
-  this.nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
+  nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
     for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
       ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
     }
