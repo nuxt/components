@@ -1,12 +1,11 @@
 
 import chalk from 'chalk'
 import semver from 'semver'
-import { ModuleThis } from '@nuxt/types/config/module'
 
-export function requireNuxtVersion (this: ModuleThis, version: string) {
+export function requireNuxtVersion (nuxt: any, version: string) {
   const pkgName = require('../package.json').name
-  const currentVersion = semver.coerce(this.nuxt.constructor.version)!
-  const requiredVersion = semver.coerce(version)!
+  const currentVersion = semver.coerce(nuxt?.constructor?.version || '0.0.0')!
+  const requiredVersion = semver.coerce(version || '0.0.0')!
 
   if (semver.lt(currentVersion, requiredVersion)) {
     throw new Error(`\n
