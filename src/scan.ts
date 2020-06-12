@@ -11,6 +11,7 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
+  global?: boolean,
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
@@ -24,6 +25,7 @@ export interface Component {
   shortPath: string
   async?: boolean
   chunkName: string
+  global: boolean
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
@@ -41,12 +43,17 @@ function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest 
 export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<Component[]> {
   const components: Component[] = []
   const filePaths = new Set<string>()
+  const scannedPaths: string[] = []
 
-  for (const { path, pattern, ignore = [], prefix, extendComponent } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent, global } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
       let filePath = join(path, _file)
+
+      if (scannedPaths.find(d => filePath.startsWith(d))) {
+        continue
+      }
 
       if (filePaths.has(filePath)) { continue }
       filePaths.add(filePath)
@@ -85,7 +92,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         shortPath,
         import: '',
         asyncImport: '',
-        export: 'default'
+        export: 'default',
+        global: Boolean(global)
       })
 
       if (typeof extendComponent === 'function') {
@@ -106,6 +114,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         import: _asyncImport
       }))
     }
+
+    scannedPaths.push(path)
   }
 
   return components

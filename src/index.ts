@@ -117,19 +117,20 @@ const componentsModule = <Module> function () {
       })
     }
 
+    // Global components
+
     // Add templates
+    const getComponents = () => components
     const templates = [
-      'components/components.js',
-      'components/components.json',
+      'components/index.js',
+      'components/plugin.js',
       'vetur/tags.json'
     ]
     for (const t of templates) {
-      this.addTemplate({
+      this[t.includes('plugin') ? 'addPlugin' : 'addTemplate']({
         src: path.resolve(__dirname, '../templates', t),
         fileName: t,
-        options: {
-          getComponents: () => components
-        }
+        options: { getComponents }
       })
     }
   })
