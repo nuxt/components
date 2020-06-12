@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/nuxt/components/compare/v0.3.3...v0.3.4) (2020-06-12)
+
+
+### Features
+
+* support functional components ([#41](https://github.com/nuxt/components/issues/41)) ([5fe2de6](https://github.com/nuxt/components/commit/5fe2de6aa3cb54055e596657c5cffdf1e27f1c2b))
+* support global async components ([#43](https://github.com/nuxt/components/issues/43)) ([6dfef95](https://github.com/nuxt/components/commit/6dfef95fbc818e8047db698acba484944340d253))
+
+
+### Bug Fixes
+
+* disable telemetry for example ([73fe953](https://github.com/nuxt/components/commit/73fe9537c0280344433878642f04a14401630204))
+* provide default value for versions ([16eb18a](https://github.com/nuxt/components/commit/16eb18ab4f30581518be56b30be5beb5c01ac473))
+
 ### [0.3.3](https://github.com/nuxt/components/compare/v0.3.2...v0.3.3) (2020-06-01)
 
 
