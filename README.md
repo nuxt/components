@@ -18,7 +18,6 @@
 
 - [Features](#features)
 - [Usage](#usage)
-- [Setup](#setup)
 - [Options](#options)
 - [Library authors](#library-authors)
 - [License](#license)
@@ -29,7 +28,7 @@
 - Multiple paths with customizable prefixes and lookup/ignore patterns
 - Dynamic import (**aka** Lazy loading) Support
 - Hot reloading Support
-- Transpiling Support (useful for component [libraries' authors](#library-authors))
+- Transpiling Support (useful for component [library authors](#library-authors))
 - Fully tested!
 
 ## Usage
