@@ -5,9 +5,9 @@ const globalComponents = {
 <%= globalComponents.map(c => {
   const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
   return `  ${c.pascalName.replace(/^Lazy/, '')}: import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => ${exp})`
-}).join('\n') %>
+}).join(',\n') %>
 }
 
 for (const name in globalComponents) {
-    Vue.component(name, globalComponents[name])
+  Vue.component(name, globalComponents[name])
 }
