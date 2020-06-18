@@ -10,6 +10,7 @@ test('scanner', async () => {
     'IconHome',
     'Bar',
     'Big',
+    'Mouse',
     'Foo',
     'Functional',
     'FunctionalChild'
