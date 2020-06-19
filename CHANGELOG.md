@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/nuxt/components/compare/v1.0.0...v1.0.1) (2020-06-19)
+
+
+### Bug Fixes
+
+* **plugin:** add missing wrapper ([9e42435](https://github.com/nuxt/components/commit/9e4243577c0da145f8ee5d17a9519b8fe0d70187))
+
 ## [1.0.0](https://github.com/nuxt/components/compare/v0.3.4...v1.0.0) (2020-06-18)
 
 
