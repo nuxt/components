@@ -4,7 +4,7 @@ import Vue from 'vue'
 const globalComponents = {
 <%= globalComponents.map(c => {
   const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-  return `  ${c.pascalName.replace(/^Lazy/, '')}: import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => ${exp})`
+  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => ${exp})`
 }).join(',\n') %>
 }
 
