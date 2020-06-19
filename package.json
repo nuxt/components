@@ -48,9 +48,6 @@
     "ts-jest": "latest",
     "typescript": "latest"
   },
-  "peerDependencies": {
-    "webpack": "*"
-  },
   "publishConfig": {
     "access": "public"
   }
