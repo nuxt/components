@@ -39,7 +39,7 @@ const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 const componentsModule = <Module> function () {
   const { nuxt } = this
 
-  requireNuxtVersion(nuxt, '2.10')
+  requireNuxtVersion(nuxt?.constructor?.version, '2.10')
 
   const { components } = nuxt.options
 
