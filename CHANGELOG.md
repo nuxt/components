@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.4](https://github.com/nuxt/components/compare/v1.0.3...v1.0.4) (2020-06-23)
+
+
+### Bug Fixes
+
+* ensure requireNuxtVersion skips when currentVersion is nullish ([bf7dbfa](https://github.com/nuxt/components/commit/bf7dbfadd81e261b69e7615cf2cd7a87200e2589))
+
 ### [1.0.3](https://github.com/nuxt/components/compare/v1.0.2...v1.0.3) (2020-06-19)
 
 
