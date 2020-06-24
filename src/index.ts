@@ -38,13 +38,16 @@ const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
 const componentsModule = <Module> function () {
   const { nuxt } = this
+  const { components } = nuxt.options
+
+  if (!components) {
+    return
+  }
 
   requireNuxtVersion(nuxt?.constructor?.version, '2.10')
 
-  const { components } = nuxt.options
-
   const options: Options = {
-    dirs: components !== undefined ? ['~/components'] : [],
+    dirs: ['~/components'],
     ...Array.isArray(components) ? { dirs: components } : components
   }
 
