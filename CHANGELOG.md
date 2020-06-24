@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/nuxt/components/compare/v1.0.4...v1.0.5) (2020-06-24)
+
+
+### Bug Fixes
+
+* disable module if no components option provided ([#60](https://github.com/nuxt/components/issues/60)) ([8be7b26](https://github.com/nuxt/components/commit/8be7b261f0c05364ef441ef021f93fb39f24ec82))
+
 ### [1.0.4](https://github.com/nuxt/components/compare/v1.0.3...v1.0.4) (2020-06-23)
 
 
