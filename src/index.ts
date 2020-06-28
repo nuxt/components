@@ -13,7 +13,7 @@ type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
 type componentsExtendHook = (components: (ComponentsDir|ScanDir)[]) => void | Promise<void>
 
 declare module '@nuxt/types/config/hooks' {
-  interface NuxtConfigurationHooks {
+  interface NuxtOptionsHooks {
     'components:dirs'?: componentsDirHook
     'components:extend'?: componentsExtendHook
     components?: {
@@ -31,6 +31,12 @@ export interface ComponentsDir extends ScanDir {
 
 export interface Options {
   dirs: (string | ComponentsDir)[]
+}
+
+declare module '@nuxt/types/config/index' {
+  interface NuxtOptions {
+    components: boolean | Options | Options['dirs']
+  }
 }
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'

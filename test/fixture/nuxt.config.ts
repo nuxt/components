@@ -1,8 +1,8 @@
 import path from 'path'
-import { Configuration } from '@nuxt/types'
+import { NuxtConfig } from '@nuxt/types'
 import nuxtComponents from '../../src'
 
-const config: Configuration = {
+const config: NuxtConfig = {
   buildModules: [
     '@nuxt/typescript-build',
     nuxtComponents
