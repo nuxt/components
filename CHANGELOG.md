@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.6](https://github.com/nuxt/components/compare/v1.0.5...v1.0.6) (2020-06-28)
+
+
+### Bug Fixes
+
+* **types:** extend NuxtOptions and use 2.13 NuxtOptionsHooks ([dd9ec90](https://github.com/nuxt/components/commit/dd9ec90d20b472fe08f88480d84451f36371fc2e))
+
 ### [1.0.5](https://github.com/nuxt/components/compare/v1.0.4...v1.0.5) (2020-06-24)
 
 
