@@ -11,7 +11,7 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
-  global?: boolean,
+  global?: boolean | 'dev',
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
