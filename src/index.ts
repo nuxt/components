@@ -70,6 +70,11 @@ const componentsModule = <Module> function () {
 
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
+      // Normalize global option
+      if (dirOptions.global === 'dev') {
+        dirOptions.global = nuxt.options.dev
+      }
+
       const enabled = fs.existsSync(dirPath)
       if (!enabled && dirOptions.path !== '~/components') {
         // eslint-disable-next-line no-console
@@ -94,18 +99,28 @@ const componentsModule = <Module> function () {
     let components = await scanComponents(componentDirs, nuxt.options.srcDir!)
     await nuxt.callHook('components:extend', components)
 
-    this.extendBuild((config) => {
-      const { rules }: any = new RuleSet(config.module!.rules)
-      const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
-      vueRule.use.unshift({
-        loader: require.resolve('./loader'),
-        options: {
-          dependencies: nuxt.options.dev ? componentDirs.map(dir => dir.path) : /* istanbul ignore next */ [],
-          getComponents: () => components
+    // Add loader for tree shaking
+    if (componentDirs.some(dir => !dir.global)) {
+      this.extendBuild((config) => {
+        const { rules }: any = new RuleSet(config.module!.rules)
+        const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
+        vueRule.use.unshift({
+          loader: require.resolve('./loader'),
+          options: {
+            dependencies: nuxt.options.dev ? componentDirs.filter(dir => !dir.global).map(dir => dir.path) : /* istanbul ignore next */[],
+            getComponents: () => components
+          }
+        })
+        config.module!.rules = rules
+      })
+
+      // Add Webpack entry for runtime installComponents function
+      nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
+        for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
+          ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
         }
       })
-      config.module!.rules = rules
-    })
+    }
 
     // Watch
     // istanbul ignore else
@@ -143,13 +158,6 @@ const componentsModule = <Module> function () {
         fileName: t,
         options: { getComponents }
       })
-    }
-  })
-
-  // Add Webpack entry for runtime installComponents function
-  nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
-    for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
-      ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
     }
   })
 }
