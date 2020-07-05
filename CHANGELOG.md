@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://github.com/nuxt/components/compare/v1.0.6...v1.0.7) (2020-07-05)
+
+
+### Bug Fixes
+
+* disable loader for global dirs ([#70](https://github.com/nuxt/components/issues/70)) ([78baa92](https://github.com/nuxt/components/commit/78baa92880c3985e0382a35d5d9b67f7fb968e29)), closes [#18](https://github.com/nuxt/components/issues/18)
+
 ### [1.0.6](https://github.com/nuxt/components/compare/v1.0.5...v1.0.6) (2020-06-28)
 
 
