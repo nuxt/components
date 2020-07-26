@@ -1,9 +1,8 @@
 import path from 'path'
 import fs from 'fs'
 import chokidar from 'chokidar'
-import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
+import { Configuration as WebpackConfig, Entry as WebpackEntry, RuleSet } from 'webpack'
 // @ts-ignore
-import RuleSet from 'webpack/lib/RuleSet'
 import { Module } from '@nuxt/types'
 
 import { requireNuxtVersion } from './compatibility'
