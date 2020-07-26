@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import chokidar from 'chokidar'
 import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
-import { RuleSet } from 'webpack'
+import RuleSet from 'webpack'
 // @ts-ignore
 import { Module } from '@nuxt/types'
 
