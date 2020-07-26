@@ -1,9 +1,10 @@
 import path from 'path'
 import fs from 'fs'
 import chokidar from 'chokidar'
-import { Configuration as WebpackConfig, Entry as WebpackEntry, RuleSet } from 'webpack'
+import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 // @ts-ignore
 import { Module } from '@nuxt/types'
+import RuleSet from 'webpack'
 
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents, ScanDir } from './scan'
