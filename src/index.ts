@@ -102,7 +102,7 @@ const componentsModule = <Module> function () {
     // Add loader for tree shaking
     if (componentDirs.some(dir => !dir.global)) {
       this.extendBuild((config) => {
-        const { rules }: any = new RuleSet(config.module!.rules)
+        const { rules }: any = RuleSet(config.module!.rules)
         const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
         vueRule.use.unshift({
           loader: require.resolve('./loader'),
