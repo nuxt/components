@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "chokidar": "^3.4.0",
+    "chokidar": "^3.4.1",
     "glob": "^7.1.6",
     "globby": "^11.0.1",
     "lodash": "^4.17.15",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
-    "@nuxt/types": "^2.13.2",
+    "@nuxt/types": "^2.14.0",
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
