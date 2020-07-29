@@ -16,7 +16,8 @@ test('scanner', async () => {
     'FunctionalChild',
     'FormInputText',
     'FormInputTextArea',
-    'FormInputRadio'
+    'FormInputRadio',
+    'FormLayout'
   ]
 
   expect(components.map(c => c.pascalName).sort()).toEqual([

@@ -65,7 +65,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       if (['Index', parentDirName].includes(componentName)) {
         componentName = pathPrefix
-      } else if (!componentName.startsWith(pathPrefix)) {
+      } else if (!componentName.startsWith(pathPrefix.replace(/s$/, ''))) {
         componentName = pathPrefix + sep + componentName
       }
 
