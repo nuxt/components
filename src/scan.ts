@@ -59,22 +59,14 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       filePaths.add(filePath)
 
       // Resolve componentName
-      const fileNameWithoutExt = basename(filePath, extname(filePath))
-      const parentDirName = basename(dirname(filePath))
-      const pathPrefix = relative(path, dirname(filePath))
+      let componentName = pascalCase(basename(filePath, extname(filePath)))
+      const parentDirName = pascalCase(basename(dirname(filePath)))
+      const pathPrefix = pascalCase(relative(path, dirname(filePath)))
 
-      let componentName
-
-      if (['index', parentDirName].includes(fileNameWithoutExt.toLocaleLowerCase())) {
+      if (['index', parentDirName].includes(componentName)) {
         componentName = pathPrefix
-      } else if (
-        !fileNameWithoutExt.startsWith(pathPrefix) &&
-        !fileNameWithoutExt.startsWith(pascalCase(pathPrefix)) &&
-        !fileNameWithoutExt.startsWith(kebabCase(pathPrefix))
-      ) {
-        componentName = pathPrefix + sep + fileNameWithoutExt
-      } else {
-        componentName = fileNameWithoutExt
+      } else if (!componentName.startsWith(pathPrefix)) {
+        componentName = pathPrefix + sep + componentName
       }
 
       if (resolvedNames.has(componentName)) {
