@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
-    "@nuxt/types": "^2.14.0",
+    "@nuxt/types": "latest",
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
@@ -48,8 +48,5 @@
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "latest"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
