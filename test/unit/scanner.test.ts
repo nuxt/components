@@ -15,6 +15,7 @@ test('scanner', async () => {
     'Functional',
     'FunctionalChild',
     'FormInputText',
+    'FormInputTextArea',
     'FormInputRadio'
   ]
 
