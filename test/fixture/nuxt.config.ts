@@ -22,6 +22,7 @@ const config: NuxtConfig = {
   hooks: {
     'components:dirs' (dirs) {
       dirs.push({
+        prefix: 'm',
         path: path.resolve(__dirname, 'my-lib/components'),
         extendComponent: _c => ({ ..._c, export: _c.pascalName })
       })

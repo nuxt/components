@@ -7,5 +7,5 @@ test('matcher', async () => {
 
   const matchedComponents = matcher(tags, components).sort((a, b) => a.pascalName < b.pascalName ? -1 : 1)
 
-  expect(matchedComponents).toHaveLength(4)
+  expect(matchedComponents).toHaveLength(tags.length)
 })
