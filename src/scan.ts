@@ -1,4 +1,4 @@
-import { basename, extname, join, dirname } from 'path'
+import { basename, extname, join, dirname, relative } from 'path'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 
@@ -32,10 +32,14 @@ function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDi
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
 }
 
+function hasPrefix (str: string, prefix: string) {
+  return str.match(new RegExp('^' + prefix, 'i'))
+}
+
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
-    pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
-    kebabName: kebabName.startsWith(prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
+    pascalName: hasPrefix(pascalName, prefix) ? pascalName : pascalCase(prefix) + pascalName,
+    kebabName: hasPrefix(kebabName, prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
     ...rest
   }
 }
@@ -58,23 +62,34 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       if (filePaths.has(filePath)) { continue }
       filePaths.add(filePath)
 
-      let fileName = basename(filePath, extname(filePath))
-      if (fileName === 'index') {
-        fileName = basename(dirname(filePath), extname(filePath))
+      // Resolve componentName
+      const fileName = basename(filePath)
+      const fileExt = extname(filePath)
+      const fileNameWithoutExt = basename(filePath, fileExt)
+      const parentDirName = basename(dirname(filePath))
+
+      let componentName = relative(path, filePath)
+        .replace(fileName, fileNameWithoutExt)
+        .replace(/[/\\]index$/i, '')
+
+      if (hasPrefix(fileName, parentDirName)) {
+        componentName = componentName.replace(
+          new RegExp(parentDirName + '[/\\\\]' + fileNameWithoutExt), fileNameWithoutExt
+        )
       }
 
-      if (resolvedNames.has(fileName)) {
+      if (resolvedNames.has(componentName)) {
         // eslint-disable-next-line no-console
-        console.warn(`Two component files resolving to the same name \`${fileName}\`:\n` +
+        console.warn(`Two component files resolving to the same name \`${componentName}\`:\n` +
           `\n - ${filePath}` +
-          `\n - ${resolvedNames.get(fileName)}`
+          `\n - ${resolvedNames.get(componentName)}`
         )
         continue
       }
-      resolvedNames.set(fileName, filePath)
+      resolvedNames.set(componentName, filePath)
 
-      const pascalName = pascalCase(fileName)
-      const kebabName = kebabCase(fileName)
+      const pascalName = pascalCase(componentName)
+      const kebabName = kebabCase(componentName)
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
       let chunkName = shortPath.replace(extname(shortPath), '')
 
