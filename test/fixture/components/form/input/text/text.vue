@@ -1,3 +1,3 @@
 <template>
-  <div>MyLib Tab</div>
+  <div>Form Input Text</div>
 </template>

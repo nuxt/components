@@ -1,4 +1,4 @@
-import { basename, extname, join, dirname, relative } from 'path'
+import { basename, extname, join, dirname, relative, sep } from 'path'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 
@@ -32,14 +32,10 @@ function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDi
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
 }
 
-function hasPrefix (str: string, prefix: string) {
-  return str.match(new RegExp('^' + prefix, 'i'))
-}
-
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
-    pascalName: hasPrefix(pascalName, prefix) ? pascalName : pascalCase(prefix) + pascalName,
-    kebabName: hasPrefix(kebabName, prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
+    pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
+    kebabName: kebabName.startsWith(prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
     ...rest
   }
 }
@@ -63,19 +59,22 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       filePaths.add(filePath)
 
       // Resolve componentName
-      const fileName = basename(filePath)
-      const fileExt = extname(filePath)
-      const fileNameWithoutExt = basename(filePath, fileExt)
+      const fileNameWithoutExt = basename(filePath, extname(filePath))
       const parentDirName = basename(dirname(filePath))
+      const pathPrefix = relative(path, dirname(filePath))
 
-      let componentName = relative(path, filePath)
-        .replace(fileName, fileNameWithoutExt)
-        .replace(/[/\\]index$/i, '')
+      let componentName
 
-      if (hasPrefix(fileName, parentDirName)) {
-        componentName = componentName.replace(
-          new RegExp(parentDirName + '[/\\\\]' + fileNameWithoutExt + '$'), fileNameWithoutExt
-        )
+      if (['index', parentDirName].includes(fileNameWithoutExt.toLocaleLowerCase())) {
+        componentName = pathPrefix
+      } else if (
+        !fileNameWithoutExt.startsWith(pathPrefix) &&
+        !fileNameWithoutExt.startsWith(pascalCase(pathPrefix)) &&
+        !fileNameWithoutExt.startsWith(kebabCase(pathPrefix))
+      ) {
+        componentName = pathPrefix + sep + fileNameWithoutExt
+      } else {
+        componentName = fileNameWithoutExt
       }
 
       if (resolvedNames.has(componentName)) {

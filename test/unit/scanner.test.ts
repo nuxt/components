@@ -14,7 +14,8 @@ test('scanner', async () => {
     'Foo',
     'Functional',
     'FunctionalChild',
-    'FormInputText'
+    'FormInputText',
+    'FormInputRadio'
   ]
 
   expect(components.map(c => c.pascalName).sort()).toEqual([
