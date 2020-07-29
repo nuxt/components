@@ -74,7 +74,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       if (hasPrefix(fileName, parentDirName)) {
         componentName = componentName.replace(
-          new RegExp(parentDirName + '[/\\\\]' + fileNameWithoutExt), fileNameWithoutExt
+          new RegExp(parentDirName + '[/\\\\]' + fileNameWithoutExt + '$'), fileNameWithoutExt
         )
       }
 
