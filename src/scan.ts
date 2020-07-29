@@ -63,7 +63,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const parentDirName = pascalCase(basename(dirname(filePath)))
       const pathPrefix = pascalCase(relative(path, dirname(filePath)))
 
-      if (['index', parentDirName].includes(componentName)) {
+      if (['Index', parentDirName].includes(componentName)) {
         componentName = pathPrefix
       } else if (!componentName.startsWith(pathPrefix)) {
         componentName = pathPrefix + sep + componentName
