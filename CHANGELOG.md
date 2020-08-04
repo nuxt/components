@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/nuxt/components/compare/v1.0.7...v1.1.0) (2020-08-04)
+
+
+### Features
+
+* ignore storybook stories ([#84](https://github.com/nuxt/components/issues/84)) ([b4d9e11](https://github.com/nuxt/components/commit/b4d9e113f2967507b2c827f57f4564273f96b6e9))
+
+
+### Bug Fixes
+
+* invalid `webpackChunkName` for global exports ([3fc3709](https://github.com/nuxt/components/commit/3fc3709729310ea3e6d8a3005b8b951045903dfc))
+
 ### [1.0.7](https://github.com/nuxt/components/compare/v1.0.6...v1.0.7) (2020-07-05)
 
 
