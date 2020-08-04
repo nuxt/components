@@ -89,7 +89,11 @@ const componentsModule = <Module> function () {
         path: dirPath,
         extensions,
         pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
-        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
+        ignore: [
+          '**/*.stories.js', // ignore storybook files
+          ...nuxtIgnorePatterns,
+          ...(dirOptions.ignore || [])
+        ],
         transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
     }).filter(d => d.enabled)
