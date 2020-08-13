@@ -6,5 +6,6 @@
     <IconHome />
     <MAwesome />
     <Functional />
+    <FunctionalConditional />
   </div>
 </template>
