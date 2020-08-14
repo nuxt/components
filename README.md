@@ -133,7 +133,7 @@ components: [
 ## Directories
 
 By setting `components: true`, default `~/components` directory will be included.
-However you can customize module behaviour by proividing directories to scan:
+However you can customize module behaviour by providing directories to scan:
 
 ```js
 export default {
