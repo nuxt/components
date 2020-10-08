@@ -42,6 +42,11 @@ describe('module', () => {
     expect(html).toContain('Icon Home')
   })
 
+  test('displays overwritten component', async () => {
+    const { html } = await nuxt.server.renderRoute('/')
+    expect(html).toContain('app header')
+  })
+
   test('displays autoImported components in pug template', async () => {
     const { html } = await nuxt.server.renderRoute('/pug')
     expect(html).toContain('Foo')

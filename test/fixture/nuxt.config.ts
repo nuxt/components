@@ -15,7 +15,8 @@ const config: NuxtConfig = {
       { path: '~/components/global', global: true },
       '~/non-existent',
       { path: '@/components/base', prefix: 'Base' },
-      { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ }
+      { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ },
+      { path: '@/theme/components' }
     ]
   },
 

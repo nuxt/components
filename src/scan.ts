@@ -103,16 +103,26 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const _import = _c.import || `require('${_c.filePath}').${_c.export}`
       const _asyncImport = _c.asyncImport || `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
 
-      components.push({
+      const component = {
         ..._c,
         import: _import
-      })
-
-      components.push(prefixComponent(LAZY_PREFIX, {
+      }
+      const lazyComponent = prefixComponent(LAZY_PREFIX, {
         ..._c,
         async: true,
         import: _asyncImport
-      }))
+      })
+
+      // Check if component is already defined, used to overwite themes
+      const definedComponent = components.find(c => c.pascalName === component.pascalName)
+      if (definedComponent) {
+        Object.assign(definedComponent, component)
+        const definedLazyComponent = components.find(c => c.pascalName === lazyComponent.pascalName)
+        definedLazyComponent && Object.assign(definedLazyComponent, lazyComponent)
+      } else {
+        components.push(component)
+        components.push(lazyComponent)
+      }
     }
 
     scannedPaths.push(path)
