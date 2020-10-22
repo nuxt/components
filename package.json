@@ -50,6 +50,6 @@
     "typescript": "latest"
   },
   "peerDependencies": {
-    "webpack": "^4.0.0"
+    "webpack": "^5.1.3"
   }
 }
