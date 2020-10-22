@@ -48,5 +48,8 @@
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "latest"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0"
   }
 }
