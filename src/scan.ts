@@ -6,15 +6,6 @@ const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => upperFirst(camelCase(str))
 const isWindows = process.platform.startsWith('win')
 
-export interface ScanDir {
-  path: string
-  pattern?: string | string[]
-  ignore?: string[]
-  prefix?: string
-  global?: boolean | 'dev',
-  extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
-}
-
 export interface Component {
   pascalName: string
   kebabName: string
@@ -26,6 +17,15 @@ export interface Component {
   async?: boolean
   chunkName: string
   global: boolean
+}
+
+export interface ScanDir {
+  path: string
+  pattern?: string | string[]
+  ignore?: string[]
+  prefix?: string
+  global?: boolean | 'dev',
+  extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {

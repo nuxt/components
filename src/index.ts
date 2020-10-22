@@ -9,6 +9,12 @@ import { Module } from '@nuxt/types'
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents, ScanDir } from './scan'
 
+export interface ComponentsDir extends ScanDir {
+  watch?: boolean
+  extensions?: string[]
+  transpile?: 'auto' | boolean
+}
+
 type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
 type componentsExtendHook = (components: (ComponentsDir|ScanDir)[]) => void | Promise<void>
 
@@ -21,12 +27,6 @@ declare module '@nuxt/types/config/hooks' {
       extend?: componentsExtendHook
     }
   }
-}
-
-export interface ComponentsDir extends ScanDir {
-  watch?: boolean
-  extensions?: string[]
-  transpile?: 'auto' | boolean
 }
 
 export interface Options {
