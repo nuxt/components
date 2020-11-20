@@ -16,7 +16,7 @@ const config: NuxtConfig = {
       '~/non-existent',
       { path: '@/components/base', prefix: 'Base' },
       { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ },
-      { path: '@/theme/components' }
+      { path: '@/theme/components', level: 1 }
     ]
   },
 

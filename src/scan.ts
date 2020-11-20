@@ -11,7 +11,8 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
-  global?: boolean | 'dev',
+  global?: boolean | 'dev'
+  level?: number
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
@@ -26,6 +27,7 @@ export interface Component {
   async?: boolean
   chunkName: string
   global: boolean
+  level: number
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
@@ -45,7 +47,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const filePaths = new Set<string>()
   const scannedPaths: string[] = []
 
-  for (const { path, pattern, ignore = [], prefix, extendComponent, global } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent, global, level } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
@@ -93,7 +95,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         import: '',
         asyncImport: '',
         export: 'default',
-        global: Boolean(global)
+        global: Boolean(global),
+        level: Number(level)
       })
 
       if (typeof extendComponent === 'function') {
@@ -113,13 +116,13 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         import: _asyncImport
       })
 
-      // Check if component is already defined, used to overwite themes
+      // Check if component is already defined, used to overwite if level is inferiour
       const definedComponent = components.find(c => c.pascalName === component.pascalName)
-      if (definedComponent) {
+      if (definedComponent && component.level < definedComponent.level) {
         Object.assign(definedComponent, component)
         const definedLazyComponent = components.find(c => c.pascalName === lazyComponent.pascalName)
         definedLazyComponent && Object.assign(definedLazyComponent, lazyComponent)
-      } else {
+      } else if (!definedComponent) {
         components.push(component)
         components.push(lazyComponent)
       }
