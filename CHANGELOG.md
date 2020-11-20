@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/nuxt/components/compare/v1.1.0...v1.1.1) (2020-10-22)
+
+
+### Bug Fixes
+
+* **npm:** component may require wrong webpack version ([3fc657a](https://github.com/nuxt/components/commit/3fc657ab88fe5bfc832e9d0c8c0cd0afe4ee555b))
+
 ## [1.1.0](https://github.com/nuxt/components/compare/v1.0.7...v1.1.0) (2020-08-04)
 
 
