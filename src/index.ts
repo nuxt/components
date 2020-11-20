@@ -46,6 +46,7 @@ const componentsModule = <Module> function () {
   const { nuxt } = this
   const { components } = nuxt.options
 
+  /* istanbul ignore if */
   if (!components) {
     return
   }
@@ -70,6 +71,7 @@ const componentsModule = <Module> function () {
         global: true
       })
     } catch (err) {
+      /* istanbul ignore next */
       nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
     }
 
