@@ -68,7 +68,31 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video exampl
 
 ## Dynamic Components
 
-In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, you need to use the [global option](#global).
+In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there is two options:
+- Using `components/global/` directory
+- Setting a custom path with the [global option](#global)
+
+### Using `components/global/`
+
+> This feature is only available in Nuxt `v2.14.8` or by upgrading this module to `v1.2.0`
+
+Any component inside `components/global/` will be available globally (with lazy import) so you can directly use them in your dynamic components.
+
+```bash
+components/
+  global/
+    Home.vue
+    Post.vue
+```
+
+You can now use `<component>`:
+
+```html
+<component :is="'Home'" />
+<component :is="'Post'" />
+```
+
+### Using global option
 
 Considering this directory structure:
 
@@ -77,7 +101,6 @@ components/
   dynamic/
     Home.vue
     Post.vue
-    Archive.vue
 ```
 
 In our `nuxt.config` file, we add this path with `global: true` option:
@@ -94,9 +117,8 @@ export default {
 We can now use our dynamic components in our templates:
 
 ```html
-<div v-for="name in ['Home', 'Post', 'Archive']" :key="name">
-  <component :is="name"></component>
-</div>
+<component :is="'Home'" />
+<component :is="'Post'" />
 ```
 
 Please note that the `global` option does not means components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
