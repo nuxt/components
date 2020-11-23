@@ -43,6 +43,7 @@ describe('My test', () => {
   })
 
   test('displays overwritten component', async () => {
+    const nuxt = getNuxt()
     const { html } = await nuxt.server.renderRoute('/')
     expect(html).toContain('app header')
   })
