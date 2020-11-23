@@ -1,6 +1,3 @@
-type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
-type componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | Promise<void>
-
 export interface Component {
   pascalName: string
   kebabName: string
@@ -30,6 +27,9 @@ export interface ComponentsDir extends ScanDir {
   extensions?: string[]
   transpile?: 'auto' | boolean
 }
+
+type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
+type componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | Promise<void>
 
 export interface Options {
   dirs: (string | ComponentsDir)[]
