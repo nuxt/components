@@ -88,6 +88,9 @@ const componentsModule = <Module> function () {
         dirOptions.global = nuxt.options.dev
       }
 
+      // Normalize level
+      dirOptions.level = Number(dirOptions.level || 0)
+
       const enabled = fs.existsSync(dirPath)
       if (!enabled && dirOptions.path !== '~/components') {
         // eslint-disable-next-line no-console

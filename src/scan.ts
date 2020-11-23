@@ -17,6 +17,7 @@ export interface Component {
   async?: boolean
   chunkName: string
   global: boolean
+  level: number
 }
 
 export interface ScanDir {
@@ -24,7 +25,8 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
-  global?: boolean | 'dev',
+  global?: boolean | 'dev'
+  level?: number
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
@@ -45,7 +47,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const filePaths = new Set<string>()
   const scannedPaths: string[] = []
 
-  for (const { path, pattern, ignore = [], prefix, extendComponent, global } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent, global, level } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
@@ -93,7 +95,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         import: '',
         asyncImport: '',
         export: 'default',
-        global: Boolean(global)
+        global: Boolean(global),
+        level: Number(level)
       })
 
       if (typeof extendComponent === 'function') {
@@ -103,16 +106,26 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const _import = _c.import || `require('${_c.filePath}').${_c.export}`
       const _asyncImport = _c.asyncImport || `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
 
-      components.push({
+      const component = {
         ..._c,
         import: _import
-      })
-
-      components.push(prefixComponent(LAZY_PREFIX, {
+      }
+      const lazyComponent = prefixComponent(LAZY_PREFIX, {
         ..._c,
         async: true,
         import: _asyncImport
-      }))
+      })
+
+      // Check if component is already defined, used to overwite if level is inferiour
+      const definedComponent = components.find(c => c.pascalName === component.pascalName)
+      if (definedComponent && component.level < definedComponent.level) {
+        Object.assign(definedComponent, component)
+        const definedLazyComponent = components.find(c => c.pascalName === lazyComponent.pascalName)
+        definedLazyComponent && Object.assign(definedLazyComponent, lazyComponent)
+      } else if (!definedComponent) {
+        components.push(component)
+        components.push(lazyComponent)
+      }
     }
 
     scannedPaths.push(path)

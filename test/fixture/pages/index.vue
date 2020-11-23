@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header />
     <Foo />
     <LazyBar />
     <BaseButton />
