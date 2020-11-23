@@ -12,7 +12,6 @@ const config: NuxtConfig = {
     dirs: [
       '~/components',
       { path: '~/components/multifile', extensions: ['vue'] },
-      { path: '~/components/global', global: true },
       '~/non-existent',
       { path: '@/components/base', prefix: 'Base' },
       { path: '@/components/icons', prefix: 'Icon', transpile: true /* Only for coverage purpose */ },

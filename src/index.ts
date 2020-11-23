@@ -46,6 +46,7 @@ const componentsModule = <Module> function () {
   const { nuxt } = this
   const { components } = nuxt.options
 
+  /* istanbul ignore if */
   if (!components) {
     return
   }
@@ -62,11 +63,23 @@ const componentsModule = <Module> function () {
 
     await nuxt.callHook('components:dirs', options.dirs)
 
+    // Add components/global/ directory
+    try {
+      const globalDir = getDir(nuxt.resolver.resolvePath('~/components/global'))
+      options.dirs.push({
+        path: globalDir,
+        global: true
+      })
+    } catch (err) {
+      /* istanbul ignore next */
+      nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
+    }
+
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions: ComponentsDir = typeof dir === 'object' ? dir : { path: dir }
 
       let dirPath = dirOptions.path
-      try { dirPath = getDir(nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) { }
+      try { dirPath = getDir(nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) {}
 
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
