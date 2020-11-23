@@ -1,6 +1,6 @@
 {
   "name": "@nuxt/components",
-  "version": "1.0.7",
+  "version": "1.1.1",
   "description": "Auto Import Components for Nuxt.js",
   "repository": "nuxt/components",
   "license": "MIT",
@@ -21,14 +21,15 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "chokidar": "^3.4.1",
+    "chokidar": "^3.4.3",
     "glob": "^7.1.6",
     "globby": "^11.0.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "semver": "^7.3.2"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
+    "@nuxt/test-utils": "^0.0.1",
     "@nuxt/types": "latest",
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
@@ -48,5 +49,8 @@
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "latest"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0"
   }
 }

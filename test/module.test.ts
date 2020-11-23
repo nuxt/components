@@ -1,9 +1,7 @@
-import path from 'path'
-import { loadNuxt } from '@nuxt/core-edge'
-import { getBuilder } from '@nuxt/builder-edge'
+// @ts-nocheck nuxt internals not typed!
+import { setupTest, getNuxt, getContext } from '@nuxt/test-utils'
 
 const watchers: any[] = []
-
 jest.mock('chokidar', () => ({
   watch () {
     return {
@@ -14,28 +12,30 @@ jest.mock('chokidar', () => ({
     }
   }
 }))
-
 const callChokidarEvent = (eventName, filename = 'test.js') => Promise.all(watchers.map(w => w.fn(eventName, filename)))
 
-const warn = console.warn = jest.fn() // eslint-disable-line no-console
+describe('My test', () => {
+  console.warn = jest.fn() // eslint-disable-line no-console
+  const componentsDirsHook = jest.fn()
 
-describe('module', () => {
-  let nuxt, builder, hookFn
-
-  beforeAll(async () => {
-    nuxt = await loadNuxt({ rootDir: path.resolve('test/fixture'), for: 'dev' })
-    builder = getBuilder(nuxt)
-    hookFn = jest.fn()
-    nuxt.hook('components:dirs', hookFn)
-
-    await builder.build()
-    expect(warn).toBeCalledWith('Components directory not found: `~/non-existent`')
-
-    builder.generateRoutesAndFiles = jest.fn()
-  }, 60000)
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    configFile: 'nuxt.config.ts',
+    build: true,
+    config: {
+      dev: true,
+      hooks: {
+        'components:dirs': componentsDirsHook,
+        'build:before' (builder) {
+          jest.spyOn(builder, 'generateRoutesAndFiles')
+        }
+      }
+    }
+  })
 
   test('displays autoImported components', async () => {
-    const { html } = await nuxt.server.renderRoute('/')
+    const { html } = await getNuxt().server.renderRoute('/')
     expect(html).toContain('Foo')
     expect(html).toContain('Bar')
     expect(html).toContain('Base Button')
@@ -43,7 +43,7 @@ describe('module', () => {
   })
 
   test('displays autoImported components in pug template', async () => {
-    const { html } = await nuxt.server.renderRoute('/pug')
+    const { html } = await getNuxt().server.renderRoute('/pug')
     expect(html).toContain('Foo')
     expect(html).toContain('Bar')
     expect(html).toContain('Base Button')
@@ -51,6 +51,7 @@ describe('module', () => {
   })
 
   test('watch: rebuild on add/remove', async () => {
+    const { builder } = getContext()
     builder.generateRoutesAndFiles.mockClear()
     await callChokidarEvent('add')
     expect(builder.generateRoutesAndFiles).toHaveBeenCalledTimes(1)
@@ -58,17 +59,14 @@ describe('module', () => {
     expect(builder.generateRoutesAndFiles).toHaveBeenCalledTimes(2)
   })
 
-  test.skip('watch: no rebuild on other events', async () => {
+  test('watch: no rebuild on other events', async () => {
+    const { builder } = getContext()
     builder.generateRoutesAndFiles.mockClear()
     await callChokidarEvent('foo')
     expect(builder.generateRoutesAndFiles).not.toHaveBeenCalled()
   })
 
   test('hook: components:dirs hook is called', () => {
-    expect(hookFn).toHaveBeenCalled()
-  })
-
-  afterAll(async () => {
-    await nuxt.close()
+    expect(componentsDirsHook).toHaveBeenCalled()
   })
 })

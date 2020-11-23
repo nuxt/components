@@ -9,6 +9,12 @@ import { Module } from '@nuxt/types'
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents, ScanDir } from './scan'
 
+export interface ComponentsDir extends ScanDir {
+  watch?: boolean
+  extensions?: string[]
+  transpile?: 'auto' | boolean
+}
+
 type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
 type componentsExtendHook = (components: (ComponentsDir|ScanDir)[]) => void | Promise<void>
 
@@ -21,12 +27,6 @@ declare module '@nuxt/types/config/hooks' {
       extend?: componentsExtendHook
     }
   }
-}
-
-export interface ComponentsDir extends ScanDir {
-  watch?: boolean
-  extensions?: string[]
-  transpile?: 'auto' | boolean
 }
 
 export interface Options {
@@ -46,6 +46,7 @@ const componentsModule = <Module> function () {
   const { nuxt } = this
   const { components } = nuxt.options
 
+  /* istanbul ignore if */
   if (!components) {
     return
   }
@@ -62,11 +63,23 @@ const componentsModule = <Module> function () {
 
     await nuxt.callHook('components:dirs', options.dirs)
 
+    // Add components/global/ directory
+    try {
+      const globalDir = getDir(nuxt.resolver.resolvePath('~/components/global'))
+      options.dirs.push({
+        path: globalDir,
+        global: true
+      })
+    } catch (err) {
+      /* istanbul ignore next */
+      nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
+    }
+
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
       const dirOptions: ComponentsDir = typeof dir === 'object' ? dir : { path: dir }
 
       let dirPath = dirOptions.path
-      try { dirPath = getDir(nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) { }
+      try { dirPath = getDir(nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) {}
 
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
@@ -89,7 +102,11 @@ const componentsModule = <Module> function () {
         path: dirPath,
         extensions,
         pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
-        ignore: nuxtIgnorePatterns.concat(dirOptions.ignore || []),
+        ignore: [
+          '**/*.stories.js', // ignore storybook files
+          ...nuxtIgnorePatterns,
+          ...(dirOptions.ignore || [])
+        ],
         transpile: (transpile === 'auto' ? dirPath.includes('node_modules') : transpile)
       }
     }).filter(d => d.enabled)

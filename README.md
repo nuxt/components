@@ -1,4 +1,4 @@
-![nuxt-components](https://user-images.githubusercontent.com/904724/80954041-f0d53100-8dfc-11ea-9594-cd621cfdf437.png)
+![@nuxt/components](https://user-images.githubusercontent.com/904724/99790294-2f75d300-2b24-11eb-8114-0a2569913fae.png)
 
 # @nuxt/components
 
@@ -10,14 +10,16 @@
 
 > Module to scan and auto import components for Nuxt.js 2.13+
 
-- [🎲 Play on CodeSandbox](https://githubbox.com/nuxt/components/tree/master/example)
-- [🎬 Demonstration video (49s)](https://www.youtube.com/watch?v=lQ8OBrgVVr8)
-- [📖 Release Notes](./CHANGELOG.md)
+- [🎲&nbsp; Play on CodeSandbox](https://githubbox.com/nuxt/components/tree/master/example)
+- [🎬&nbsp; Demonstration video (49s)](https://www.youtube.com/watch?v=lQ8OBrgVVr8)
+- [📖&nbsp; Release Notes](./CHANGELOG.md)
 
 ## Table of Contents
 
 - [Features](#features)
 - [Usage](#usage)
+- [Dynamic Components](#dynamic-components)
+- [Lazy Imports](#lazy-imports)
 - [Options](#options)
 - [Library authors](#library-authors)
 - [License](#license)
@@ -43,7 +45,6 @@ export default {
 
 **Note:** If using nuxt `2.10...2.13`, you have to also manually install and add `@nuxt/components` to `buildModules` inside `nuxt.config`.
 
-
 **Create your components:**
 
 ```bash
@@ -63,11 +64,68 @@ components/
 
 No need anymore to manually import them in the `script` section!
 
-See [live demo](https://codesandbox.io/s/nuxt-components-cou9k).
+See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video example](https://www.youtube.com/watch?v=lQ8OBrgVVr8).
 
-### Dynamic Imports
+## Dynamic Components
 
-To make a component imported dynamically (lazy loaded), all you need is adding a `Lazy` prefix in your templates.
+In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there is two options:
+- Using `components/global/` directory
+- Setting a custom path with the [global option](#global)
+
+### Using `components/global/`
+
+> This feature is only available in Nuxt `v2.14.8` or by upgrading this module to `v1.2.0`
+
+Any component inside `components/global/` will be available globally (with lazy import) so you can directly use them in your dynamic components.
+
+```bash
+components/
+  global/
+    Home.vue
+    Post.vue
+```
+
+You can now use `<component>`:
+
+```html
+<component :is="'Home'" />
+<component :is="'Post'" />
+```
+
+### Using global option
+
+Considering this directory structure:
+
+```bash
+components/
+  dynamic/
+    Home.vue
+    Post.vue
+```
+
+In our `nuxt.config` file, we add this path with `global: true` option:
+
+```js
+export default {
+  components: [
+    { path: '~/components/dynamic', global: true },
+    '~/components'
+  ]
+}
+```
+
+We can now use our dynamic components in our templates:
+
+```html
+<component :is="'Home'" />
+<component :is="'Post'" />
+```
+
+Please note that the `global` option does not means components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
+
+### Lazy Imports
+
+To make a component imported dynamically ([lazy loaded](https://webpack.js.org/guides/lazy-loading/)), all you need is adding a `Lazy` prefix in your templates.
 
 > If you think this prefix should be customizable, feel free to create a feature request issue!
 
@@ -133,7 +191,7 @@ components: [
 ## Directories
 
 By setting `components: true`, default `~/components` directory will be included.
-However you can customize module behaviour by proividing directories to scan:
+However you can customize module behaviour by providing directories to scan:
 
 ```js
 export default {
@@ -158,6 +216,17 @@ Each item can be either string or object. String is shortcut to `{ path }`.
 Path (absolute or relative) to the directory containing your components.
 
 You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
+
+#### global
+
+- Type: `Boolean`
+- Default: `false`
+
+Define if the components inside the path should be defined as global, this is useful when using [dynamic components](#dynamic-components).
+
+Please note that `global` option does not means components are added to main chunk but they are dynamically imported with webpack (see [here](https://github.com/nuxt/components/blob/master/templates/components/plugin.js))
+
+This option is disabled by default purposefully because forcing webpack to make one async chunk per-component makes chunking less efficient so you have to only use for dirs/when dynamic components are necessary.
 
 #### extensions
 
