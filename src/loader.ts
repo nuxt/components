@@ -1,7 +1,8 @@
 import { loader as WebpackLoader } from 'webpack'
 import loaderUtils from 'loader-utils'
 import { extractTags } from './tagExtractor'
-import { Component, matcher } from './scan'
+import { matcher } from './scan'
+import type { Component } from './types'
 
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
   const imports = '{' + components.map(c => `${c.pascalName}: ${c.import}`).join(',') + '}'

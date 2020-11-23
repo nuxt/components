@@ -1,34 +1,11 @@
 import { basename, extname, join, dirname } from 'path'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
+import type { ScanDir, Component } from './types'
 
 const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => upperFirst(camelCase(str))
 const isWindows = process.platform.startsWith('win')
-
-export interface Component {
-  pascalName: string
-  kebabName: string
-  import: string
-  asyncImport: string
-  export: string
-  filePath: string
-  shortPath: string
-  async?: boolean
-  chunkName: string
-  global: boolean
-  level: number
-}
-
-export interface ScanDir {
-  path: string
-  pattern?: string | string[]
-  ignore?: string[]
-  prefix?: string
-  global?: boolean | 'dev'
-  level?: number
-  extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
-}
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length

@@ -7,37 +7,8 @@ import RuleSet from 'webpack/lib/RuleSet'
 import { Module } from '@nuxt/types'
 
 import { requireNuxtVersion } from './compatibility'
-import { scanComponents, ScanDir } from './scan'
-
-export interface ComponentsDir extends ScanDir {
-  watch?: boolean
-  extensions?: string[]
-  transpile?: 'auto' | boolean
-}
-
-type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
-type componentsExtendHook = (components: (ComponentsDir|ScanDir)[]) => void | Promise<void>
-
-declare module '@nuxt/types/config/hooks' {
-  interface NuxtOptionsHooks {
-    'components:dirs'?: componentsDirHook
-    'components:extend'?: componentsExtendHook
-    components?: {
-      dirs?: componentsDirHook
-      extend?: componentsExtendHook
-    }
-  }
-}
-
-export interface Options {
-  dirs: (string | ComponentsDir)[]
-}
-
-declare module '@nuxt/types/config/index' {
-  interface NuxtOptions {
-    components: boolean | Options | Options['dirs']
-  }
-}
+import { scanComponents } from './scan'
+import type { Options, ComponentsDir } from './types'
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
