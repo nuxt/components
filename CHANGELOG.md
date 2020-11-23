@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/nuxt/components/compare/v1.1.1...v1.2.0) (2020-11-23)
+
+
+### Features
+
+* add components/global/ directory ([#113](https://github.com/nuxt/components/issues/113)) ([dde86a7](https://github.com/nuxt/components/commit/dde86a7ba72425f771571e12373ffa261e880f53))
+* support overwriting components ([#96](https://github.com/nuxt/components/issues/96)) ([47a21e9](https://github.com/nuxt/components/commit/47a21e9a016c20022e4ec9c6ae3dac469a91a4a1))
+
 ### [1.1.1](https://github.com/nuxt/components/compare/v1.1.0...v1.1.1) (2020-10-22)
 
 
