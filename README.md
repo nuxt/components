@@ -20,7 +20,9 @@
 - [Usage](#usage)
 - [Dynamic Components](#dynamic-components)
 - [Lazy Imports](#lazy-imports)
-- [Options](#options)
+- [Overwriting Components](#overwriting-components)
+- [Directories](#directories)
+- [Directory Properties](#directory-properties)
 - [Library authors](#library-authors)
 - [License](#license)
 
@@ -48,9 +50,9 @@ export default {
 **Create your components:**
 
 ```bash
-components/
-  ComponentFoo.vue
-  ComponentBar.vue
+| components/
+---| ComponentFoo.vue
+---| ComponentBar.vue
 ```
 
 **Use them whenever you want, they will be auto imported in `.vue` files :**
@@ -79,10 +81,10 @@ In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#
 Any component inside `components/global/` will be available globally (with lazy import) so you can directly use them in your dynamic components.
 
 ```bash
-components/
-  global/
-    Home.vue
-    Post.vue
+| components/
+---| global/
+------| Home.vue
+------| Post.vue
 ```
 
 You can now use `<component>`:
@@ -97,10 +99,10 @@ You can now use `<component>`:
 Considering this directory structure:
 
 ```bash
-components/
-  dynamic/
-    Home.vue
-    Post.vue
+| components/
+---| dynamic/
+------| Home.vue
+------| Post.vue
 ```
 
 In our `nuxt.config` file, we add this path with `global: true` option:
@@ -160,9 +162,9 @@ export default {
 If you have components in nested directories:
 
 ```bash
-components/
-  foo/
-    Bar.vue
+| components/
+---| foo/
+------| Bar.vue
 ````
 
 The component name will be based on **its filename**:
@@ -174,19 +176,45 @@ The component name will be based on **its filename**:
 We do recommend to use the directory name in the filename for clarity in order to use `<FooBar />`:
 
 ```bash
-components/
-  foo/
-    FooBar.vue
+| components/
+---| foo/
+------| FooBar.vue
 ```
 
 If you want to keep the filename as `Bar.vue`, consider using the `prefix` option: (See [directories](#directories) section)
 
 ```js
 components: [
-    '~/components/',
-    { path: '~/components/foo/', prefix: 'foo' }
+  '~/components/',
+  { path: '~/components/foo/', prefix: 'foo' }
 ]
 ```
+
+## Overwriting Components
+
+It is possible to have a way to overwrite components using the [level](#level) option. This is very useful for modules and theme authors.
+
+Considering this structure:
+
+```bash
+| node_modules/
+---| my-theme/
+------| components/
+---------| Header.vue
+| components/
+---| Header.vue
+```
+
+Then defining in the `nuxt.config`:
+
+```js
+components: [
+  '~/components', // default level is 0
+  { path: 'node_modules/my-theme/components', level: 1 }
+]
+```
+
+Our `components/Header.vue` will overwrites our theme component since the lowest level overwrites.
 
 ## Directories
 
@@ -240,12 +268,11 @@ This option is disabled by default purposefully because forcing webpack to make 
 If you prefer to split your SFCs into `.js`, `.vue` and `.css`, you can only enable `.vue` files to be scanned:
 
 ```
-├── src
-│   └── components
-│         └── componentC
-│           └── componentC.vue
-│           └── componentC.js
-│           └── componentC.scss
+| components
+---| componentC
+------| componentC.vue
+------| componentC.js
+------| componentC.scss
 ```
 
 ```js
@@ -320,6 +347,24 @@ Watch specified `path` for changes, including file additions and file deletions.
 - Default: `'auto'`
 
 Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/configuration-build#transpile), by default (`'auto'`) it will set `transpile: true` if `node_modules/` is in `path`.
+
+#### level
+
+- Type: `Number`
+- Default: `0`
+
+Level are use to define a hint when overwriting the components which have the same name in two different directories, this is useful for theming.
+
+```js
+export default {
+  components: [
+    '~/components', // default level is 0
+   { path: 'my-theme/components', level: 1 }
+  ]
+}
+```
+
+Components having the same name in `~/components` will overwrite the one in `my-theme/components`, learn more in [Overwriting Components](#overwriting-components). The lowest value will overwrites.
 
 ## Library Authors
 
