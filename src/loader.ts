@@ -1,5 +1,4 @@
-import { loader as WebpackLoader } from 'webpack'
-import loaderUtils from 'loader-utils'
+import type { loader as WebpackLoader } from 'webpack'
 import { extractTags } from './tagExtractor'
 import { matcher } from './scan'
 import type { Component } from './types'
@@ -31,7 +30,7 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
     const { dependencies, getComponents } = {
       dependencies: [],
       getComponents: () => [],
-      ...loaderUtils.getOptions(this)
+      ...this.query
     }
 
     for (const dependency of dependencies) {
