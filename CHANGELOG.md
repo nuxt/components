@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/nuxt/components/compare/v1.2.0...v1.2.1) (2020-12-06)
+
+
+### Bug Fixes
+
+* **module:** avoid adding global directory if manually added ([#120](https://github.com/nuxt/components/issues/120)) ([dad04f7](https://github.com/nuxt/components/commit/dad04f7e2971e04619c8369011efe753c048d8df))
+* don't use implicit dependencies ([#119](https://github.com/nuxt/components/issues/119)) ([ceaaaec](https://github.com/nuxt/components/commit/ceaaaec7e36e44aa0b1f097f17f9e66106d64e41))
+* ie compatibility (resolves [#109](https://github.com/nuxt/components/issues/109)) ([04bea9b](https://github.com/nuxt/components/commit/04bea9bc3e44533fc6c6128234a7c13eb3f704ce))
+
 ## [1.2.0](https://github.com/nuxt/components/compare/v1.1.1...v1.2.0) (2020-11-23)
 
 
