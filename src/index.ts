@@ -36,10 +36,10 @@ const componentsModule = <Module> function () {
 
     // Add components/global/ directory
     try {
-      const globalDirPath = getDir(resolvePath('~/components/global'))
-      if (!options.dirs.find(dir => resolvePath(dir) === globalDirPath)) {
+      const globalDir = getDir(resolvePath('~/components/global'))
+      if (!options.dirs.find(dir => resolvePath(dir) === globalDir)) {
         options.dirs.push({
-          path: globalDirPath,
+          path: globalDir,
           global: true
         })
       }
