@@ -32,13 +32,17 @@ const componentsModule = <Module> function () {
 
     await nuxt.callHook('components:dirs', options.dirs)
 
+    const resolvePath = (dir: any) => nuxt.resolver.resolvePath(dir)
+
     // Add components/global/ directory
     try {
-      const globalDir = getDir(nuxt.resolver.resolvePath('~/components/global'))
-      options.dirs.push({
-        path: globalDir,
-        global: true
-      })
+      const globalDir = getDir(resolvePath('~/components/global'))
+      if (!options.dirs.find(dir => resolvePath(dir) === globalDir)) {
+        options.dirs.push({
+          path: globalDir,
+          global: true
+        })
+      }
     } catch (err) {
       /* istanbul ignore next */
       nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
