@@ -1,10 +1,8 @@
 import path from 'path'
 import fs from 'fs'
 import chokidar from 'chokidar'
-import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
-// @ts-ignore
-import RuleSet from 'webpack/lib/RuleSet'
-import { Module } from '@nuxt/types'
+import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
+import type { Module } from '@nuxt/types'
 
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
@@ -93,16 +91,31 @@ const componentsModule = <Module> function () {
     // Add loader for tree shaking
     if (componentDirs.some(dir => !dir.global)) {
       this.extendBuild((config) => {
-        const { rules }: any = new RuleSet(config.module!.rules)
-        const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
-        vueRule.use.unshift({
+        const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
+        if (!vueRule) {
+          throw new Error('Cannot find vue loader')
+        }
+        if (!vueRule.use) {
+          vueRule.use = [{
+            loader: vueRule.loader!.toString(),
+            options: vueRule.options
+          }]
+          delete vueRule.loader
+          delete vueRule.options
+        }
+        if (!Array.isArray(vueRule!.use)) {
+          // @ts-ignore
+          vueRule.use = [vueRule.use]
+        }
+
+        // @ts-ignore
+        vueRule!.use!.unshift({
           loader: require.resolve('./loader'),
           options: {
             dependencies: nuxt.options.dev ? componentDirs.filter(dir => !dir.global).map(dir => dir.path) : /* istanbul ignore next */[],
             getComponents: () => components
           }
         })
-        config.module!.rules = rules
       })
 
       // Add Webpack entry for runtime installComponents function

@@ -30,12 +30,13 @@
     "glob": "^7.1.6",
     "globby": "^11.0.1",
     "lodash": "^4.17.20",
-    "semver": "^7.3.4"
+    "semver": "^7.3.4",
+    "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
     "@babel/preset-typescript": "latest",
-    "@nuxt/test-utils": "^0.0.1",
+    "@nuxt/test-utils": "latest",
     "@nuxt/types": "latest",
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
@@ -52,12 +53,6 @@
     "pug-plain-loader": "latest",
     "rimraf": "latest",
     "siroc": "latest",
-    "standard-version": "latest",
-    "vue-template-compiler": "latest"
-  },
-  "peerDependencies": {
-    "loader-utils": "^2.0.0",
-    "vue-template-compiler": "^2.6.12",
-    "webpack": "^4.44.2"
+    "standard-version": "latest"
   }
 }
