@@ -1,4 +1,5 @@
 import path from 'path'
+import type { compilation } from 'webpack'
 import { NuxtConfig } from '@nuxt/types'
 import nuxtComponents from '../../src'
 
@@ -7,6 +8,18 @@ const config: NuxtConfig = {
     '@nuxt/typescript-build',
     nuxtComponents
   ],
+
+  build: {
+    plugins: [
+      {
+        apply (compiler) {
+          compiler.hooks.assetEmitted.tap('logEmit', (file: string) => {
+            console.log('Asset emitted:', file)
+          })
+        }
+      }
+    ]
+  },
 
   components: {
     dirs: [
