@@ -173,13 +173,8 @@ The component name will be based on **its filename**:
 <Bar />
 ```
 
-We do recommend to use the directory name in the filename for clarity in order to use `<FooBar />`:
+We do recommend to use the directory name in combination with the filename for clarity ( `<FooBar />` instead of `<Bar />`)
 
-```bash
-| components/
----| foo/
-------| FooBar.vue
-```
 
 If you want to keep the filename as `Bar.vue`, consider using the `prefix` option: (See [directories](#directories) section)
 
