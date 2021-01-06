@@ -4,7 +4,17 @@ import { camelCase, kebabCase, upperFirst } from 'lodash'
 import type { ScanDir, Component } from './types'
 
 const LAZY_PREFIX = 'lazy'
-const pascalCase = (str: string) => upperFirst(camelCase(str))
+const pascalCase = (str: string) => {
+  const isFirstCharUppercase = str[0] === str[0].toUpperCase()
+  const containsHyphens = str.includes('-')
+  const shouldTransformToPascal = isFirstCharUppercase && !containsHyphens
+
+  if (!shouldTransformToPascal) {
+    return str
+  }
+
+  return upperFirst(camelCase(str))
+}
 const isWindows = process.platform.startsWith('win')
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
@@ -52,11 +62,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       }
       resolvedNames.set(fileName, filePath)
 
-      const isFirstCharUppercase = fileName[0] === fileName[0].toUpperCase()
-      const containsHyphens = fileName.includes('-')
-      const shouldTransformToPascal = isFirstCharUppercase && !containsHyphens
-
-      const pascalName = shouldTransformToPascal ? fileName : pascalCase(fileName)
+      const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
 
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
