@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.3](https://github.com/nuxt/components/compare/v1.2.2...v1.2.3) (2021-01-06)
+
+
+### Bug Fixes
+
+* transform to PascalCase only on first lower letter or name contains hyphens ([#129](https://github.com/nuxt/components/issues/129)) ([2c819e6](https://github.com/nuxt/components/commit/2c819e6776ed8142394fc823f8b992e70389e242))
+
 ### [1.2.2](https://github.com/nuxt/components/compare/v1.2.1...v1.2.2) (2020-12-07)
 
 
