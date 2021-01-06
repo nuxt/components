@@ -7,13 +7,9 @@ const LAZY_PREFIX = 'lazy'
 const pascalCase = (str: string) => {
   const isFirstCharUppercase = str[0] === str[0].toUpperCase()
   const containsHyphens = str.includes('-')
-  const shouldTransformToPascal = isFirstCharUppercase && !containsHyphens
+  const shouldTransformToPascal = !isFirstCharUppercase || containsHyphens
 
-  if (!shouldTransformToPascal) {
-    return str
-  }
-
-  return upperFirst(camelCase(str))
+  return shouldTransformToPascal ? upperFirst(camelCase(str)) : str
 }
 const isWindows = process.platform.startsWith('win')
 
@@ -24,7 +20,7 @@ function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDi
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
     pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
-    kebabName: kebabName.startsWith(prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
+    kebabName: kebabName.startsWith(prefix) ? kebabName : `${kebabCase(prefix)}-${kebabName}`,
     ...rest
   }
 }
