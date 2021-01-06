@@ -52,8 +52,13 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       }
       resolvedNames.set(fileName, filePath)
 
-      const pascalName = pascalCase(fileName)
+      const isFirstCharUppercase = fileName[0] === fileName[0].toUpperCase()
+      const containsHyphens = fileName.includes('-')
+      const shouldTransformToPascal = isFirstCharUppercase && !containsHyphens
+
+      const pascalName = shouldTransformToPascal ? fileName : pascalCase(fileName)
       const kebabName = kebabCase(fileName)
+
       const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
       let chunkName = shortPath.replace(extname(shortPath), '')
 
