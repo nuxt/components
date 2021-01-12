@@ -11,7 +11,7 @@ import type { Options, ComponentsDir } from './types'
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
-const componentsModule = <Module> function () {
+const componentsModule: Module<Options> = function () {
   const { nuxt } = this
   const { components } = nuxt.options
 
