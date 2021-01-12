@@ -31,6 +31,7 @@
     "globby": "^11.0.1",
     "lodash": "^4.17.20",
     "semver": "^7.3.4",
+    "upath": "^2.0.1",
     "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {

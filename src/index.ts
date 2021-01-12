@@ -1,5 +1,5 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'upath'
 import chokidar from 'chokidar'
 import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import type { Module } from '@nuxt/types'

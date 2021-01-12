@@ -1,4 +1,4 @@
-import { basename, extname, join, dirname } from 'path'
+import { basename, extname, join, dirname } from 'upath'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 import type { ScanDir, Component } from './types'
@@ -11,7 +11,6 @@ const pascalCase = (str: string) => {
 
   return shouldTransformToPascal ? upperFirst(camelCase(str)) : str
 }
-const isWindows = process.platform.startsWith('win')
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
@@ -34,7 +33,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
-      let filePath = join(path, _file)
+      const filePath = join(path, _file)
 
       if (scannedPaths.find(d => filePath.startsWith(d))) {
         continue
@@ -61,14 +60,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
 
-      const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
-      let chunkName = shortPath.replace(extname(shortPath), '')
-
-      // istanbul ignore if
-      if (isWindows) {
-        filePath = filePath.replace(/\\/g, '\\\\')
-        chunkName = chunkName.replace('/', '_')
-      }
+      const shortPath = filePath.replace(srcDir, '')
+      const chunkName = 'components/' + kebabName.replace(/-/g, '/')
 
       let _c = prefixComponent(prefix, {
         filePath,

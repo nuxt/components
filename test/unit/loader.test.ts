@@ -1,9 +1,7 @@
-import path from 'path'
+import path from 'upath'
 import { loader as WebpackLoader } from 'webpack'
 import loader from '../../src/loader'
 import { scanFixtureComponents } from './utils'
-
-const isWindows = process.platform.startsWith('win')
 
 let testLoader
 
@@ -31,7 +29,7 @@ beforeAll(async () => {
 function expectToContainImports (content: string) {
   const fixturePath = p => path.resolve('test/fixture', p).replace(/\\/g, '\\\\')
   expect(content).toContain(`require('${fixturePath('components/Foo.vue')}')`)
-  expect(content).toContain(`function () { return import('${fixturePath('components/Bar.js')}' /* webpackChunkName: "components${isWindows ? '_' : '/'}Bar" */).then(function(m) { return m['default'] || m }) }`)
+  expect(content).toContain(`function () { return import('${fixturePath('components/Bar.js')}' /* webpackChunkName: "components/bar" */`)
   expect(content).toContain(`require('${fixturePath('components/base/Button.vue')}')`)
   expect(content).toContain(`require('${fixturePath('components/icons/Home.vue')}')`)
 }
