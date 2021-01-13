@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://github.com/nuxt/components/compare/v1.2.4...v1.2.5) (2021-01-13)
+
+
+### Bug Fixes
+
+* **scan:** preserve original component name for webpack chunk ([82357b2](https://github.com/nuxt/components/commit/82357b20651fa792927e6c98bee713a8cf72c619))
+
 ### [1.2.4](https://github.com/nuxt/components/compare/v1.2.3...v1.2.4) (2021-01-12)
 
 
