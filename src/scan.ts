@@ -61,7 +61,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const kebabName = kebabCase(fileName)
 
       const shortPath = filePath.replace(srcDir, '')
-      const chunkName = 'components/' + kebabName.replace(/-/g, '/')
+      const chunkName = 'components/' + kebabName
 
       let _c = prefixComponent(prefix, {
         filePath,
