@@ -70,7 +70,7 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video exampl
 
 ## Dynamic Components
 
-In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there is two options:
+In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there are two options:
 - Using `components/global/` directory
 - Setting a custom path with the [global option](#global)
 
