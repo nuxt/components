@@ -123,7 +123,7 @@ We can now use our dynamic components in our templates:
 <component :is="'Post'" />
 ```
 
-Please note that the `global` option does not means components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
+Please note that the `global` option does not mean components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
 
 ### Lazy Imports
 
