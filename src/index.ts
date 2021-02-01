@@ -79,7 +79,7 @@ const componentsModule: Module<Options> = function () {
         extensions,
         pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
         ignore: [
-          '**/*.stories.js', // ignore storybook files
+          '**/*.stories.{js,ts,jsx,tsx}', // ignore storybook files
           ...nuxtIgnorePatterns,
           ...(dirOptions.ignore || [])
         ],
