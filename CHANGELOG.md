@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.6](https://github.com/nuxt/components/compare/v1.2.5...v1.2.6) (2021-02-01)
+
+
+### Bug Fixes
+
+* **ignore:** ignore typescript stories ([#135](https://github.com/nuxt/components/issues/135)) ([cf54c71](https://github.com/nuxt/components/commit/cf54c71f6efe5a1307772f88f174006f639cbea1))
+
 ### [1.2.5](https://github.com/nuxt/components/compare/v1.2.4...v1.2.5) (2021-01-13)
 
 
