@@ -8,6 +8,7 @@ export interface Component {
   shortPath: string
   async?: boolean
   chunkName: string
+  /** @deprecated */
   global: boolean
   level: number
 }
@@ -17,6 +18,7 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
+  /** @deprecated */
   global?: boolean | 'dev'
   level?: number
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)

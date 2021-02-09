@@ -27,15 +27,7 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
 
-    const { dependencies, getComponents } = {
-      dependencies: [],
-      getComponents: () => [],
-      ...this.query
-    }
-
-    for (const dependency of dependencies) {
-      this.addDependency(dependency)
-    }
+    const { getComponents } = this.query
 
     const tags = await extractTags(this.resourcePath)
     const matchedComponents = matcher(tags, getComponents())
