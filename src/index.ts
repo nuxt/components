@@ -24,6 +24,7 @@ const componentsModule: Module<Options> = function () {
 
   const options: Options = {
     dirs: ['~/components'],
+    loader: !nuxt.options.dev,
     ...Array.isArray(components) ? { dirs: components } : components
   }
 
@@ -87,7 +88,9 @@ const componentsModule: Module<Options> = function () {
     await nuxt.callHook('components:extend', components)
 
     // Add loader for tree shaking in production only
-    if (nuxt.options.dev !== true) {
+    if (options.loader) {
+      // eslint-disable-next-line no-console
+      console.info('Using components loader to optimize imports')
       this.extendBuild((config) => {
         const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
         if (!vueRule) {

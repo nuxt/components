@@ -35,6 +35,7 @@ type componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | 
 
 export interface Options {
   dirs: (string | ComponentsDir)[]
+  loader: Boolean
 }
 
 declare module '@nuxt/types/config/index' {
