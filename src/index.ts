@@ -1,5 +1,5 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'upath'
 import chokidar from 'chokidar'
 import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import type { Module } from '@nuxt/types'
@@ -11,7 +11,7 @@ import type { Options, ComponentsDir } from './types'
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
-const componentsModule = <Module> function () {
+const componentsModule: Module<Options> = function () {
   const { nuxt } = this
   const { components } = nuxt.options
 
@@ -79,7 +79,7 @@ const componentsModule = <Module> function () {
         extensions,
         pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
         ignore: [
-          '**/*.stories.js', // ignore storybook files
+          '**/*.stories.{js,ts,jsx,tsx}', // ignore storybook files
           ...nuxtIgnorePatterns,
           ...(dirOptions.ignore || [])
         ],

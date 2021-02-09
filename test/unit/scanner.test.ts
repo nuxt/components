@@ -11,6 +11,7 @@ test('scanner', async () => {
     'Bar',
     'Big',
     'Mouse',
+    'PAScal',
     'Foo',
     'Functional',
     'FunctionalChild',

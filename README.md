@@ -70,7 +70,7 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video exampl
 
 ## Dynamic Components
 
-In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there is two options:
+In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there are two options:
 - Using `components/global/` directory
 - Setting a custom path with the [global option](#global)
 
@@ -123,7 +123,7 @@ We can now use our dynamic components in our templates:
 <component :is="'Post'" />
 ```
 
-Please note that the `global` option does not means components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
+Please note that the `global` option does not mean components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
 
 ### Lazy Imports
 

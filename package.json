@@ -1,6 +1,6 @@
 {
   "name": "@nuxt/components",
-  "version": "1.2.2",
+  "version": "1.2.6",
   "description": "Auto Import Components for Nuxt.js",
   "repository": "nuxt/components",
   "license": "MIT",
@@ -17,8 +17,7 @@
     "templates"
   ],
   "scripts": {
-    "build": "yarn clean && siroc build",
-    "clean": "rimraf dist",
+    "build": "siroc build",
     "dev": "nuxt-ts test/fixture",
     "lint": "eslint --ext .ts,.js,.vue .",
     "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish",
@@ -26,11 +25,12 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "chokidar": "^3.4.3",
+    "chokidar": "^3.5.1",
     "glob": "^7.1.6",
-    "globby": "^11.0.1",
+    "globby": "^11.0.2",
     "lodash": "^4.17.20",
     "semver": "^7.3.4",
+    "upath": "^2.0.1",
     "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
@@ -51,7 +51,6 @@
     "nuxt-edge": "latest",
     "pug": "latest",
     "pug-plain-loader": "latest",
-    "rimraf": "latest",
     "siroc": "latest",
     "standard-version": "latest"
   }

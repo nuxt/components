@@ -1,11 +1,16 @@
-import { basename, extname, join, dirname } from 'path'
+import { basename, extname, join, dirname } from 'upath'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 import type { ScanDir, Component } from './types'
 
 const LAZY_PREFIX = 'lazy'
-const pascalCase = (str: string) => upperFirst(camelCase(str))
-const isWindows = process.platform.startsWith('win')
+const pascalCase = (str: string) => {
+  const isFirstCharUppercase = str[0] === str[0].toUpperCase()
+  const containsHyphens = str.includes('-')
+  const shouldTransformToPascal = !isFirstCharUppercase || containsHyphens
+
+  return shouldTransformToPascal ? upperFirst(camelCase(str)) : str
+}
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
@@ -14,7 +19,7 @@ function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDi
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
     pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
-    kebabName: kebabName.startsWith(prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
+    kebabName: kebabName.startsWith(prefix) ? kebabName : `${kebabCase(prefix)}-${kebabName}`,
     ...rest
   }
 }
@@ -28,7 +33,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
-      let filePath = join(path, _file)
+      const filePath = join(path, _file)
 
       if (scannedPaths.find(d => filePath.startsWith(d))) {
         continue
@@ -54,14 +59,9 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       const pascalName = pascalCase(fileName)
       const kebabName = kebabCase(fileName)
-      const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
-      let chunkName = shortPath.replace(extname(shortPath), '')
 
-      // istanbul ignore if
-      if (isWindows) {
-        filePath = filePath.replace(/\\/g, '\\\\')
-        chunkName = chunkName.replace('/', '_')
-      }
+      const shortPath = filePath.replace(srcDir, '')
+      const chunkName = 'components/' + kebabName
 
       let _c = prefixComponent(prefix, {
         filePath,
