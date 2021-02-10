@@ -1,11 +1,11 @@
-import { basename, extname, join, dirname, relative, sep } from 'upath'
+import { basename, extname, join, dirname, relative } from 'upath'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 import type { ScanDir, Component } from './types'
 
 const LAZY_PREFIX = 'lazy'
-const pascalCase = (str: string) => {
-  const isFirstCharUppercase = str[0] === str[0].toUpperCase()
+const pascalCase = (str: string = '') => {
+  const isFirstCharUppercase = str[0] === str.toUpperCase()[0]
   const containsHyphens = str.includes('-')
   const shouldTransformToPascal = !isFirstCharUppercase || containsHyphens
 
@@ -43,14 +43,14 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       filePaths.add(filePath)
 
       // Resolve componentName
-      let componentName = pascalCase(basename(filePath, extname(filePath)))
+      let componentName = pascalCase(basename(filePath, extname(filePath)).replace(/^\//g, ''))
+      const pathPrefix = pascalCase(relative(path, dirname(filePath)).replace(/^\//g, ''))
       const parentDirName = pascalCase(basename(dirname(filePath)))
-      const pathPrefix = pascalCase(relative(path, dirname(filePath)))
 
       if (['Index', parentDirName].includes(componentName)) {
         componentName = pathPrefix
       } else if (!componentName.startsWith(pathPrefix.replace(/s$/, ''))) {
-        componentName = pathPrefix + sep + componentName
+        componentName = pathPrefix + componentName
       }
 
       if (resolvedNames.has(componentName)) {
