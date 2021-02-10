@@ -1,5 +1,5 @@
 <template>
   <div>
-    Functional Child
+    Pascal Case
   </div>
 </template>

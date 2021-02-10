@@ -1,7 +1,7 @@
-import { loader as WebpackLoader } from 'webpack'
-import loaderUtils from 'loader-utils'
+import type { loader as WebpackLoader } from 'webpack'
 import { extractTags } from './tagExtractor'
-import { Component, matcher } from './scan'
+import { matcher } from './scan'
+import type { Component } from './types'
 
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
   const imports = '{' + components.map(c => `${c.pascalName}: ${c.import}`).join(',') + '}'
@@ -27,15 +27,7 @@ export default async function loader (this: WebpackLoader.LoaderContext, content
   if (!this.resourceQuery) {
     this.addDependency(this.resourcePath)
 
-    const { dependencies, getComponents } = {
-      dependencies: [],
-      getComponents: () => [],
-      ...loaderUtils.getOptions(this)
-    }
-
-    for (const dependency of dependencies) {
-      this.addDependency(dependency)
-    }
+    const { getComponents } = this.query
 
     const tags = await extractTags(this.resourcePath)
     const matchedComponents = matcher(tags, getComponents())

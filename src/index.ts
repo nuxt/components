@@ -1,48 +1,17 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'upath'
 import chokidar from 'chokidar'
-import { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
-// @ts-ignore
-import RuleSet from 'webpack/lib/RuleSet'
-import { Module } from '@nuxt/types'
+import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
+import type { Module } from '@nuxt/types'
 
 import { requireNuxtVersion } from './compatibility'
-import { scanComponents, ScanDir } from './scan'
-
-export interface ComponentsDir extends ScanDir {
-  watch?: boolean
-  extensions?: string[]
-  transpile?: 'auto' | boolean
-}
-
-type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
-type componentsExtendHook = (components: (ComponentsDir|ScanDir)[]) => void | Promise<void>
-
-declare module '@nuxt/types/config/hooks' {
-  interface NuxtOptionsHooks {
-    'components:dirs'?: componentsDirHook
-    'components:extend'?: componentsExtendHook
-    components?: {
-      dirs?: componentsDirHook
-      extend?: componentsExtendHook
-    }
-  }
-}
-
-export interface Options {
-  dirs: (string | ComponentsDir)[]
-}
-
-declare module '@nuxt/types/config/index' {
-  interface NuxtOptions {
-    components: boolean | Options | Options['dirs']
-  }
-}
+import { scanComponents } from './scan'
+import type { Options, ComponentsDir } from './types'
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
 
-const componentsModule = <Module> function () {
+const componentsModule: Module<Options> = function () {
   const { nuxt } = this
   const { components } = nuxt.options
 
@@ -55,6 +24,7 @@ const componentsModule = <Module> function () {
 
   const options: Options = {
     dirs: ['~/components'],
+    loader: !nuxt.options.dev,
     ...Array.isArray(components) ? { dirs: components } : components
   }
 
@@ -63,13 +33,16 @@ const componentsModule = <Module> function () {
 
     await nuxt.callHook('components:dirs', options.dirs)
 
-    // Add components/global/ directory
+    const resolvePath = (dir: any) => nuxt.resolver.resolvePath(dir)
+
+    // Add components/global/ directory (backward compatibility to remove prefix)
     try {
-      const globalDir = getDir(nuxt.resolver.resolvePath('~/components/global'))
-      options.dirs.push({
-        path: globalDir,
-        global: true
-      })
+      const globalDir = getDir(resolvePath('~/components/global'))
+      if (!options.dirs.find(dir => resolvePath(dir) === globalDir)) {
+        options.dirs.push({
+          path: globalDir
+        })
+      }
     } catch (err) {
       /* istanbul ignore next */
       nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
@@ -83,10 +56,8 @@ const componentsModule = <Module> function () {
 
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
 
-      // Normalize global option
-      if (dirOptions.global === 'dev') {
-        dirOptions.global = nuxt.options.dev
-      }
+      // Normalize level
+      dirOptions.level = Number(dirOptions.level || 0)
 
       const enabled = fs.existsSync(dirPath)
       if (!enabled && dirOptions.path !== '~/components') {
@@ -103,7 +74,8 @@ const componentsModule = <Module> function () {
         extensions,
         pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
         ignore: [
-          '**/*.stories.js', // ignore storybook files
+          '**/*.stories.{js,ts,jsx,tsx}', // ignore storybook files
+          '**/*{M,.m,-m}ixin.{js,ts,jsx,tsx}', // ignore mixins
           ...nuxtIgnorePatterns,
           ...(dirOptions.ignore || [])
         ],
@@ -116,19 +88,35 @@ const componentsModule = <Module> function () {
     let components = await scanComponents(componentDirs, nuxt.options.srcDir!)
     await nuxt.callHook('components:extend', components)
 
-    // Add loader for tree shaking
-    if (componentDirs.some(dir => !dir.global)) {
+    // Add loader for tree shaking in production only
+    if (options.loader) {
+      // eslint-disable-next-line no-console
+      console.info('Using components loader to optimize imports')
       this.extendBuild((config) => {
-        const { rules }: any = new RuleSet(config.module!.rules)
-        const vueRule = rules.find((rule: any) => rule.use && rule.use.find((use: any) => use.loader === 'vue-loader'))
-        vueRule.use.unshift({
+        const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
+        if (!vueRule) {
+          throw new Error('Cannot find vue loader')
+        }
+        if (!vueRule.use) {
+          vueRule.use = [{
+            loader: vueRule.loader!.toString(),
+            options: vueRule.options
+          }]
+          delete vueRule.loader
+          delete vueRule.options
+        }
+        if (!Array.isArray(vueRule!.use)) {
+          // @ts-ignore
+          vueRule.use = [vueRule.use]
+        }
+
+        // @ts-ignore
+        vueRule!.use!.unshift({
           loader: require.resolve('./loader'),
           options: {
-            dependencies: nuxt.options.dev ? componentDirs.filter(dir => !dir.global).map(dir => dir.path) : /* istanbul ignore next */[],
             getComponents: () => components
           }
         })
-        config.module!.rules = rules
       })
 
       // Add Webpack entry for runtime installComponents function

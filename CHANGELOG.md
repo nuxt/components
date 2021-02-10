@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.6](https://github.com/nuxt/components/compare/v1.2.5...v1.2.6) (2021-02-01)
+
+
+### Bug Fixes
+
+* **ignore:** ignore typescript stories ([#135](https://github.com/nuxt/components/issues/135)) ([cf54c71](https://github.com/nuxt/components/commit/cf54c71f6efe5a1307772f88f174006f639cbea1))
+
+### [1.2.5](https://github.com/nuxt/components/compare/v1.2.4...v1.2.5) (2021-01-13)
+
+
+### Bug Fixes
+
+* **scan:** preserve original component name for webpack chunk ([82357b2](https://github.com/nuxt/components/commit/82357b20651fa792927e6c98bee713a8cf72c619))
+
+### [1.2.4](https://github.com/nuxt/components/compare/v1.2.3...v1.2.4) (2021-01-12)
+
+
+### Bug Fixes
+
+* **scan:** generate chunkName based on componentName and use upath ([1b5139a](https://github.com/nuxt/components/commit/1b5139a861712f800f34b1bfed73b59dfd49a404)), closes [nuxt/content#711](https://github.com/nuxt/content/issues/711)
+* **types:** fix generated types ([57d6eb5](https://github.com/nuxt/components/commit/57d6eb5f14a9083e755012107e5e8025f2e1fdd0))
+
+### [1.2.3](https://github.com/nuxt/components/compare/v1.2.2...v1.2.3) (2021-01-06)
+
+
+### Bug Fixes
+
+* transform to PascalCase only on first lower letter or name contains hyphens ([#129](https://github.com/nuxt/components/issues/129)) ([2c819e6](https://github.com/nuxt/components/commit/2c819e6776ed8142394fc823f8b992e70389e242))
+
+### [1.2.2](https://github.com/nuxt/components/compare/v1.2.1...v1.2.2) (2020-12-07)
+
+
+### Bug Fixes
+
+* convert const to var for ie compatibility ([eac269c](https://github.com/nuxt/components/commit/eac269c41905ed937793e2fe2a0432034241c0b8))
+
+### [1.2.1](https://github.com/nuxt/components/compare/v1.2.0...v1.2.1) (2020-12-06)
+
+
+### Bug Fixes
+
+* **module:** avoid adding global directory if manually added ([#120](https://github.com/nuxt/components/issues/120)) ([dad04f7](https://github.com/nuxt/components/commit/dad04f7e2971e04619c8369011efe753c048d8df))
+* don't use implicit dependencies ([#119](https://github.com/nuxt/components/issues/119)) ([ceaaaec](https://github.com/nuxt/components/commit/ceaaaec7e36e44aa0b1f097f17f9e66106d64e41))
+* ie compatibility (resolves [#109](https://github.com/nuxt/components/issues/109)) ([04bea9b](https://github.com/nuxt/components/commit/04bea9bc3e44533fc6c6128234a7c13eb3f704ce))
+
+## [1.2.0](https://github.com/nuxt/components/compare/v1.1.1...v1.2.0) (2020-11-23)
+
+
+### Features
+
+* add components/global/ directory ([#113](https://github.com/nuxt/components/issues/113)) ([dde86a7](https://github.com/nuxt/components/commit/dde86a7ba72425f771571e12373ffa261e880f53))
+* support overwriting components ([#96](https://github.com/nuxt/components/issues/96)) ([47a21e9](https://github.com/nuxt/components/commit/47a21e9a016c20022e4ec9c6ae3dac469a91a4a1))
+
 ### [1.1.1](https://github.com/nuxt/components/compare/v1.1.0...v1.1.1) (2020-10-22)
 
 

@@ -1,31 +1,15 @@
-import { basename, extname, join, dirname, relative, sep } from 'path'
+import { basename, extname, join, dirname, relative, sep } from 'upath'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
+import type { ScanDir, Component } from './types'
 
 const LAZY_PREFIX = 'lazy'
-const pascalCase = (str: string) => upperFirst(camelCase(str))
-const isWindows = process.platform.startsWith('win')
+const pascalCase = (str: string) => {
+  const isFirstCharUppercase = str[0] === str[0].toUpperCase()
+  const containsHyphens = str.includes('-')
+  const shouldTransformToPascal = !isFirstCharUppercase || containsHyphens
 
-export interface Component {
-  pascalName: string
-  kebabName: string
-  import: string
-  asyncImport: string
-  export: string
-  filePath: string
-  shortPath: string
-  async?: boolean
-  chunkName: string
-  global: boolean
-}
-
-export interface ScanDir {
-  path: string
-  pattern?: string | string[]
-  ignore?: string[]
-  prefix?: string
-  global?: boolean | 'dev',
-  extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
+  return shouldTransformToPascal ? upperFirst(camelCase(str)) : str
 }
 
 function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
@@ -35,7 +19,7 @@ function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDi
 function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
     pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
-    kebabName: kebabName.startsWith(prefix) ? kebabName : kebabCase(prefix) + '-' + kebabName,
+    kebabName: kebabName.startsWith(prefix) ? kebabName : `${kebabCase(prefix)}-${kebabName}`,
     ...rest
   }
 }
@@ -45,11 +29,11 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const filePaths = new Set<string>()
   const scannedPaths: string[] = []
 
-  for (const { path, pattern, ignore = [], prefix, extendComponent, global } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent, global, level } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
-      let filePath = join(path, _file)
+      const filePath = join(path, _file)
 
       if (scannedPaths.find(d => filePath.startsWith(d))) {
         continue
@@ -81,14 +65,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       const pascalName = pascalCase(componentName)
       const kebabName = kebabCase(componentName)
-      const shortPath = filePath.replace(srcDir, '').replace(/\\/g, '/').replace(/^\//, '')
-      let chunkName = shortPath.replace(extname(shortPath), '')
-
-      // istanbul ignore if
-      if (isWindows) {
-        filePath = filePath.replace(/\\/g, '\\\\')
-        chunkName = chunkName.replace('/', '_')
-      }
+      const shortPath = filePath.replace(srcDir, '')
+      const chunkName = 'components/' + kebabName
 
       let _c = prefixComponent(prefix, {
         filePath,
@@ -99,7 +77,8 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         import: '',
         asyncImport: '',
         export: 'default',
-        global: Boolean(global)
+        global: Boolean(global),
+        level: Number(level)
       })
 
       if (typeof extendComponent === 'function') {
@@ -109,16 +88,26 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const _import = _c.import || `require('${_c.filePath}').${_c.export}`
       const _asyncImport = _c.asyncImport || `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
 
-      components.push({
+      const component = {
         ..._c,
         import: _import
-      })
-
-      components.push(prefixComponent(LAZY_PREFIX, {
+      }
+      const lazyComponent = prefixComponent(LAZY_PREFIX, {
         ..._c,
         async: true,
         import: _asyncImport
-      }))
+      })
+
+      // Check if component is already defined, used to overwite if level is inferiour
+      const definedComponent = components.find(c => c.pascalName === component.pascalName)
+      if (definedComponent && component.level < definedComponent.level) {
+        Object.assign(definedComponent, component)
+        const definedLazyComponent = components.find(c => c.pascalName === lazyComponent.pascalName)
+        definedLazyComponent && Object.assign(definedLazyComponent, lazyComponent)
+      } else if (!definedComponent) {
+        components.push(component)
+        components.push(lazyComponent)
+      }
     }
 
     scannedPaths.push(path)

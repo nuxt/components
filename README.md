@@ -8,7 +8,7 @@
 [![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
-> Module to scan and auto import components for Nuxt.js 2.13+
+> Module to scan and auto import components for Nuxt 2.13+
 
 - [🎲&nbsp; Play on CodeSandbox](https://githubbox.com/nuxt/components/tree/master/example)
 - [🎬&nbsp; Demonstration video (49s)](https://www.youtube.com/watch?v=lQ8OBrgVVr8)
@@ -20,18 +20,22 @@
 - [Usage](#usage)
 - [Dynamic Components](#dynamic-components)
 - [Lazy Imports](#lazy-imports)
-- [Options](#options)
+- [Overwriting Components](#overwriting-components)
+- [Directories](#directories)
+- [Directory Properties](#directory-properties)
 - [Library authors](#library-authors)
 - [License](#license)
 
 ## Features
 
-- Scan and auto import components
+- Automatically scan `components/` directory
+- No need to manually import components anymore
 - Multiple paths with customizable prefixes and lookup/ignore patterns
-- Dynamic import (**aka** Lazy loading) Support
-- Hot reloading Support
-- Transpiling Support (useful for component [library authors](#library-authors))
-- Fully tested!
+- Lazy loading (Async components)
+- Production code-splitting optimization (loader)
+- Hot reloading
+- Module integration ([library authors](#library-authors))
+- Fully tested
 
 ## Usage
 
@@ -48,9 +52,9 @@ export default {
 **Create your components:**
 
 ```bash
-components/
-  ComponentFoo.vue
-  ComponentBar.vue
+| components/
+---| ComponentFoo.vue
+---| ComponentBar.vue
 ```
 
 **Use them whenever you want, they will be auto imported in `.vue` files :**
@@ -66,70 +70,15 @@ No need anymore to manually import them in the `script` section!
 
 See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video example](https://www.youtube.com/watch?v=lQ8OBrgVVr8).
 
-## Dynamic Components
-
-In order to use [dynamic components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) such as `<component :is="myComponent" />`, there is two options:
-- Using `components/global/` directory
-- Setting a custom path with the [global option](#global)
-
-### Using `components/global/`
-
-> This feature is only available in Nuxt `v2.14.8` or by upgrading this module to `v1.2.0`
-
-Any component inside `components/global/` will be available globally (with lazy import) so you can directly use them in your dynamic components.
-
-```bash
-components/
-  global/
-    Home.vue
-    Post.vue
-```
-
-You can now use `<component>`:
-
-```html
-<component :is="'Home'" />
-<component :is="'Post'" />
-```
-
-### Using global option
-
-Considering this directory structure:
-
-```bash
-components/
-  dynamic/
-    Home.vue
-    Post.vue
-```
-
-In our `nuxt.config` file, we add this path with `global: true` option:
-
-```js
-export default {
-  components: [
-    { path: '~/components/dynamic', global: true },
-    '~/components'
-  ]
-}
-```
-
-We can now use our dynamic components in our templates:
-
-```html
-<component :is="'Home'" />
-<component :is="'Post'" />
-```
-
-Please note that the `global` option does not means components are added to main chunk but they are dynamically imported with webpack, [read more](#global).
-
 ### Lazy Imports
 
-To make a component imported dynamically ([lazy loaded](https://webpack.js.org/guides/lazy-loading/)), all you need is adding a `Lazy` prefix in your templates.
+Nuxt by default does code-slitting per page and components. But sometimes we also need to lazy load them:
+- Component size is rather big (or has big dependencies imported) like a text-editor
+- Component is rendered conditionally with `v-if` or being in a modal
 
-> If you think this prefix should be customizable, feel free to create a feature request issue!
+In order to [lazy load](https://webpack.js.org/guides/lazy-loading/)) a componenet, all we need is adding `Lazy` prefix to component name.
 
-You are now being able to easily import a component on-demand :
+You are now being able to easily import a component on-demand:
 
 ```html
 <template>
@@ -160,9 +109,9 @@ export default {
 If you have components in nested directories:
 
 ```bash
-components/
-  foo/
-    Bar.vue
+| components/
+---| foo/
+------| Bar.vue
 ````
 
 The component name will be based on **its filename**:
@@ -171,22 +120,43 @@ The component name will be based on **its filename**:
 <Bar />
 ```
 
-We do recommend to use the directory name in the filename for clarity in order to use `<FooBar />`:
+We do recommend to use the directory name in combination with the filename for clarity ( `<FooBar />` instead of `<Bar />`). Be aware that this only works for the first directory level at the moment.
 
-```bash
-components/
-  foo/
-    FooBar.vue
-```
 
 If you want to keep the filename as `Bar.vue`, consider using the `prefix` option: (See [directories](#directories) section)
 
 ```js
 components: [
-    '~/components/',
-    { path: '~/components/foo/', prefix: 'foo' }
+  '~/components/',
+  { path: '~/components/foo/', prefix: 'foo' }
 ]
 ```
+
+## Overwriting Components
+
+It is possible to have a way to overwrite components using the [level](#level) option. This is very useful for modules and theme authors.
+
+Considering this structure:
+
+```bash
+| node_modules/
+---| my-theme/
+------| components/
+---------| Header.vue
+| components/
+---| Header.vue
+```
+
+Then defining in the `nuxt.config`:
+
+```js
+components: [
+  '~/components', // default level is 0
+  { path: 'node_modules/my-theme/components', level: 1 }
+]
+```
+
+Our `components/Header.vue` will overwrites our theme component since the lowest level overwrites.
 
 ## Directories
 
@@ -217,17 +187,6 @@ Path (absolute or relative) to the directory containing your components.
 
 You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
 
-#### global
-
-- Type: `Boolean`
-- Default: `false`
-
-Define if the components inside the path should be defined as global, this is useful when using [dynamic components](#dynamic-components).
-
-Please note that `global` option does not means components are added to main chunk but they are dynamically imported with webpack (see [here](https://github.com/nuxt/components/blob/master/templates/components/plugin.js))
-
-This option is disabled by default purposefully because forcing webpack to make one async chunk per-component makes chunking less efficient so you have to only use for dirs/when dynamic components are necessary.
-
 #### extensions
 
 - Type: `Array<string>`
@@ -240,12 +199,11 @@ This option is disabled by default purposefully because forcing webpack to make 
 If you prefer to split your SFCs into `.js`, `.vue` and `.css`, you can only enable `.vue` files to be scanned:
 
 ```
-├── src
-│   └── components
-│         └── componentC
-│           └── componentC.vue
-│           └── componentC.js
-│           └── componentC.scss
+| components
+---| componentC
+------| componentC.vue
+------| componentC.js
+------| componentC.scss
 ```
 
 ```js
@@ -320,6 +278,24 @@ Watch specified `path` for changes, including file additions and file deletions.
 - Default: `'auto'`
 
 Transpile specified `path` using [`build.transpile`](https://nuxtjs.org/api/configuration-build#transpile), by default (`'auto'`) it will set `transpile: true` if `node_modules/` is in `path`.
+
+#### level
+
+- Type: `Number`
+- Default: `0`
+
+Level are use to define a hint when overwriting the components which have the same name in two different directories, this is useful for theming.
+
+```js
+export default {
+  components: [
+    '~/components', // default level is 0
+   { path: 'my-theme/components', level: 1 }
+  ]
+}
+```
+
+Components having the same name in `~/components` will overwrite the one in `my-theme/components`, learn more in [Overwriting Components](#overwriting-components). The lowest value will overwrites.
 
 ## Library Authors
 

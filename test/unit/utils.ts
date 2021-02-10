@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'upath'
 import { scanComponents } from '../../src/scan'
 
 export const warn = console.warn = jest.fn() // eslint-disable-line no-console

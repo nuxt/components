@@ -1,9 +1,14 @@
 {
   "name": "@nuxt/components",
-  "version": "1.1.1",
+  "version": "1.2.6",
   "description": "Auto Import Components for Nuxt.js",
   "repository": "nuxt/components",
   "license": "MIT",
+  "exports": {
+    ".": "./dist/index.js",
+    "./": "./",
+    "./loader": "./dist/loader.js"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -12,8 +17,7 @@
     "templates"
   ],
   "scripts": {
-    "build": "yarn clean && bili src/index.ts,src/loader.ts",
-    "clean": "rimraf dist",
+    "build": "siroc build",
     "dev": "nuxt-ts test/fixture",
     "lint": "eslint --ext .ts,.js,.vue .",
     "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish",
@@ -21,15 +25,18 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "chokidar": "^3.4.3",
+    "chokidar": "^3.5.1",
     "glob": "^7.1.6",
-    "globby": "^11.0.1",
+    "globby": "^11.0.2",
     "lodash": "^4.17.20",
-    "semver": "^7.3.2"
+    "semver": "^7.3.4",
+    "upath": "^2.0.1",
+    "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
-    "@nuxt/test-utils": "^0.0.1",
+    "@babel/preset-typescript": "latest",
+    "@nuxt/test-utils": "latest",
     "@nuxt/types": "latest",
     "@nuxt/typescript-build": "latest",
     "@nuxt/typescript-runtime": "latest",
@@ -38,19 +45,13 @@
     "@types/loader-utils": "latest",
     "@types/lodash": "latest",
     "@types/semver": "latest",
-    "bili": "latest",
     "eslint": "latest",
     "jest": "latest",
+    "loader-utils": "latest",
     "nuxt-edge": "latest",
     "pug": "latest",
     "pug-plain-loader": "latest",
-    "rimraf": "latest",
-    "rollup-plugin-typescript2": "latest",
-    "standard-version": "latest",
-    "ts-jest": "latest",
-    "typescript": "latest"
-  },
-  "peerDependencies": {
-    "webpack": "^4.0.0"
+    "siroc": "latest",
+    "standard-version": "latest"
   }
 }
