@@ -1,11 +1,11 @@
-import { basename, extname, join, dirname } from 'upath'
+import { basename, extname, join, dirname, relative } from 'upath'
 import globby from 'globby'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 import type { ScanDir, Component } from './types'
 
 const LAZY_PREFIX = 'lazy'
-const pascalCase = (str: string) => {
-  const isFirstCharUppercase = str[0] === str[0].toUpperCase()
+const pascalCase = (str: string = '') => {
+  const isFirstCharUppercase = str[0] === str.toUpperCase()[0]
   const containsHyphens = str.includes('-')
   const shouldTransformToPascal = !isFirstCharUppercase || containsHyphens
 
@@ -42,24 +42,29 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       if (filePaths.has(filePath)) { continue }
       filePaths.add(filePath)
 
-      let fileName = basename(filePath, extname(filePath))
-      if (fileName === 'index') {
-        fileName = basename(dirname(filePath), extname(filePath))
+      // Resolve componentName
+      let componentName = pascalCase(basename(filePath, extname(filePath)).replace(/^\//g, ''))
+      const pathPrefix = pascalCase(relative(path, dirname(filePath)).replace(/^\//g, ''))
+      const parentDirName = pascalCase(basename(dirname(filePath)))
+
+      if (['Index', parentDirName].includes(componentName)) {
+        componentName = pathPrefix
+      } else if (!componentName.startsWith(pathPrefix.replace(/s$/, ''))) {
+        componentName = pathPrefix + componentName
       }
 
-      if (resolvedNames.has(fileName)) {
+      if (resolvedNames.has(componentName)) {
         // eslint-disable-next-line no-console
-        console.warn(`Two component files resolving to the same name \`${fileName}\`:\n` +
+        console.warn(`Two component files resolving to the same name \`${componentName}\`:\n` +
           `\n - ${filePath}` +
-          `\n - ${resolvedNames.get(fileName)}`
+          `\n - ${resolvedNames.get(componentName)}`
         )
         continue
       }
-      resolvedNames.set(fileName, filePath)
+      resolvedNames.set(componentName, filePath)
 
-      const pascalName = pascalCase(fileName)
-      const kebabName = kebabCase(fileName)
-
+      const pascalName = pascalCase(componentName)
+      const kebabName = kebabCase(componentName)
       const shortPath = filePath.replace(srcDir, '')
       const chunkName = 'components/' + kebabName
 

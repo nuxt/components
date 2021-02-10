@@ -15,6 +15,10 @@ test('scanner', async () => {
     'Foo',
     'Functional',
     'FunctionalChild',
+    'FormInputText',
+    'FormInputTextArea',
+    'FormInputRadio',
+    'FormLayout',
     'Header'
   ]
 
