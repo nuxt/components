@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-0](https://github.com/nuxt/components/compare/v1.2.6...v2.0.0-0) (2021-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* prefix components in nested dirs with full path (#81)
+
+### Features
+
+* components always available globally (hybrid loader) ([#126](https://github.com/nuxt/components/issues/126)) ([7a855dc](https://github.com/nuxt/components/commit/7a855dcbfb151990e939f95abf6b70fa64ad672b))
+* included pattern to ignore mixins ([#136](https://github.com/nuxt/components/issues/136)) ([aa6da2f](https://github.com/nuxt/components/commit/aa6da2fcf895a62e389dc3df6d62b32c100ba7fb))
+* prefix components in nested dirs with full path ([#81](https://github.com/nuxt/components/issues/81)) ([84a5de7](https://github.com/nuxt/components/commit/84a5de7e68dbb0536e35b656a2b21626adffcfc9))
+
 ### [1.2.6](https://github.com/nuxt/components/compare/v1.2.5...v1.2.6) (2021-02-01)
 
 
