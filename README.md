@@ -110,20 +110,20 @@ If you have components in nested directories:
 
 ```bash
 | components/
----| foo/
-------| Bar.vue
+---| my/
+---| form/
+------| TextArea.vue
 ````
 
-The component name will be based on **its filename**:
+The component name will contain it's path:
 
 ```html
-<Bar />
+<MyFormTextArea />
 ```
 
-We do recommend to use the directory name in combination with the filename for clarity ( `<FooBar />` instead of `<Bar />`). Be aware that this only works for the first directory level at the moment.
+For clarity, it is recommend that component file name matching it's name. You can also use `MyFormTextArea.vue` as name with same directory structure.
 
-
-If you want to keep the filename as `Bar.vue`, consider using the `prefix` option: (See [directories](#directories) section)
+If for any reason different prefix is desired, we can add specific directory with the `prefix` option: (See [directories](#directories) section)
 
 ```js
 components: [
