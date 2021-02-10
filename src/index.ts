@@ -24,6 +24,7 @@ const componentsModule: Module<Options> = function () {
 
   const options: Options = {
     dirs: ['~/components'],
+    loader: !nuxt.options.dev,
     ...Array.isArray(components) ? { dirs: components } : components
   }
 
@@ -34,13 +35,12 @@ const componentsModule: Module<Options> = function () {
 
     const resolvePath = (dir: any) => nuxt.resolver.resolvePath(dir)
 
-    // Add components/global/ directory
+    // Add components/global/ directory (backward compatibility to remove prefix)
     try {
       const globalDir = getDir(resolvePath('~/components/global'))
       if (!options.dirs.find(dir => resolvePath(dir) === globalDir)) {
         options.dirs.push({
-          path: globalDir,
-          global: true
+          path: globalDir
         })
       }
     } catch (err) {
@@ -55,11 +55,6 @@ const componentsModule: Module<Options> = function () {
       try { dirPath = getDir(nuxt.resolver.resolvePath(dirOptions.path)) } catch (err) {}
 
       const transpile = typeof dirOptions.transpile === 'boolean' ? dirOptions.transpile : 'auto'
-
-      // Normalize global option
-      if (dirOptions.global === 'dev') {
-        dirOptions.global = nuxt.options.dev
-      }
 
       // Normalize level
       dirOptions.level = Number(dirOptions.level || 0)
@@ -92,8 +87,10 @@ const componentsModule: Module<Options> = function () {
     let components = await scanComponents(componentDirs, nuxt.options.srcDir!)
     await nuxt.callHook('components:extend', components)
 
-    // Add loader for tree shaking
-    if (componentDirs.some(dir => !dir.global)) {
+    // Add loader for tree shaking in production only
+    if (options.loader) {
+      // eslint-disable-next-line no-console
+      console.info('Using components loader to optimize imports')
       this.extendBuild((config) => {
         const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
         if (!vueRule) {
@@ -116,7 +113,6 @@ const componentsModule: Module<Options> = function () {
         vueRule!.use!.unshift({
           loader: require.resolve('./loader'),
           options: {
-            dependencies: nuxt.options.dev ? componentDirs.filter(dir => !dir.global).map(dir => dir.path) : /* istanbul ignore next */[],
             getComponents: () => components
           }
         })
