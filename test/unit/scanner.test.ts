@@ -19,7 +19,8 @@ test('scanner', async () => {
     'FormInputTextArea',
     'FormInputRadio',
     'FormLayout',
-    'Header'
+    'Header',
+    'DeepNestedMyComponent'
   ]
 
   expect(components.map(c => c.pascalName).sort()).toEqual([
