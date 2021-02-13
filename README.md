@@ -297,6 +297,44 @@ export default {
 
 Components having the same name in `~/components` will overwrite the one in `my-theme/components`, learn more in [Overwriting Components](#overwriting-components). The lowest value will overwrites.
 
+## Migration guide
+
+## `v1` to `v2`
+
+Starting with `nuxt@2.15`, nuxt uses `@nuxt/components` v2:
+
+- All components are globally available so you can move `components/global/`
+to `components/` and `global: true` is not required anymore
+- Full path inside `components` is used to prefix component names. If you was structing your
+components in multiple directories, should either add prefix or register in `components` section of `nuxt.config`.
+
+**Example:**
+
+```
+components
+├── atoms
+│   └── icons
+├── molecules
+│   └── illustrations
+├── organisms
+│   └── ads
+└── templates
+    ├── blog
+    └── home
+```
+
+```js
+// nuxt.config.js
+export default {
+  components: [
+    '~/components/templates',
+    '~/components/atoms',
+    '~/components/molecules',
+    '~/components/organisms',
+  ]
+}
+```
+
 ## Library Authors
 
 Making Vue Component libraries with automatic tree-shaking and component registration is now damn easy ✨
