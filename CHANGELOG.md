@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-1](https://github.com/nuxt/components/compare/v2.0.0-0...v2.0.0-1) (2021-02-13)
+
+
+### Bug Fixes
+
+* allow components to be in multilevel nested folders ([#141](https://github.com/nuxt/components/issues/141)) ([9aa52f4](https://github.com/nuxt/components/commit/9aa52f458698ba058e073c59b46460e7d2a46028))
+
 ## [2.0.0-0](https://github.com/nuxt/components/compare/v1.2.6...v2.0.0-0) (2021-02-10)
 
 
