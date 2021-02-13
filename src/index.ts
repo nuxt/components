@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'upath'
 import chokidar from 'chokidar'
 import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
-import type { Module } from '@nuxt/types'
+import type { Module } from '@nuxt/types/config'
 
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
