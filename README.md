@@ -76,9 +76,9 @@ Nuxt by default does code-slitting per page and components. But sometimes we als
 - Component size is rather big (or has big dependencies imported) like a text-editor
 - Component is rendered conditionally with `v-if` or being in a modal
 
-In order to [lazy load](https://webpack.js.org/guides/lazy-loading/)) a componenet, all we need is adding `Lazy` prefix to component name.
+In order to [lazy load](https://webpack.js.org/guides/lazy-loading/) a component, all we need to do is to add `Lazy` prefix to component name.
 
-You are now being able to easily import a component on-demand:
+You now can easily import a component on-demand:
 
 ```html
 <template>
