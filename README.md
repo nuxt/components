@@ -115,13 +115,13 @@ If you have components in nested directories:
 ------| TextArea.vue
 ````
 
-The component name will contain it's path:
+The component name will contain its path:
 
 ```html
 <MyFormTextArea />
 ```
 
-For clarity, it is recommend that component file name matching it's name. You can also use `MyFormTextArea.vue` as name with same directory structure.
+For clarity, it is recommended that component file name matches its name. You can also use `MyFormTextArea.vue` as name with same directory structure.
 
 If for any reason different prefix is desired, we can add specific directory with the `prefix` option: (See [directories](#directories) section)
 
@@ -156,7 +156,7 @@ components: [
 ]
 ```
 
-Our `components/Header.vue` will overwrites our theme component since the lowest level overwrites.
+Our `components/Header.vue` will overwrite our theme component since the lowest level overwrites.
 
 ## Directories
 
@@ -185,13 +185,13 @@ Each item can be either string or object. String is shortcut to `{ path }`.
 
 Path (absolute or relative) to the directory containing your components.
 
-You can use nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
+You can use Nuxt aliases (`~` or `@`) to refer to directories inside project or directly use a npm package path similar to require.
 
 #### extensions
 
 - Type: `Array<string>`
 - Default:
-  - Extensions supported by nuxt builder (`builder.supportedExtensions`)
+  - Extensions supported by Nuxt builder (`builder.supportedExtensions`)
   - Default supported extensions `['vue', 'js']` or `['vue', 'js', 'ts', 'tsx']` depending on your environment
 
 **Example:** Support multi-file component structure
@@ -301,7 +301,7 @@ Components having the same name in `~/components` will overwrite the one in `my-
 
 ## `v1` to `v2`
 
-Starting with `nuxt@2.15`, nuxt uses `@nuxt/components` v2:
+Starting with `nuxt@2.15`, Nuxt uses `@nuxt/components` v2:
 
 - All components are globally available so you can move `components/global/`
 to `components/` and `global: true` is not required anymore
