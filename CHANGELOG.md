@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/nuxt/components/compare/v2.0.0-1...v2.0.0) (2021-02-15)
+
+
+### Bug Fixes
+
+* register global components with lazy prefix ([ae7249f](https://github.com/nuxt/components/commit/ae7249fd8dcb54b3a4c4f6e231faadc64f32dd9a)), closes [#139](https://github.com/nuxt/components/issues/139)
+
 ## [2.0.0-1](https://github.com/nuxt/components/compare/v2.0.0-0...v2.0.0-1) (2021-02-13)
 
 
