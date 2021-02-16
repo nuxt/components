@@ -40,7 +40,9 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       const componentNameParts: string[] = []
 
-      while (prefixParts.length && kebabCase(prefixParts[0]) !== kebabCase(fileNameParts[0])) {
+      while (prefixParts.length &&
+        (prefixParts[0] || '').toLowerCase() !== (fileNameParts[0] || '').toLowerCase()
+      ) {
         componentNameParts.push(prefixParts.shift()!)
       }
 
