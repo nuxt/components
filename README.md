@@ -265,6 +265,13 @@ components/
 </template>
 ```
 
+#### pathPrefix
+
+- Type: `Boolean`
+- Default: `true`
+
+Prefix component name by it's path
+
 #### watch
 
 - Type: `Boolean`
@@ -305,8 +312,8 @@ Starting with `nuxt@2.15`, Nuxt uses `@nuxt/components` v2:
 
 - All components are globally available so you can move `components/global/`
 to `components/` and `global: true` is not required anymore
-- Full path inside `components` is used to prefix component names. If you was structing your
-components in multiple directories, should either add prefix or register in `components` section of `nuxt.config`.
+- Full path inside `components` is used to prefix component names. If you were structing your
+components in multiple directories, should either add prefix or register in `components` section of `nuxt.config` or use new `pathPrefix` option.
 
 **Example:**
 
