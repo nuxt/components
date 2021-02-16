@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/nuxt/components/compare/v2.0.0...v2.1.0) (2021-02-16)
+
+
+### Features
+
+* allow disabling prefix by path using pathPrefix option ([#150](https://github.com/nuxt/components/issues/150)) ([2a2acdf](https://github.com/nuxt/components/commit/2a2acdf0826d360e7229e0e30b3c844a9c315283))
+
+
+### Bug Fixes
+
+* ignore .d.ts files (resolves [#146](https://github.com/nuxt/components/issues/146)) ([1062abf](https://github.com/nuxt/components/commit/1062abf6264987bbdce6e23a61ce8780f8aab1ba))
+* improve scanner ([#149](https://github.com/nuxt/components/issues/149)) ([62e951c](https://github.com/nuxt/components/commit/62e951cb607336d957b120bd6fdc34ebe91aa089))
+* **scan:** avoid duplicate prefix ([#148](https://github.com/nuxt/components/issues/148)) ([276aa76](https://github.com/nuxt/components/commit/276aa7672c6c4b434c7eb03c6215c4501ef553ba))
+
 ## [2.0.0](https://github.com/nuxt/components/compare/v2.0.0-1...v2.0.0) (2021-02-15)
 
 
