@@ -1,22 +1,13 @@
 import { basename, extname, join, dirname, relative } from 'upath'
 import globby from 'globby'
-import { camelCase, kebabCase, upperFirst } from 'lodash'
+import { kebabCase, pascalCase, splitByCase } from 'scule'
 import type { ScanDir, Component } from './types'
 
-const LAZY_PREFIX = 'lazy'
-const pascalCase = (str: string = '') => {
-  const isFirstCharUppercase = str[0] === str.toUpperCase()[0]
-  const containsHyphens = str.includes('-')
-  const shouldTransformToPascal = !isFirstCharUppercase || containsHyphens
-
-  return shouldTransformToPascal ? upperFirst(camelCase(str)) : str
-}
-
-function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
+export function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
 }
 
-function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
+export function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
   return {
     pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
     kebabName: kebabName.startsWith(prefix) ? kebabName : `${kebabCase(prefix)}-${kebabName}`,
@@ -43,15 +34,17 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       filePaths.add(filePath)
 
       // Resolve componentName
-      let componentName = pascalCase(basename(filePath, extname(filePath)).replace(/^\//g, ''))
-      const pathPrefix = pascalCase(relative(path, dirname(filePath)).replace(/\//g, '-'))
-      const parentDirName = pascalCase(basename(dirname(filePath)))
+      const prefixParts = splitByCase(relative(path, dirname(filePath)))
+      const fileName = basename(filePath, extname(filePath))
+      const fileNameParts = fileName.toLowerCase() === 'index' ? [] : splitByCase(fileName)
 
-      if (['Index', parentDirName].includes(componentName)) {
-        componentName = pathPrefix
-      } else if (!componentName.startsWith(pathPrefix.replace(/s$/, ''))) {
-        componentName = pathPrefix + componentName
+      const componentNameParts: string[] = []
+
+      while (prefixParts.length && kebabCase(prefixParts[0]) !== kebabCase(fileNameParts[0])) {
+        componentNameParts.push(prefixParts.shift()!)
       }
+
+      const componentName = pascalCase(componentNameParts) + pascalCase(fileNameParts)
 
       if (resolvedNames.has(componentName)) {
         // eslint-disable-next-line no-console
@@ -92,7 +85,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         ..._c,
         import: _import
       }
-      const lazyComponent = prefixComponent(LAZY_PREFIX, {
+      const lazyComponent = prefixComponent('lazy', {
         ..._c,
         async: true,
         import: _asyncImport
