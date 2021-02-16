@@ -167,9 +167,9 @@ const componentsModule: Module<Options> = function () {
     }
 
     // Add CLI info to inspect discovered components
-    // eslint-disable-next-line no-console
     const componentsListFile = path.resolve(nuxt.options.buildDir, 'components/readme.md')
-    console.info('Auto discovered components:', path.relative(process.cwd(), componentsListFile))
+    // eslint-disable-next-line no-console
+    console.info('Discovered Components:', path.relative(process.cwd(), componentsListFile))
   })
 }
 
