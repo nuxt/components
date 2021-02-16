@@ -28,7 +28,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       // Resolve componentName
       const prefixParts = ([] as string[]).concat(
         prefix ? splitByCase(prefix) : [],
-        pathPrefix ? splitByCase(relative(path, dirname(filePath))) : []
+        (pathPrefix !== false) ? splitByCase(relative(path, dirname(filePath))) : []
       )
       const fileName = basename(filePath, extname(filePath))
       const fileNameParts = fileName.toLowerCase() === 'index' ? [] : splitByCase(fileName)
