@@ -12,7 +12,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const filePaths = new Set<string>()
   const scannedPaths: string[] = []
 
-  for (const { path, pattern, ignore = [], prefix, extendComponent, global, level } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent, pathPrefix, level } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
@@ -26,10 +26,10 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       filePaths.add(filePath)
 
       // Resolve componentName
-      const prefixParts = [
-        ...splitByCase(prefix || ''),
-        ...splitByCase(relative(path, dirname(filePath)))
-      ]
+      const prefixParts = ([] as string[]).concat(
+        prefix ? splitByCase(prefix) : [],
+        (pathPrefix !== false) ? splitByCase(relative(path, dirname(filePath))) : []
+      )
       const fileName = basename(filePath, extname(filePath))
       const fileNameParts = fileName.toLowerCase() === 'index' ? [] : splitByCase(fileName)
 
