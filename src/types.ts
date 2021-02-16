@@ -20,6 +20,7 @@ export interface ScanDir {
   prefix?: string
   /** @deprecated */
   global?: boolean | 'dev'
+  pathPrefix: boolean
   level?: number
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
