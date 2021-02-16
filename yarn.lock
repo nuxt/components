@@ -10243,10 +10243,10 @@ schema-utils@^3.0.0:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
-scule@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/scule/-/scule-0.1.0.tgz#e54d7489e9fd0e7a5cb2d0083aa14c2dde9268a6"
-  integrity sha512-I71+9bMGfiLM5J5I+qwmpHexgB/O7wi3bvWJ7y0H++QYMF7YlL/4HRA/pkH9S/+pGn44CE9EGg4L27KSsn26hQ==
+scule@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/scule/-/scule-0.1.1.tgz#6bf026f1815c646f061761f9bfd7a3e783f2d05c"
+  integrity sha512-1j2RlmUNADEprCkzDaeo8w2tdum/mvQWAKdRaS2raud7IOnPaDbLSFKhcY5xXPbAFYWk4ZQ0BUnfmg0ZUcI+Pg==
 
 "semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
   version "5.7.1"

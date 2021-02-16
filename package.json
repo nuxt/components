@@ -30,7 +30,7 @@
     "chokidar": "^3.5.1",
     "glob": "^7.1.6",
     "globby": "^11.0.2",
-    "scule": "^0.1.0",
+    "scule": "^0.1.1",
     "semver": "^7.3.4",
     "upath": "^2.0.1",
     "vue-template-compiler": "^2.6.12"
