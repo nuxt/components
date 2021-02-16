@@ -65,7 +65,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       const pascalName = pascalCase(componentName)
       const kebabName = kebabCase(componentName)
-      const shortPath = filePath.replace(srcDir, '')
+      const shortPath = relative(srcDir, filePath)
       const chunkName = 'components/' + kebabName
 
       let _c = prefixComponent(prefix, {

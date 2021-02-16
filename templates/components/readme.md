@@ -1,0 +1,16 @@
+# Auto Registred Components
+
+This is an auto generated list of components discovered by [nuxt/components](https://github.com/nuxt/components)
+
+You can directly use them by name without need to import.
+
+**Tip:** If component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load them.
+
+<%
+const components = options.getComponents()
+const list = components.map(c => {
+  const pascalName = c.pascalName.replace(/^Lazy/, '')
+  const kebabName = c.kebabName.replace(/^lazy-/, '')
+  return `- \`<${pascalName}>\` | \`<${kebabName}>\` (${c.shortPath})`
+})
+%><%= list.join('\n') %>

@@ -155,6 +155,7 @@ const componentsModule: Module<Options> = function () {
     const templates = [
       'components/index.js',
       'components/plugin.js',
+      'components/readme.md',
       'vetur/tags.json'
     ]
     for (const t of templates) {
@@ -164,6 +165,11 @@ const componentsModule: Module<Options> = function () {
         options: { getComponents }
       })
     }
+
+    // Add CLI info to inspect discovered components
+    // eslint-disable-next-line no-console
+    const componentsListFile = path.resolve(nuxt.options.buildDir, 'components/readme.md')
+    console.info('Auto discovered components:', path.relative(process.cwd(), componentsListFile))
   })
 }
 
