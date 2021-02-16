@@ -7,14 +7,6 @@ export function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }:
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
 }
 
-export function prefixComponent (prefix: string = '', { pascalName, kebabName, ...rest }: Component): Component {
-  return {
-    pascalName: pascalName.startsWith(prefix) ? pascalName : pascalCase(prefix) + pascalName,
-    kebabName: kebabName.startsWith(prefix) ? kebabName : `${kebabCase(prefix)}-${kebabName}`,
-    ...rest
-  }
-}
-
 export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<Component[]> {
   const components: Component[] = []
   const filePaths = new Set<string>()
@@ -34,9 +26,11 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       filePaths.add(filePath)
 
       // Resolve componentName
-      const prefixParts = splitByCase(relative(path, dirname(filePath)))
+      const prefixParts = splitByCase(prefix ?? relative(path, dirname(filePath)))
       const fileName = basename(filePath, extname(filePath))
-      const fileNameParts = fileName.toLowerCase() === 'index' ? [] : splitByCase(fileName)
+      const fileNameParts = fileName.toLowerCase() === 'index'
+        ? splitByCase(basename(dirname(filePath)))
+        : splitByCase(fileName)
 
       const componentNameParts: string[] = []
 
@@ -63,7 +57,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const shortPath = relative(srcDir, filePath)
       const chunkName = 'components/' + kebabName
 
-      let _c = prefixComponent(prefix, {
+      let component = {
         filePath,
         pascalName,
         kebabName,
@@ -74,34 +68,21 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         export: 'default',
         global: Boolean(global),
         level: Number(level)
-      })
+      }
 
       if (typeof extendComponent === 'function') {
-        _c = (await extendComponent(_c)) || _c
+        component = (await extendComponent(component)) || component
       }
 
-      const _import = _c.import || `require('${_c.filePath}').${_c.export}`
-      const _asyncImport = _c.asyncImport || `function () { return import('${_c.filePath}' /* webpackChunkName: "${_c.chunkName}" */).then(function(m) { return m['${_c.export}'] || m }) }`
-
-      const component = {
-        ..._c,
-        import: _import
-      }
-      const lazyComponent = prefixComponent('lazy', {
-        ..._c,
-        async: true,
-        import: _asyncImport
-      })
+      component.import = component.import || `require('${component.filePath}').${component.export}`
+      component.asyncImport = component.asyncImport || `function () { return import('${component.filePath}' /* webpackChunkName: "${component.chunkName}" */).then(function(m) { return m['${component.export}'] || m }) }`
 
       // Check if component is already defined, used to overwite if level is inferiour
       const definedComponent = components.find(c => c.pascalName === component.pascalName)
       if (definedComponent && component.level < definedComponent.level) {
         Object.assign(definedComponent, component)
-        const definedLazyComponent = components.find(c => c.pascalName === lazyComponent.pascalName)
-        definedLazyComponent && Object.assign(definedLazyComponent, lazyComponent)
       } else if (!definedComponent) {
         components.push(component)
-        components.push(lazyComponent)
       }
     }
 

@@ -24,12 +24,9 @@ test('scanner', async () => {
     'UiNotificationWrapper'
   ]
 
-  expect(components.map(c => c.pascalName).sort()).toEqual([
-    ...expectedComponents,
-    ...expectedComponents.map(n => 'Lazy' + n)
-  ].sort())
+  expect(components.map(c => c.pascalName).sort()).toEqual(expectedComponents.sort())
 
   expect(warn).toBeCalledWith(
-    expect.stringMatching('Two component files resolving to the same name `SecondButton`')
+    expect.stringMatching('Two component files resolving to the same name `BaseSecondButton`')
   )
 })
