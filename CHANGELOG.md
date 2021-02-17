@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/nuxt/components/compare/v2.1.0...v2.1.1) (2021-02-17)
+
+
+### Bug Fixes
+
+* **pkg:** change postinstall to prepare ([6742b4a](https://github.com/nuxt/components/commit/6742b4ac1fd734e6199ce82d4eaf6d40dbd8f4d3))
+
 ## [2.1.0](https://github.com/nuxt/components/compare/v2.0.0...v2.1.0) (2021-02-16)
 
 
