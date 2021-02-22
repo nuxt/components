@@ -157,13 +157,13 @@ const componentsModule: Module<Options> = function () {
     const templates = [
       'components/index.js',
       'components/plugin.js',
-      'components/readme.md',
+      'components/readme_md',
       'vetur/tags.json'
     ]
     for (const t of templates) {
       this[t.includes('plugin') ? 'addPlugin' : 'addTemplate']({
         src: path.resolve(__dirname, '../templates', t),
-        fileName: t,
+        fileName: t.replace('_', '.'),
         options: { getComponents }
       })
     }
