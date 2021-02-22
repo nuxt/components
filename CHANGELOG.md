@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/nuxt/components/compare/v2.1.1...v2.1.2) (2021-02-22)
+
+
+### Bug Fixes
+
+* avoid using .md for templates (resolves nuxt/nuxt.js[#8860](https://github.com/nuxt/components/issues/8860)) ([9e6e180](https://github.com/nuxt/components/commit/9e6e1808c09ec78004715ffb009055b0dda11986))
+
 ### [2.1.1](https://github.com/nuxt/components/compare/v2.1.0...v2.1.1) (2021-02-17)
 
 
