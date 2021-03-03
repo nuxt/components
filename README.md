@@ -111,9 +111,9 @@ If you have components in nested directories:
 ```bash
 | components/
 ---| my/
----| form/
-------| TextArea.vue
-````
+------| form/
+---------| TextArea.vue
+```
 
 The component name will contain its path:
 
