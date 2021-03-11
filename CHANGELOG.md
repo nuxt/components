@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/nuxt/components/compare/v2.1.2...v2.1.3) (2021-03-11)
+
+
+### Bug Fixes
+
+* use hyphenate instead of kebabCase (fixes [#165](https://github.com/nuxt/components/issues/165)) ([3de27ff](https://github.com/nuxt/components/commit/3de27ff47cbe6e7c712a2a105c257dac1ca64674))
+
 ### [2.1.2](https://github.com/nuxt/components/compare/v2.1.1...v2.1.2) (2021-02-22)
 
 
