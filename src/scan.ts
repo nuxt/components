@@ -1,10 +1,15 @@
 import { basename, extname, join, dirname, relative } from 'upath'
 import globby from 'globby'
-import { kebabCase, pascalCase, splitByCase } from 'scule'
+import { pascalCase, splitByCase } from 'scule'
 import type { ScanDir, Component } from './types'
 
 export function sortDirsByPathLength ({ path: pathA }: ScanDir, { path: pathB }: ScanDir): number {
   return pathB.split(/[\\/]/).filter(Boolean).length - pathA.split(/[\\/]/).filter(Boolean).length
+}
+
+// vue@2 src/shared/util.js
+function hyphenate (str: string):string {
+  return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
 }
 
 export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<Component[]> {
@@ -54,7 +59,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       resolvedNames.set(componentName, filePath)
 
       const pascalName = pascalCase(componentName)
-      const kebabName = kebabCase(componentName)
+      const kebabName = hyphenate(componentName)
       const shortPath = relative(srcDir, filePath)
       const chunkName = 'components/' + kebabName
 

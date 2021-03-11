@@ -7,6 +7,6 @@
     <IconHome />
     <MAwesome />
     <Functional />
-    <PAScal />
+    <NComponent />
   </div>
 </template>
