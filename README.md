@@ -302,7 +302,7 @@ export default {
 }
 ```
 
-Components having the same name in `~/components` will overwrite the one in `my-theme/components`, learn more in [Overwriting Components](#overwriting-components). The lowest value will overwrites.
+Components having the same name in `~/components` will overwrite the one in `my-theme/components`, learn more in [Overwriting Components](#overwriting-components). The lowest value will overwrite.
 
 ## Migration guide
 
