@@ -7,7 +7,6 @@ function getWrapper (name, options) {
   const propKeys = Array.isArray(options.props) ? options.props : Object.keys(options.props || {})
 
   return {
-    name: `${name}Wrapper`,
     render(h) {
       const attrs = {}
       const props = {}
