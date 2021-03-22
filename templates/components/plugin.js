@@ -11,7 +11,7 @@ function getWrapper (name, options) {
       const attrs = {}
       const props = {}
 
-      for (const key of this.$attrs) {
+      for (const key in this.$attrs) {
         if (propKeys.includes(key)) {
           props[key] = this.$attrs[key]
         } else {
