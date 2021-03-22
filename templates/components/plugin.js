@@ -1,7 +1,7 @@
 import Vue from 'vue'
 <% const components = options.getComponents() %>
 
-const getWrapperFor = (name) => (options) => {
+function getWrapper (name, options) {
   if (!options.functional) return options
 
   const propKeys = Array.isArray(options.props) ? options.props : Object.keys(options.props || {})
@@ -9,8 +9,16 @@ const getWrapperFor = (name) => (options) => {
   return {
     name: `${name}Wrapper`,
     render(h) {
-      const attrs = Object.fromEntries(Object.entries(this.$attrs).filter(([key]) => !propKeys.includes(key)))
-      const props = Object.fromEntries(Object.entries(this.$attrs).filter(([key]) => propKeys.includes(key)))
+      const attrs = {}
+      const props = {}
+
+      for (const key of this.$attrs) {
+        if (propKeys.includes(key)) {
+          props[key] = this.$attrs[key]
+        } else {
+          attrs[key] = this.$attrs[key]
+        }
+      }
 
       return h(options, {
         on: this.$listeners,
@@ -25,7 +33,7 @@ const getWrapperFor = (name) => (options) => {
 const components = {
 <%= components.map(c => {
   const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => ${exp}).then(getWrapperFor('${c.pascalName}'))`
+  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => getWrapper('${c.pascalName}', ${exp}))`
 }).join(',\n') %>
 }
 
