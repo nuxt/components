@@ -1,8 +1,11 @@
 import Vue from 'vue'
 <% const components = options.getComponents() %>
 
-function getWrapper (options) {
-  if (!options.functional) return options
+// nuxt/nuxt.js#8607
+function wrapFunctional (options) {
+  if (!options.functional) {
+    return options
+  }
 
   const propKeys = Array.isArray(options.props) ? options.props : Object.keys(options.props || {})
 
@@ -32,7 +35,7 @@ function getWrapper (options) {
 const components = {
 <%= components.map(c => {
   const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => getWrapper(${exp}))`
+  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => wrapFunctional(${exp}))`
 }).join(',\n') %>
 }
 
