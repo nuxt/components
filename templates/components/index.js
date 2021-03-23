@@ -10,7 +10,7 @@
 
 // nuxt/nuxt.js#8607
 export function wrapFunctional(options) {
-  if (!options.functional) {
+  if (!options || !options.functional) {
     return options
   }
 
