@@ -1,6 +1,6 @@
 {
   "name": "@nuxt/components",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Auto Import Components for Nuxt.js",
   "repository": "nuxt/components",
   "license": "MIT",

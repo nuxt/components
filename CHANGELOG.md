@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/nuxt/components/compare/v2.1.3...v2.1.4) (2021-03-23)
+
+
+### Bug Fixes
+
+* use wrapper for lazy-loaded functional components ([#172](https://github.com/nuxt/components/issues/172)) ([0210066](https://github.com/nuxt/components/commit/021006680e7d37f0f4aaa1bfe7de8a4692f2eb9e))
+
 ### [2.1.3](https://github.com/nuxt/components/compare/v2.1.2...v2.1.3) (2021-03-11)
 
 
