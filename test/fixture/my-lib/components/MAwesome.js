@@ -1,4 +1,4 @@
 // @vue/component
-export const MAwesome = {
+export const MMAwesome = {
   render: h => h('div', 'M is Awesome!')
 }

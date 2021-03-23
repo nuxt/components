@@ -1,10 +1,12 @@
 import Vue from 'vue'
+import { wrapFunctional } from './index'
+
 <% const components = options.getComponents() %>
 
 const components = {
 <%= components.map(c => {
   const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => ${exp})`
+  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* webpackChunkName: "${c.chunkName}" */).then(c => wrapFunctional(${exp}))`
 }).join(',\n') %>
 }
 
