@@ -12,6 +12,10 @@ function hyphenate (str: string):string {
   return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
 }
 
+function compareCaseInsensitive (str1 = '', str2 = '') {
+  return str1.toLocaleLowerCase() === str2.toLocaleLowerCase()
+}
+
 export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<Component[]> {
   const components: Component[] = []
   const filePaths = new Set<string>()
@@ -38,15 +42,13 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const fileName = basename(filePath, extname(filePath))
       const fileNameParts = fileName.toLowerCase() === 'index' ? [] : splitByCase(fileName)
 
-      const componentNameParts: string[] = []
-
-      while (prefixParts.length &&
-        (prefixParts[0] || '').toLowerCase() !== (fileNameParts[0] || '').toLowerCase()
-      ) {
-        componentNameParts.push(prefixParts.shift()!)
+      for (const p of prefixParts) {
+        if (compareCaseInsensitive(p, fileNameParts[0])) {
+          fileNameParts.shift()
+        }
       }
 
-      const componentName = pascalCase(componentNameParts) + pascalCase(fileNameParts)
+      const componentName = pascalCase(prefixParts) + pascalCase(fileNameParts)
 
       if (resolvedNames.has(componentName)) {
         // eslint-disable-next-line no-console
