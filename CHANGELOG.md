@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.5](https://github.com/nuxt/components/compare/v2.1.4...v2.1.5) (2021-04-06)
+
+
+### Bug Fixes
+
+* avoid importing global entry (fixes [#176](https://github.com/nuxt/components/issues/176)) ([c821719](https://github.com/nuxt/components/commit/c821719a2b47a57b0252426975992ffd8143a939))
+
 ### [2.1.4](https://github.com/nuxt/components/compare/v2.1.3...v2.1.4) (2021-03-23)
 
 
