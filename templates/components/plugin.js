@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { wrapFunctional } from './index'
+import { wrapFunctional } from './utils'
 
 <% const components = options.getComponents() %>
 
