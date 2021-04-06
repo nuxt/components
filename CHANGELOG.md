@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.6](https://github.com/nuxt/components/compare/v2.1.5...v2.1.6) (2021-04-06)
+
+
+### Bug Fixes
+
+* use parent dir name for index.[ext] components without pathPrefix ([#178](https://github.com/nuxt/components/issues/178)) ([6ba6d22](https://github.com/nuxt/components/commit/6ba6d2243a0ebac2acc515ded3003827f62f7505))
+
 ### [2.1.5](https://github.com/nuxt/components/compare/v2.1.4...v2.1.5) (2021-04-06)
 
 
