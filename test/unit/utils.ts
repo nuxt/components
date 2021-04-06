@@ -25,6 +25,12 @@ export function scanFixtureComponents () {
       ignore: ignorePatterns
     },
     {
+      path: path.resolve(srcDir, 'components/no-prefix'),
+      pattern: '**/*.{vue,js,ts}',
+      ignore: ignorePatterns,
+      pathPrefix: false
+    },
+    {
       path: path.resolve(srcDir, 'components/global'),
       pattern: '**/*.{vue,js,ts}',
       ignore: ignorePatterns
