@@ -47,6 +47,7 @@
     "@types/loader-utils": "latest",
     "@types/lodash": "latest",
     "@types/semver": "latest",
+    "consola": "^2.15.3",
     "eslint": "latest",
     "jest": "latest",
     "loader-utils": "latest",
@@ -55,5 +56,8 @@
     "pug-plain-loader": "latest",
     "siroc": "latest",
     "standard-version": "latest"
+  },
+  "peerDependencies": {
+    "consola": "^2.15.3"
   }
 }

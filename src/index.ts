@@ -3,6 +3,7 @@ import path from 'upath'
 import chokidar from 'chokidar'
 import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import type { Module } from '@nuxt/types/config'
+import consola from 'consola'
 
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
@@ -93,7 +94,7 @@ const componentsModule: Module<Options> = function () {
     // Add loader for tree shaking in production only
     if (options.loader) {
       // eslint-disable-next-line no-console
-      console.info('Using components loader to optimize imports')
+      consola.info('Using components loader to optimize imports')
       this.extendBuild((config) => {
         const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
         if (!vueRule) {
@@ -172,7 +173,7 @@ const componentsModule: Module<Options> = function () {
     // Add CLI info to inspect discovered components
     const componentsListFile = path.resolve(nuxt.options.buildDir, 'components/readme.md')
     // eslint-disable-next-line no-console
-    console.info('Discovered Components:', path.relative(process.cwd(), componentsListFile))
+    consola.info('Discovered Components:', path.relative(process.cwd(), componentsListFile))
   })
 }
 
