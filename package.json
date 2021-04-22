@@ -26,11 +26,11 @@
     "test": "yarn lint && jest --verbose"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "chokidar": "^3.5.1",
     "glob": "^7.1.6",
     "globby": "^11.0.3",
-    "scule": "^0.1.1",
+    "scule": "^0.2.0",
     "semver": "^7.3.5",
     "upath": "^2.0.1",
     "vue-template-compiler": "^2.6.12"
