@@ -6,7 +6,7 @@
   "license": "MIT",
   "exports": {
     ".": "./dist/index.js",
-    "./": "./",
+    "./*": "./*",
     "./loader": "./dist/loader.js"
   },
   "main": "dist/index.js",
