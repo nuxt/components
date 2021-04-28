@@ -7,6 +7,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./*": "./*",
+    "./package.json": "./package.json",
     "./loader": "./dist/loader.js"
   },
   "main": "dist/index.js",
