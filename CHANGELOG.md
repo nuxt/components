@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/nuxt/components/compare/v2.1.6...v2.1.7) (2021-04-28)
+
+
+### Bug Fixes
+
+* use consola for output info ([#184](https://github.com/nuxt/components/issues/184)) ([c6c3f66](https://github.com/nuxt/components/commit/c6c3f66f0bb86c3d7a2a1eac737aa145e64b0fc7))
+
 ### [2.1.6](https://github.com/nuxt/components/compare/v2.1.5...v2.1.6) (2021-04-06)
 
 
