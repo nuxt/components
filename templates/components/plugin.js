@@ -8,8 +8,8 @@ const components = {
   const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
   const magicComments = [
     `webpackChunkName: "${c.chunkName}"`,
-    c.prefetch ? `webpackPrefetch: ${c.prefetch ? 'true' : 'false'}` : false,
-    c.preload ? `webpackPreload: ${c.preload ? 'true' : 'false'}` : false,
+    c.prefetch === true || typeof c.prefetch === 'number' ? `webpackPrefetch: ${c.prefetch}` : false,
+    c.preload === true || typeof c.preload === 'number' ? `webpackPreload: ${c.prefetch}` : false,
   ].filter(Boolean).join(', ')
 
   return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
