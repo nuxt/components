@@ -18,7 +18,6 @@
 
 - [Features](#features)
 - [Usage](#usage)
-- [Dynamic Components](#dynamic-components)
 - [Lazy Imports](#lazy-imports)
 - [Overwriting Components](#overwriting-components)
 - [Directories](#directories)
