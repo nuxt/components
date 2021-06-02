@@ -104,6 +104,8 @@ export default {
 </script>
 ```
 
+If you want to prefetch or preload the components with `Lazy` prefix, you can configure it by [prefetch/preload options](#prefetch/preload).
+
 ### Nested Components
 
 If you have components in nested directories:
@@ -303,6 +305,31 @@ export default {
 ```
 
 Components having the same name in `~/components` will overwrite the one in `my-theme/components`, learn more in [Overwriting Components](#overwriting-components). The lowest value will overwrite.
+
+#### prefetch/preload
+
+- Type: `Boolean/Number`
+- Default: `false`
+
+These properties are used in production to configure how [components with `Lazy` prefix](#Lazy-Imports) are handled by Wepack via its magic comments, learn more in [Wepack's official documentation](https://webpack.js.org/api/module-methods/#magic-comments).
+
+```js
+export default {
+  components: [
+   { path: 'my-theme/components', prefetch: true }
+  ]
+}
+```
+
+yields:
+
+```js
+// plugin.js
+const componets = {
+  MyComponentA: import(/* webpackPrefetch: true */ ...),
+  MyComponentB: import(/* webpackPrefetch: true */ ...)
+}
+```
 
 ## Migration guide
 

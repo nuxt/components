@@ -17,7 +17,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
   const filePaths = new Set<string>()
   const scannedPaths: string[] = []
 
-  for (const { path, pattern, ignore = [], prefix, extendComponent, pathPrefix, level } of dirs.sort(sortDirsByPathLength)) {
+  for (const { path, pattern, ignore = [], prefix, extendComponent, pathPrefix, level, prefetch = false, preload = false } of dirs.sort(sortDirsByPathLength)) {
     const resolvedNames = new Map<string, string>()
 
     for (const _file of await globby(pattern!, { cwd: path, ignore })) {
@@ -76,7 +76,9 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         asyncImport: '',
         export: 'default',
         global: Boolean(global),
-        level: Number(level)
+        level: Number(level),
+        prefetch: Boolean(prefetch),
+        preload: Boolean(preload)
       }
 
       if (typeof extendComponent === 'function') {
