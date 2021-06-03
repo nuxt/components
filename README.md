@@ -71,7 +71,7 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video exampl
 
 ### Lazy Imports
 
-Nuxt by default does code-slitting per page and components. But sometimes we also need to lazy load them:
+Nuxt by default does code-splitting per page and components. But sometimes we also need to lazy load them:
 - Component size is rather big (or has big dependencies imported) like a text-editor
 - Component is rendered conditionally with `v-if` or being in a modal
 
