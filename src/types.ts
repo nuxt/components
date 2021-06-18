@@ -24,8 +24,8 @@ export interface ScanDir {
   global?: boolean | 'dev'
   pathPrefix?: boolean
   level?: number
-  prefetch: boolean
-  preload: boolean
+  prefetch?: boolean
+  preload?: boolean
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
