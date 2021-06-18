@@ -28,13 +28,13 @@
   },
   "dependencies": {
     "chalk": "^4.1.1",
-    "chokidar": "^3.5.1",
-    "glob": "^7.1.6",
-    "globby": "^11.0.3",
+    "chokidar": "^3.5.2",
+    "glob": "^7.1.7",
+    "globby": "^11.0.4",
     "scule": "^0.2.1",
     "semver": "^7.3.5",
     "upath": "^2.0.1",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.14"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
@@ -55,7 +55,7 @@
     "nuxt-edge": "latest",
     "pug": "latest",
     "pug-plain-loader": "latest",
-    "siroc": "0.9.2",
+    "siroc": "0.11.0",
     "standard-version": "latest"
   },
   "peerDependencies": {
