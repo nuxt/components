@@ -35,8 +35,8 @@ export interface ComponentsDir extends ScanDir {
   transpile?: 'auto' | boolean
 }
 
-type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
-type componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | Promise<void>
+export type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
+export type componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | Promise<void>
 
 export interface Options {
   dirs: (string | ComponentsDir)[]
