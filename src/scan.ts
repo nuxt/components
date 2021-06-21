@@ -67,6 +67,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const chunkName = 'components/' + kebabName
 
       let component = {
+        svg: shortPath.endsWith('.svg'),
         filePath,
         pascalName,
         kebabName,

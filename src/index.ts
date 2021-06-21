@@ -66,7 +66,8 @@ const componentsModule: Module<Options> = function () {
         console.warn('Components directory not found: `' + dirPath + '`')
       }
 
-      const extensions = dirOptions.extensions || builder.supportedExtensions
+      const supportedExtensions = ['svg', ...builder.supportedExtensions]
+      const extensions = dirOptions.extensions || supportedExtensions
 
       return {
         ...dirOptions,
