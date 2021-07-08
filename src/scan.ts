@@ -40,9 +40,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         fileName = pathPrefix === false ? basename(dirname(filePath)) : '' /* inherits from path */
       }
       const isLazy = fileName.endsWith('.lazy') ? true : dirIsLazy
-      if (isLazy) {
-        fileName = fileName.slice(0, -5)
-      }
+      fileName = fileName.replace(/\.lazy$/, '')
       const fileNameParts = splitByCase(fileName)
 
       const componentNameParts: string[] = []
