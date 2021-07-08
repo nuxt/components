@@ -6,10 +6,10 @@ import { wrapFunctional } from './utils'
     c.prefetch === true || typeof c.prefetch === 'number' ? `webpackPrefetch: ${c.prefetch}` : false,
     c.preload === true || typeof c.preload === 'number' ? `webpackPreload: ${c.preload}` : false,
   ].filter(Boolean).join(', ')
-  if (c.isLazy || (!nuxtOptions.dev /* prod */ && c.isLazy !== false)) {
+  if (c.async || (!nuxtOptions.dev /* prod */ && c.async !== false)) {
     const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-    const lazyImport = `import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
-    return `export const ${c.pascalName} = ${lazyImport}`
+    const asyncImport = `import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
+    return `export const ${c.pascalName} = ${asyncImport}`
   } else {
     const exp = c.export === 'default' ? `default as ${c.pascalName}` : c.pascalName
     return `export { ${exp} } from '../${relativeToBuild(c.filePath)}'`

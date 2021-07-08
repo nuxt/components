@@ -14,7 +14,7 @@ const config: NuxtConfig = {
 
   components: [
     '~/components',
-    { path: '~/components/global', global: true },
+    { path: '~/components/global', global: true, async: false },
     { path: '~/components/no-prefix', pathPrefix: false },
     { path: '~/components/multifile', extensions: ['vue'] },
     '~/non-existent',

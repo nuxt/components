@@ -3,7 +3,6 @@ export interface Component {
   kebabName: string
   import: string
   asyncImport: string
-  isLazy: boolean
   export: string
   filePath: string
   shortPath: string
@@ -21,7 +20,7 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
-  isLazy?: boolean
+  async?: boolean
   /** @deprecated */
   global?: boolean | 'dev'
   pathPrefix?: boolean
