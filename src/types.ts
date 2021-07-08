@@ -21,6 +21,7 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
+  isLazy?: boolean
   /** @deprecated */
   global?: boolean | 'dev'
   pathPrefix?: boolean
