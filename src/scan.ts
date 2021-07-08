@@ -39,6 +39,10 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       if (fileName.toLowerCase() === 'index') {
         fileName = pathPrefix === false ? basename(dirname(filePath)) : '' /* inherits from path */
       }
+      const isLazy = fileName.endsWith('.lazy')
+      if (isLazy) {
+        fileName = fileName.slice(0, -5)
+      }
       const fileNameParts = splitByCase(fileName)
 
       const componentNameParts: string[] = []
@@ -72,6 +76,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         kebabName,
         chunkName,
         shortPath,
+        isLazy,
         import: '',
         asyncImport: '',
         export: 'default',

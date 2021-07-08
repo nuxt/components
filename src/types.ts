@@ -3,6 +3,7 @@ export interface Component {
   kebabName: string
   import: string
   asyncImport: string
+  isLazy: boolean
   export: string
   filePath: string
   shortPath: string

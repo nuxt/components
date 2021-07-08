@@ -8,6 +8,10 @@ const config: NuxtConfig = {
     nuxtComponents
   ],
 
+  typescript: {
+    typeCheck: false
+  },
+
   components: [
     '~/components',
     { path: '~/components/global', global: true },
