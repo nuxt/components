@@ -6,7 +6,7 @@ export interface Component {
   export: string
   filePath: string
   shortPath: string
-  async?: boolean
+  isAsync?: boolean
   chunkName: string
   /** @deprecated */
   global: boolean
@@ -20,7 +20,7 @@ export interface ScanDir {
   pattern?: string | string[]
   ignore?: string[]
   prefix?: string
-  async?: boolean
+  isAsync?: boolean
   /** @deprecated */
   global?: boolean | 'dev'
   pathPrefix?: boolean
