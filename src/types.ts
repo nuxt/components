@@ -1,4 +1,4 @@
-export interface Component {
+Component 
   pascalName: string
   kebabName: string
   import: string
@@ -13,9 +13,8 @@ export interface Component {
   level: number
   prefetch: boolean
   preload: boolean
-}
 
-export interface ScanDir {
+ScanDir 
   path: string
   pattern?: string | string[]
   ignore?: string[]
@@ -27,35 +26,34 @@ export interface ScanDir {
   prefetch?: boolean
   preload?: boolean
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
-}
 
-export interface ComponentsDir extends ScanDir {
+
+ ComponentsDir extends ScanDir 
   watch?: boolean
   extensions?: string[]
   transpile?: 'auto' | boolean
-}
 
-export type componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
-export type componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | Promise<void>
 
-export interface Options {
+componentsDirHook = (dirs: ComponentsDir[]) => void | Promise<void>
+componentsExtendHook = (components: (ComponentsDir | ScanDir)[]) => void | Promise<void>
+Options {
   dirs: (string | ComponentsDir)[]
   loader: Boolean
-}
 
-declare module '@nuxt/types/config/index' {
-  interface NuxtOptions {
+
+'@nuxt/types/config/index' 
+  interface NuxtOptions 
     components: boolean | Options | Options['dirs']
-  }
-}
+  
 
-declare module '@nuxt/types/config/hooks' {
-  interface NuxtOptionsHooks {
+
+ '@nuxt/types/config/hooks' 
+  interface NuxtOptionsHooks 
     'components:dirs'?: componentsDirHook
     'components:extend'?: componentsExtendHook
-    components?: {
+    components?: 
       dirs?: componentsDirHook
       extend?: componentsExtendHook
-    }
-  }
-}
+    
+  
+
