@@ -12,7 +12,7 @@ const components = {
     c.preload === true || typeof c.preload === 'number' ? `webpackPreload: ${c.preload}` : false,
   ].filter(Boolean).join(', ')
 
-  return `  ${c.pascalName.replace(/^Lazy/, '')}: () => import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
+  return `  '${c.pascalName.replace(/^Lazy/, '')}': () => import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
 }).join(',\n') %>
 }
 
