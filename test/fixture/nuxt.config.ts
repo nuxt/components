@@ -8,9 +8,13 @@ const config: NuxtConfig = {
     nuxtComponents
   ],
 
+  typescript: {
+    typeCheck: false
+  },
+
   components: [
     '~/components',
-    { path: '~/components/global', global: true },
+    { path: '~/components/global', global: true, isAsync: false },
     { path: '~/components/no-prefix', pathPrefix: false },
     { path: '~/components/multifile', extensions: ['vue'] },
     '~/non-existent',

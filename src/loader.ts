@@ -4,7 +4,7 @@ import { matcher } from './scan'
 import type { Component } from './types'
 
 function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
-  const imports = '{' + components.map(c => `${c.pascalName}: ${c.import}`).join(',') + '}'
+  const imports = '{' + components.map(c => `${c.pascalName}: ${c.isAsync ? c.asyncImport : c.import}`).join(',') + '}'
 
   let newContent = '/* nuxt-component-imports */\n'
   newContent += `installComponents(component, ${imports})\n`

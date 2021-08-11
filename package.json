@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "siroc build",
-    "dev": "nuxt-ts test/fixture",
+    "dev": "nuxt dev test/fixture",
     "lint": "eslint --ext .ts,.js,.vue .",
     "prepare": "yarn link && yarn link @nuxt/components",
     "prepublishOnly": "yarn build",
