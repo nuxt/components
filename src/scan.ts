@@ -68,7 +68,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       const shortPath = relative(srcDir, filePath)
       const chunkName = 'components/' + kebabName
 
-      let component = {
+      let component: Component = {
         filePath,
         pascalName,
         kebabName,
