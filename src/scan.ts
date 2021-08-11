@@ -51,7 +51,10 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         componentNameParts.push(prefixParts.shift()!)
       }
 
-      const componentName = pascalCase(componentNameParts) + pascalCase(fileNameParts)
+      let componentName = pascalCase(componentNameParts) + pascalCase(fileNameParts)
+
+      // Remove number suffixes
+      componentName = componentName.replace(/^\d+/, '')
 
       if (resolvedNames.has(componentName)) {
         // eslint-disable-next-line no-console
