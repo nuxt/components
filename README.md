@@ -72,6 +72,7 @@ See [live demo](https://codesandbox.io/s/nuxt-components-cou9k) or [video exampl
 ### Lazy Imports
 
 Nuxt by default does code-splitting per page and components. But sometimes we also need to lazy load them:
+
 - Component size is rather big (or has big dependencies imported) like a text-editor
 - Component is rendered conditionally with `v-if` or being in a modal
 
@@ -88,18 +89,18 @@ You now can easily import a component on-demand:
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      foo: null
-    }
-  },
-  methods: {
-    async loadFoo () {
-      this.foo = await this.$axios.$get('foo')
+  export default {
+    data() {
+      return {
+        foo: null
+      }
+    },
+    methods: {
+      async loadFoo() {
+        this.foo = await this.$axios.$get('foo')
+      }
     }
   }
-}
 </script>
 ```
 
@@ -127,10 +128,7 @@ For clarity, it is recommended that component file name matches its name. You ca
 If for any reason different prefix is desired, we can add specific directory with the `prefix` option: (See [directories](#directories) section)
 
 ```js
-components: [
-  '~/components/',
-  { path: '~/components/foo/', prefix: 'foo' }
-]
+components: ['~/components/', { path: '~/components/foo/', prefix: 'foo' }]
 ```
 
 ## Overwriting Components
@@ -169,7 +167,7 @@ export default {
   components: [
     '~/components', // shortcut to { path: '~/components' }
     { path: '~/components/awesome/', prefix: 'awesome' }
-  ],
+  ]
 }
 ```
 
@@ -210,15 +208,13 @@ If you prefer to split your SFCs into `.js`, `.vue` and `.css`, you can only ena
 ```js
 // nuxt.config.js
 export default {
-  components: [
-    { path: '~/components', extensions: ['vue'] }
-  ]
+  components: [{ path: '~/components', extensions: ['vue'] }]
 }
 ```
 
 #### pattern
 
-- Type: `string` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
+- Type: `string` ([glob pattern](https://github.com/isaacs/node-glob#glob-primer))
 - Default: `**/*.${extensions.join(',')}`
 
 Accept Pattern that will be run against specified `path`.
@@ -226,7 +222,7 @@ Accept Pattern that will be run against specified `path`.
 #### ignore
 
 - Type: `Array`
-- Items: `string` ([glob pattern]( https://github.com/isaacs/node-glob#glob-primer))
+- Items: `string` ([glob pattern](https://github.com/isaacs/node-glob#glob-primer))
 - Default: `[]`
 
 Ignore patterns that will be run against specified `path`.
@@ -244,8 +240,8 @@ Example below adds `awesome-`/`Awesome` prefix to the name of components in `awe
 // nuxt.config.js
 export default {
   components: [
-      '~/components',
-      { path: '~/components/awesome/', prefix: 'awesome' }
+    '~/components',
+    { path: '~/components/awesome/', prefix: 'awesome' }
   ]
 }
 ```
@@ -261,7 +257,7 @@ components/
 <template>
   <div>
     <AwesomeButton>Click on me 🤘</AwesomeButton>
-    <Button>Click on me</Button>
+    <button>Click on me</button>
   </div>
 </template>
 ```
@@ -298,7 +294,7 @@ Level are use to define a hint when overwriting the components which have the sa
 export default {
   components: [
     '~/components', // default level is 0
-   { path: 'my-theme/components', level: 1 }
+    { path: 'my-theme/components', level: 1 }
   ]
 }
 ```
@@ -314,9 +310,7 @@ These properties are used in production to configure how [components with `Lazy`
 
 ```js
 export default {
-  components: [
-   { path: 'my-theme/components', prefetch: true }
-  ]
+  components: [{ path: 'my-theme/components', prefetch: true }]
 }
 ```
 
@@ -330,6 +324,13 @@ const componets = {
 }
 ```
 
+#### isAsync
+
+- Type: Boolean
+- Default: `false` unless component name ends with `.async.vue`
+
+This flag indicates, component should be loaded async (with a seperate chunk) regardless of using `Lazy` prefix or not.
+
 ## Migration guide
 
 ## `v1` to `v2`
@@ -337,9 +338,9 @@ const componets = {
 Starting with `nuxt@2.15`, Nuxt uses `@nuxt/components` v2:
 
 - All components are globally available so you can move `components/global/`
-to `components/` and `global: true` is not required anymore
+  to `components/` and `global: true` is not required anymore
 - Full path inside `components` is used to prefix component names. If you were structing your
-components in multiple directories, should either add prefix or register in `components` section of `nuxt.config` or use new `pathPrefix` option.
+  components in multiple directories, should either add prefix or register in `components` section of `nuxt.config` or use new `pathPrefix` option.
 
 **Example:**
 
@@ -363,7 +364,7 @@ export default {
     '~/components/templates',
     '~/components/atoms',
     '~/components/molecules',
-    '~/components/organisms',
+    '~/components/organisms'
   ]
 }
 ```
@@ -393,8 +394,8 @@ Then in `awesome-ui/nuxt.js` you can use the `components:dir` hook:
 ```js
 import { join } from 'path'
 
-export default function () {
-  this.nuxt.hook('components:dirs', (dirs) => {
+export default function() {
+  this.nuxt.hook('components:dirs', dirs => {
     // Add ./components dir to the list
     dirs.push({
       path: join(__dirname, 'components'),
@@ -408,10 +409,7 @@ That's it! Now in your project, you can import your ui library as a Nuxt module 
 
 ```js
 export default {
-  buildModules: [
-    '@nuxt/components',
-    'awesome-ui/nuxt'
-  ]
+  buildModules: ['@nuxt/components', 'awesome-ui/nuxt']
 }
 ```
 
@@ -438,15 +436,11 @@ Next: publish your `awesome-ui` module to [npm](https://www.npmjs.com) and share
 
 [npm-version-src]: https://img.shields.io/npm/v/@nuxt/components/latest.svg?style=flat-square
 [npm-version-href]: https://npmjs.com/package/@nuxt/components
-
 [npm-downloads-src]: https://img.shields.io/npm/dt/@nuxt/components.svg?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/@nuxt/components
-
 [github-actions-ci-src]: https://img.shields.io/github/workflow/status/nuxt/typescript/test?label=ci&style=flat-square
 [github-actions-ci-href]: https://github.com/nuxt/components/actions?query=workflow%3Aci
-
 [codecov-src]: https://img.shields.io/codecov/c/github/nuxt/components.svg?style=flat-square
 [codecov-href]: https://codecov.io/gh/nuxt/components
-
 [license-src]: https://img.shields.io/npm/l/@nuxt/components.svg?style=flat-square
 [license-href]: https://npmjs.com/package/@nuxt/components
