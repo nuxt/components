@@ -27,7 +27,7 @@
     "test": "yarn lint && jest --verbose"
   },
   "dependencies": {
-    "chalk": "^4.1.1",
+    "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
     "glob": "^7.1.7",
     "globby": "^11.0.4",
@@ -55,7 +55,7 @@
     "nuxt-edge": "latest",
     "pug": "latest",
     "pug-plain-loader": "latest",
-    "siroc": "0.11.0",
+    "siroc": "0.15.0",
     "standard-version": "latest"
   },
   "peerDependencies": {
