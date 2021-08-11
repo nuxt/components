@@ -11,6 +11,7 @@ const components = options.getComponents()
 const list = components.map(c => {
   const pascalName = c.pascalName.replace(/^Lazy/, '')
   const kebabName = c.kebabName.replace(/^lazy-/, '')
-  return `- \`<${pascalName}>\` | \`<${kebabName}>\` (${c.shortPath})`
+  const tags = c.isAsync ? ' [async]' : ''
+  return `- \`<${pascalName}>\` | \`<${kebabName}>\` (${c.shortPath})${tags}`
 })
 %><%= list.join('\n') %>
