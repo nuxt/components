@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0-0](https://github.com/nuxt/components/compare/v2.1.8...v2.2.0-0) (2021-08-11)
+
+
+### Features
+
+* explicit async loading ([#212](https://github.com/nuxt/components/issues/212)) ([5adefb9](https://github.com/nuxt/components/commit/5adefb9b90d939922c5bc4055f977d44a879e0f0))
+* remove numeric prefix from component names ([#222](https://github.com/nuxt/components/issues/222)) ([a615dd1](https://github.com/nuxt/components/commit/a615dd1ae4f5fbb6dac330f78c5ea79f63582379))
+* support webpack magic comments ([#197](https://github.com/nuxt/components/issues/197)) ([4e88e8f](https://github.com/nuxt/components/commit/4e88e8f04d2af7464d8f1d40548a8c1adf013697))
+* **types:** export hook types ([#208](https://github.com/nuxt/components/issues/208)) ([64e10cc](https://github.com/nuxt/components/commit/64e10cc614b701467937031a0ac248af457b957b))
+
+
+### Bug Fixes
+
+* **types:** make prefetch/preload optional ([#207](https://github.com/nuxt/components/issues/207)) ([48b9247](https://github.com/nuxt/components/commit/48b9247bada81cf4bbafc9516aa959cce06aee0d))
+
 ### [2.1.8](https://github.com/nuxt/components/compare/v2.1.7...v2.1.8) (2021-04-28)
 
 
