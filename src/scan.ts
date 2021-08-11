@@ -53,7 +53,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
 
       let componentName = pascalCase(componentNameParts) + pascalCase(fileNameParts)
 
-      // Remove number suffixes
+      // Remove numeric prefix (0BaseFoo ~> baseFoo)
       componentName = componentName.replace(/^\d+/, '')
 
       if (resolvedNames.has(componentName)) {
