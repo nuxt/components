@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/nuxt/components/compare/v2.2.0...v2.2.1) (2021-08-16)
+
+
+### Bug Fixes
+
+* async import template (resolves [#223](https://github.com/nuxt/components/issues/223), resolves [#225](https://github.com/nuxt/components/issues/225)) ([0fec884](https://github.com/nuxt/components/commit/0fec88484399fbd41251f4bcb44d17a9cae04338))
+* set default for `isAsync` in template ([c36fd14](https://github.com/nuxt/components/commit/c36fd14902f64af1abdb683148355b225dbd0874))
+* use loader for non async components only ([c39a593](https://github.com/nuxt/components/commit/c39a593e573002b07a19eae032121d4235d22a1e))
+
 ## [2.2.0](https://github.com/nuxt/components/compare/v2.2.0-0...v2.2.0) (2021-08-11)
 
 ## [2.2.0-0](https://github.com/nuxt/components/compare/v2.1.8...v2.2.0-0) (2021-08-11)
