@@ -159,7 +159,6 @@ const componentsModule: Module<Options> = function () {
     const templates = [
       'components/index.js',
       'components/plugin.js',
-      'components/utils.js',
       'components/readme_md',
       'vetur/tags.json'
     ]
