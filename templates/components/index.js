@@ -8,7 +8,7 @@ import { wrapFunctional } from './utils'
   ].filter(Boolean).join(', ')
   if (c.isAsync) {
     const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-    const asyncImport = `import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
+    const asyncImport = `() => import('../${relativeToBuild(c.filePath)}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
     return `export const ${c.pascalName} = ${asyncImport}`
   } else {
     const exp = c.export === 'default' ? `default as ${c.pascalName}` : c.pascalName
