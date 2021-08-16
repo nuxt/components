@@ -74,7 +74,7 @@ const componentsModule: Module<Options> = function () {
         path: dirPath,
         extensions,
         pattern: dirOptions.pattern || `**/*.{${extensions.join(',')},}`,
-        isAsync: dirOptions.isAsync ?? !nuxt.options.dev /* async only for prod by default */,
+        isAsync: dirOptions.isAsync,
         // TODO: keep test/unit/utils.ts updated
         ignore: [
           '**/*.stories.{js,ts,jsx,tsx}', // ignore storybook files
