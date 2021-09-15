@@ -7,7 +7,7 @@ export interface Component {
   filePath: string
   shortPath: string
   isAsync?: boolean
-  isAbsolute?: boolean
+  resolvePath?: boolean
   chunkName: string
   /** @deprecated */
   global: boolean

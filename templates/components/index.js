@@ -4,7 +4,9 @@
     c.prefetch === true || typeof c.prefetch === 'number' ? `webpackPrefetch: ${c.prefetch}` : false,
     c.preload === true || typeof c.preload === 'number' ? `webpackPreload: ${c.preload}` : false,
   ].filter(Boolean).join(', ')
-  const filePath = c.isAbsolute ? c.filePath : `../${relativeToBuild(c.filePath)}`
+  const filePath = (c.resolvePath === false || ['~', '@'].includes(c.filePath[0]))
+    ? c.filePath 
+    : `../${relativeToBuild(c.filePath)}`
   if (c.isAsync === true || (!isDev /* prod fallback */ && c.isAsync === null)) {
     const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
     const asyncImport = `() => import('${filePath}' /* ${magicComments} */).then(c => wrapFunctional(${exp}))`
