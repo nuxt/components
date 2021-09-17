@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'upath'
 import chokidar from 'chokidar'
-import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import type { Module } from '@nuxt/types/config'
 import consola from 'consola'
 
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
 import type { Options, ComponentsDir } from './types'
+import { loader } from './loader'
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
@@ -98,36 +98,22 @@ const componentsModule: Module<Options> = function () {
       consola.info('Using components loader to optimize imports')
       this.extendBuild((config) => {
         const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
-        if (!vueRule) {
-          throw new Error('Cannot find vue loader')
-        }
-        if (!vueRule.use) {
-          vueRule.use = [{
-            loader: vueRule.loader!.toString(),
-            options: vueRule.options
-          }]
-          delete vueRule.loader
-          delete vueRule.options
-        }
-        if (!Array.isArray(vueRule!.use)) {
-          // @ts-ignore
-          vueRule.use = [vueRule.use]
-        }
-
-        // @ts-ignore
-        vueRule!.use!.unshift({
-          loader: require.resolve('./loader'),
-          options: {
-            getComponents: () => components
+        config.plugins = config.plugins || []
+        config.plugins.push(loader.webpack({
+          include: vueRule?.test as any,
+          findComponent (name) {
+            return components.find(component => component.kebabName === name || component.pascalName === name)
           }
-        })
+        }) as any)
       })
 
-      // Add Webpack entry for runtime installComponents function
-      nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
-        for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
-          ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
-        }
+      this.nuxt.hook('vite:extend', ({ config }: any) => {
+        config.plugins = config.plugins || []
+        config.plugins.push(loader.vite({
+          findComponent (name) {
+            return components.find(component => component.kebabName === name || component.pascalName === name)
+          }
+        }))
       })
     }
 

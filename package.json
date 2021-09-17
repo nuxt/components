@@ -7,8 +7,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./*": "./*",
-    "./package.json": "./package.json",
-    "./loader": "./dist/loader.js"
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,14 +26,14 @@
     "test": "yarn lint && jest --verbose"
   },
   "dependencies": {
+    "@rollup/pluginutils": "^4.1.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
-    "glob": "^7.1.7",
     "globby": "^11.0.4",
+    "magic-string": "^0.25.7",
     "scule": "^0.2.1",
     "semver": "^7.3.5",
-    "upath": "^2.0.1",
-    "vue-template-compiler": "^2.6.14"
+    "upath": "^2.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
@@ -56,7 +55,8 @@
     "pug": "latest",
     "pug-plain-loader": "latest",
     "siroc": "0.15.0",
-    "standard-version": "latest"
+    "standard-version": "latest",
+    "unplugin": "^0.2.11"
   },
   "peerDependencies": {
     "consola": "*"
