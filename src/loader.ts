@@ -4,7 +4,6 @@ import { pascalCase } from 'scule'
 import { createFilter } from '@rollup/pluginutils'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { Component } from './types'
-
 export const DISABLE_COMMENT = '/* nuxt-components disabled */'
 
 export interface Options {
@@ -47,7 +46,7 @@ export const loader = createUnplugin<Options>((options) => {
           const name = pascalCase(matchedName)
           componentPaths.push(name)
           const component = await options!.findComponent(name)
-          if (component) {
+          if (component && !id.startsWith(component.filePath)) {
             const varName = `__nuxt_components_${no}`
             prepend.push(`import ${varName} from "${component.filePath}"`)
             no += 1
