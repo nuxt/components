@@ -1,5 +1,5 @@
 import fs from 'fs'
-import path from 'upath'
+import { dirname, resolve, relative } from 'pathe'
 import chokidar from 'chokidar'
 import type { Module } from '@nuxt/types/config'
 import consola from 'consola'
@@ -10,7 +10,7 @@ import type { Options, ComponentsDir } from './types'
 import { loader } from './loader'
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
-const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
+const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : dirname(p)
 
 const componentsModule: Module<Options> = function () {
   const { nuxt } = this
@@ -46,7 +46,7 @@ const componentsModule: Module<Options> = function () {
       }
     } catch (err) {
       /* istanbul ignore next */
-      nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
+      nuxt.options.watch.push(resolve(nuxt.options.srcDir, 'components', 'global'))
     }
 
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
@@ -150,16 +150,16 @@ const componentsModule: Module<Options> = function () {
     ]
     for (const t of templates) {
       this[t.includes('plugin') ? 'addPlugin' : 'addTemplate']({
-        src: path.resolve(__dirname, '../templates', t),
+        src: resolve(__dirname, '../templates', t),
         fileName: t.replace('_', '.'),
         options: { getComponents }
       })
     }
 
     // Add CLI info to inspect discovered components
-    const componentsListFile = path.resolve(nuxt.options.buildDir, 'components/readme.md')
+    const componentsListFile = resolve(nuxt.options.buildDir, 'components/readme.md')
     // eslint-disable-next-line no-console
-    consola.info('Discovered Components:', path.relative(process.cwd(), componentsListFile))
+    consola.info('Discovered Components:', relative(process.cwd(), componentsListFile))
   })
 }
 

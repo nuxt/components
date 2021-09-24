@@ -31,9 +31,10 @@
     "chokidar": "^3.5.2",
     "globby": "^11.0.4",
     "magic-string": "^0.25.7",
+    "pathe": "^0.0.2",
     "scule": "^0.2.1",
     "semver": "^7.3.5",
-    "upath": "^2.0.1"
+    "unplugin": "^0.2.14"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
@@ -55,8 +56,7 @@
     "pug": "latest",
     "pug-plain-loader": "latest",
     "siroc": "0.15.0",
-    "standard-version": "latest",
-    "unplugin": "^0.2.11"
+    "standard-version": "latest"
   },
   "peerDependencies": {
     "consola": "*"

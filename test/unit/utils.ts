@@ -1,4 +1,4 @@
-import path from 'upath'
+import { resolve } from 'pathe'
 import { scanComponents } from '../../src/scan'
 
 export const warn = console.warn = jest.fn() // eslint-disable-line no-console
@@ -11,37 +11,37 @@ const ignorePatterns = [
 ]
 
 export function scanFixtureComponents () {
-  const srcDir = path.resolve('test/fixture')
+  const srcDir = resolve('test/fixture')
   return scanComponents([
     {
-      path: path.resolve(srcDir, 'components'),
+      path: resolve(srcDir, 'components'),
       pattern: '**/*.{vue,js,ts}',
       ignore: ignorePatterns
     },
     {
-      path: path.resolve(srcDir, 'components/base'),
+      path: resolve(srcDir, 'components/base'),
       pattern: '**/*.{vue,js,ts}',
       prefix: 'base',
       ignore: ignorePatterns
     },
     {
-      path: path.resolve(srcDir, 'components/no-prefix'),
+      path: resolve(srcDir, 'components/no-prefix'),
       pattern: '**/*.{vue,js,ts}',
       ignore: ignorePatterns,
       pathPrefix: false
     },
     {
-      path: path.resolve(srcDir, 'components/global'),
+      path: resolve(srcDir, 'components/global'),
       pattern: '**/*.{vue,js,ts}',
       ignore: ignorePatterns
     },
     {
-      path: path.resolve(srcDir, 'components/multifile'),
+      path: resolve(srcDir, 'components/multifile'),
       pattern: '**/*.{vue,js,ts}',
       ignore: ignorePatterns
     },
     {
-      path: path.resolve(srcDir, 'components/icons'),
+      path: resolve(srcDir, 'components/icons'),
       pattern: '**/*.{vue,js,ts}',
       prefix: 'icon',
       ignore: ignorePatterns
