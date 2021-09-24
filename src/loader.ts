@@ -8,7 +8,7 @@ import { Component } from './types'
 export const DISABLE_COMMENT = '/* nuxt-components disabled */'
 
 export interface Options {
-  findComponent(name: string): Component | undefined
+  findComponent(name: string): Component | void | Promise<Component | void>
   include?: FilterPattern
   exclude?: FilterPattern
 }
