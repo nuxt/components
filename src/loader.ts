@@ -28,11 +28,15 @@ export const loader = createUnplugin<Options>((options) => {
     },
 
     async transform (code, id) {
+      if (code.includes(DISABLE_COMMENT)) {
+        return
+      }
+
       const s = new MagicString(code)
 
       let no = 0
       const componentPaths: string[] = []
-      const head: string[] = []
+      const prepend: string[] = []
 
       for (const match of code.matchAll(/_c\([\s\n\t]*['"](.+?)["']([,)])/g)) {
         const [full, matchedName, append] = match
@@ -40,26 +44,23 @@ export const loader = createUnplugin<Options>((options) => {
         if (match.index != null && matchedName && !matchedName.startsWith('_')) {
           const start = match.index
           const end = start + full.length
-          // debug(`| ${matchedName}`)
           const name = pascalCase(matchedName)
           componentPaths.push(name)
-          const component = await options!.findComponent(name) //, [sfcPath], matchedName)
+          const component = await options!.findComponent(name)
           if (component) {
             const varName = `__nuxt_components_${no}`
-            head.push(`import ${varName} from "${component.filePath}"`)
+            prepend.push(`import ${varName} from "${component.filePath}"`)
             no += 1
             s.overwrite(start, end, `_c(${varName}${append}`)
           }
         }
       }
 
-      // debug(`^ (${no})`)
-
-      if (!head.length) {
+      if (!prepend.length) {
         return null
       }
 
-      s.prepend(`${DISABLE_COMMENT}${head.join(';')};`)
+      s.prepend(`${DISABLE_COMMENT}${prepend.join(';')};`)
       return {
         code: s.toString(),
         map: s.generateMap({
