@@ -13,7 +13,7 @@ export interface Component {
   level: number
   prefetch: boolean | number
   preload: boolean | number
-  magicComments: string
+  magicComment: string
 }
 
 export interface ScanDir {

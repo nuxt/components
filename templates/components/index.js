@@ -1,7 +1,7 @@
 <%= options.getComponents().map(c => {
   if (c.isAsync === true || (!isDev /* prod fallback */ && c.isAsync === null)) {
     const exp = c.export === 'default' ? `c.default || c` : `c['${c.export}']`
-    const asyncImport = `() => import('../${relativeToBuild(c.filePath)}' /* ${c.magicComments} */).then(c => wrapFunctional(${exp}))`
+    const asyncImport = `() => import('../${relativeToBuild(c.filePath)}' /* ${c.magicComment} */).then(c => wrapFunctional(${exp}))`
     return `export const ${c.pascalName} = ${asyncImport}`
   } else {
     const exp = c.export === 'default' ? `default as ${c.pascalName}` : c.pascalName

@@ -89,15 +89,15 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
         component = (await extendComponent(component)) || component
       }
 
-      const magicComments = [
+      const magicComment = [
         `webpackChunkName: "${component.chunkName}"`,
         component.prefetch === true || typeof component.prefetch === 'number' ? `webpackPrefetch: ${component.prefetch}` : false,
         component.preload === true || typeof component.preload === 'number' ? `webpackPreload: ${component.preload}` : false
       ].filter(Boolean).join(', ')
 
       component.import = component.import || `require('${component.filePath}').${component.export}`
-      component.asyncImport = component.asyncImport || `function () { return import('${component.filePath}' /* ${magicComments} */).then(function(m) { return m['${component.export}'] || m }) }`
-      component.magicComments = magicComments
+      component.asyncImport = component.asyncImport || `function () { return import('${component.filePath}' /* ${magicComment} */).then(function(m) { return m['${component.export}'] || m }) }`
+      component.magicComment = magicComment
 
       // Check if component is already defined, used to overwite if level is inferiour
       const definedComponent = components.find(c => c.pascalName === component.pascalName)
