@@ -11,8 +11,9 @@ export interface Component {
   /** @deprecated */
   global: boolean
   level: number
-  prefetch: boolean
-  preload: boolean
+  prefetch: boolean | number
+  preload: boolean | number
+  magicComments: string
 }
 
 export interface ScanDir {
@@ -25,8 +26,8 @@ export interface ScanDir {
   global?: boolean | 'dev'
   pathPrefix?: boolean
   level?: number
-  prefetch?: boolean
-  preload?: boolean
+  prefetch?: boolean | number
+  preload?: boolean | number
   extendComponent?: (component: Component) => Promise<Component | void> | (Component | void)
 }
 
