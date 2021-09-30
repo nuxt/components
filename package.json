@@ -31,10 +31,10 @@
     "chokidar": "^3.5.2",
     "globby": "^11.0.4",
     "magic-string": "^0.25.7",
-    "pathe": "^0.0.2",
+    "pathe": "^0.2.0",
     "scule": "^0.2.1",
     "semver": "^7.3.5",
-    "unplugin": "^0.2.14"
+    "unplugin": "^0.2.16"
   },
   "devDependencies": {
     "@babel/preset-env": "latest",
