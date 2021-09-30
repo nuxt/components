@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loader 1`] = `
+"/* nuxt-components disabled */import __nuxt_components_0 from \\"/Users/antfu/i/nuxt-components/test/fixture/components/Header.vue\\";import __nuxt_components_1 from \\"/Users/antfu/i/nuxt-components/test/fixture/components/Foo.vue\\";import __nuxt_components_2 from \\"/Users/antfu/i/nuxt-components/test/fixture/components/0-base/1.Button.vue\\";import __nuxt_components_3 from \\"/Users/antfu/i/nuxt-components/test/fixture/components/icons/Home.vue\\";import __nuxt_components_4 from \\"/Users/antfu/i/nuxt-components/test/fixture/components/functional/Functional.vue\\";import __nuxt_components_5 from \\"/Users/antfu/i/nuxt-components/test/fixture/components/NComponent.vue\\";function anonymous(
+) {
+with(this){return _c('div',[_c(__nuxt_components_0),_v(\\" \\"),_c(__nuxt_components_1),_v(\\" \\"),_c('LazyBar'),_v(\\" \\"),_c(__nuxt_components_2),_v(\\" \\"),_c(__nuxt_components_3),_v(\\" \\"),_c('MAwesome'),_v(\\" \\"),_c(__nuxt_components_4),_v(\\" \\"),_c(__nuxt_components_5)],1)}
+}"
+`;

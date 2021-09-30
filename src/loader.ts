@@ -4,6 +4,7 @@ import { pascalCase } from 'scule'
 import { createFilter } from '@rollup/pluginutils'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { Component } from './types'
+
 export const DISABLE_COMMENT = '/* nuxt-components disabled */'
 
 export interface Options {
