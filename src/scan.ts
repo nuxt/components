@@ -39,7 +39,7 @@ export async function scanComponents (dirs: ScanDir[], srcDir: string): Promise<
       if (fileName.toLowerCase() === 'index') {
         fileName = pathPrefix === false ? basename(dirname(filePath)) : '' /* inherits from path */
       }
-      const isAsync = (fileName.endsWith('.async') ? true : dirIsAsync) || null
+      const isAsync = (fileName.endsWith('.async') ? true : dirIsAsync) ?? null
       fileName = fileName.replace(/\.async$/, '')
       const fileNameParts = splitByCase(fileName)
 
