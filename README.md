@@ -389,7 +389,7 @@ Imagine a directory structure like this:
 | nuxt.config.js
 ```
 
-Then in `awesome-ui/nuxt.js` you can use the `components:dir` hook:
+Then in `awesome-ui/nuxt.js` you can use the `components:dirs` hook:
 
 ```js
 import { join } from 'path'
