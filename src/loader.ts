@@ -1,42 +1,73 @@
-import type { loader as WebpackLoader } from 'webpack'
-import { extractTags } from './tagExtractor'
-import { matcher } from './scan'
-import type { Component } from './types'
+import { createUnplugin } from 'unplugin'
+import MagicString from 'magic-string'
+import { pascalCase } from 'scule'
+import { createFilter } from '@rollup/pluginutils'
+import type { FilterPattern } from '@rollup/pluginutils'
+import { Component } from './types'
 
-function install (this: WebpackLoader.LoaderContext, content: string, components: Component[]) {
-  const imports = '{' + components.map(c => `${c.pascalName}: ${c.isAsync ? c.asyncImport : c.import}`).join(',') + '}'
+export const DISABLE_COMMENT = '/* nuxt-components disabled */'
 
-  let newContent = '/* nuxt-component-imports */\n'
-  newContent += `installComponents(component, ${imports})\n`
-
-  // Insert our modification before the HMR code
-  const hotReload = content.indexOf('/* hot reload */')
-  if (hotReload > -1) {
-    content = content.slice(0, hotReload) + newContent + '\n\n' + content.slice(hotReload)
-  } else {
-    content += '\n\n' + newContent
-  }
-
-  return content
+export interface Options {
+  findComponent(name: string): Component | void | Promise<Component | void>
+  include?: FilterPattern
+  exclude?: FilterPattern
 }
 
-export default async function loader (this: WebpackLoader.LoaderContext, content: string) {
-  this.async()
-  this.cacheable()
+export const loader = createUnplugin<Options>((options) => {
+  const filter = createFilter(
+    options?.include || [/\.vue$/, /\.vue\?vue/],
+    options?.exclude || [/node_modules/, /\.git/, /\.nuxt/]
+  )
 
-  if (!this.resourceQuery) {
-    this.addDependency(this.resourcePath)
+  return {
+    name: 'nuxt-components-loader',
+    enforce: 'post',
 
-    const { getComponents } = this.query
-    const nonAsyncComponents = getComponents().filter((c: Component) => c.isAsync !== true)
+    transformInclude (id) {
+      return filter(id)
+    },
 
-    const tags = await extractTags(this.resourcePath)
-    const matchedComponents = matcher(tags, nonAsyncComponents)
+    async transform (code, id) {
+      if (code.includes(DISABLE_COMMENT)) {
+        return
+      }
 
-    if (matchedComponents.length) {
-      content = install.call(this, content, matchedComponents)
+      const s = new MagicString(code)
+
+      let no = 0
+      const componentPaths: string[] = []
+      const prepend: string[] = []
+
+      for (const match of code.matchAll(/_c\([\s\n\t]*['"](.+?)["']([,)])/g)) {
+        const [full, matchedName, append] = match
+
+        if (match.index != null && matchedName && !matchedName.startsWith('_')) {
+          const start = match.index
+          const end = start + full.length
+          const name = pascalCase(matchedName)
+          componentPaths.push(name)
+          const component = await options!.findComponent(name)
+          if (component && !id.startsWith(component.filePath)) {
+            const varName = `__nuxt_components_${no}`
+            prepend.push(`import ${varName} from "${component.filePath}"`)
+            no += 1
+            s.overwrite(start, end, `_c(${varName}${append}`)
+          }
+        }
+      }
+
+      if (!prepend.length) {
+        return null
+      }
+
+      s.prepend(`${DISABLE_COMMENT}${prepend.join(';')};`)
+      return {
+        code: s.toString(),
+        map: s.generateMap({
+          source: id,
+          includeContent: true
+        })
+      }
     }
   }
-
-  this.callback(null, content)
-}
+})

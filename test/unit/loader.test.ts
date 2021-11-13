@@ -1,54 +1,31 @@
-import path from 'upath'
-import { loader as WebpackLoader } from 'webpack'
-import loader from '../../src/loader'
+import { promises as fs } from 'fs'
+import { resolve } from 'path'
+import { compileToFunctions } from 'vue-template-compiler'
+import { loader, DISABLE_COMMENT } from '../../src/loader'
 import { scanFixtureComponents } from './utils'
 
-let testLoader
+test('loader', async () => {
+  const components = await scanFixtureComponents()
 
-beforeAll(async () => {
-  const fixtureComponents = await scanFixtureComponents()
-  testLoader = async (context: object, content?: string | Buffer): Promise<{ content: typeof content }> => {
-    let finalContent: typeof content
+  const transform = (code:string) => loader.raw({
+    findComponent (name) {
+      return components.find(i => i.pascalName === name || i.kebabName === name)
+    }
+  }, {} as any).transform.call(null, code, '')
 
-    await loader.call({
-      addDependency: (_file) => {},
-      async: () => {},
-      cacheable: (_bool) => {},
-      callback: (_, newContent) => { finalContent = newContent },
-      query: {
-        dependencies: [],
-        getComponents: () => fixtureComponents
-      },
-      ...context
-    } as WebpackLoader.LoaderContext, content)
+  expect(await transform(DISABLE_COMMENT)).toBeFalsy()
 
-    return { content: finalContent }
-  }
-})
-
-function expectToContainImports (content: string) {
-  const fixturePath = p => path.resolve('test/fixture', p).replace(/\\/g, '\\\\')
-  expect(content).toContain(`require('${fixturePath('components/Foo.vue')}')`)
-  expect(content).toContain(`require('${fixturePath('components/0-base/1.Button.vue')}')`)
-  expect(content).toContain(`require('${fixturePath('components/icons/Home.vue')}')`)
-}
-
-test('default', async () => {
-  const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, 'test')
-  expectToContainImports(content)
-})
-
-test('hot reload', async () => {
-  const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/index.vue') }, '/* hot reload */')
-  expectToContainImports(content)
-})
-
-test('resourceQuery is truthy', async () => {
-  const { content } = await testLoader({ resourceQuery: 'something' }, 'test')
-  expect(content).toEqual('test')
-})
-
-test('no matched components', async () => {
-  const { content } = await testLoader({ resourcePath: path.resolve('test/fixture/pages/no-components.vue') }, 'test')
-  expect(content).toEqual('test')
+  const compiledTemplate = compileToFunctions(`
+  <div>
+    <Header />
+    <Foo />
+    <LazyBar />
+    <BaseButton />
+    <IconHome />
+    <MAwesome />
+    <Functional />
+    <NComponent />
+  </div>  
+  `).render.toString()
+  expect((await transform(compiledTemplate)).code).toMatchSnapshot()
 })

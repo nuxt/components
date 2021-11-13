@@ -1,16 +1,16 @@
 import fs from 'fs'
-import path from 'upath'
+import { dirname, resolve, relative } from 'pathe'
 import chokidar from 'chokidar'
-import type { Configuration as WebpackConfig, Entry as WebpackEntry } from 'webpack'
 import type { Module } from '@nuxt/types/config'
 import consola from 'consola'
 
 import { requireNuxtVersion } from './compatibility'
 import { scanComponents } from './scan'
 import type { Options, ComponentsDir } from './types'
+import { loader } from './loader'
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
-const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : path.dirname(p)
+const getDir = (p: string) => fs.statSync(p).isDirectory() ? p : dirname(p)
 
 const componentsModule: Module<Options> = function () {
   const { nuxt } = this
@@ -46,7 +46,7 @@ const componentsModule: Module<Options> = function () {
       }
     } catch (err) {
       /* istanbul ignore next */
-      nuxt.options.watch.push(path.resolve(nuxt.options.srcDir, 'components', 'global'))
+      nuxt.options.watch.push(resolve(nuxt.options.srcDir, 'components', 'global'))
     }
 
     const componentDirs = options.dirs.filter(isPureObjectOrString).map((dir) => {
@@ -98,36 +98,22 @@ const componentsModule: Module<Options> = function () {
       consola.info('Using components loader to optimize imports')
       this.extendBuild((config) => {
         const vueRule = config.module?.rules.find(rule => rule.test?.toString().includes('.vue'))
-        if (!vueRule) {
-          throw new Error('Cannot find vue loader')
-        }
-        if (!vueRule.use) {
-          vueRule.use = [{
-            loader: vueRule.loader!.toString(),
-            options: vueRule.options
-          }]
-          delete vueRule.loader
-          delete vueRule.options
-        }
-        if (!Array.isArray(vueRule!.use)) {
-          // @ts-ignore
-          vueRule.use = [vueRule.use]
-        }
-
-        // @ts-ignore
-        vueRule!.use!.unshift({
-          loader: require.resolve('./loader'),
-          options: {
-            getComponents: () => components
+        config.plugins = config.plugins || []
+        config.plugins.push(loader.webpack({
+          include: vueRule?.test as any,
+          findComponent (name) {
+            return components.find(component => component.kebabName === name || component.pascalName === name)
           }
-        })
+        }) as any)
       })
 
-      // Add Webpack entry for runtime installComponents function
-      nuxt.hook('webpack:config', (configs: WebpackConfig[]) => {
-        for (const config of configs.filter(c => ['client', 'modern', 'server'].includes(c.name!))) {
-          ((config.entry as WebpackEntry).app as string[]).unshift(path.resolve(__dirname, '../lib/installComponents.js'))
-        }
+      this.nuxt.hook('vite:extend', ({ config }: any) => {
+        config.plugins = config.plugins || []
+        config.plugins.push(loader.vite({
+          findComponent (name) {
+            return components.find(component => component.kebabName === name || component.pascalName === name)
+          }
+        }))
       })
     }
 
@@ -164,16 +150,16 @@ const componentsModule: Module<Options> = function () {
     ]
     for (const t of templates) {
       this[t.includes('plugin') ? 'addPlugin' : 'addTemplate']({
-        src: path.resolve(__dirname, '../templates', t),
+        src: resolve(__dirname, '../templates', t),
         fileName: t.replace('_', '.'),
         options: { getComponents }
       })
     }
 
     // Add CLI info to inspect discovered components
-    const componentsListFile = path.resolve(nuxt.options.buildDir, 'components/readme.md')
+    const componentsListFile = resolve(nuxt.options.buildDir, 'components/readme.md')
     // eslint-disable-next-line no-console
-    consola.info('Discovered Components:', path.relative(process.cwd(), componentsListFile))
+    consola.info('Discovered Components:', relative(process.cwd(), componentsListFile))
   })
 }
 
