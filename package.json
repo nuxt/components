@@ -29,7 +29,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
-    "glob": "^7.1.7",
+    "glob": "^10.3.12",
     "globby": "^11.0.4",
     "scule": "^0.2.1",
     "semver": "^7.3.5",
