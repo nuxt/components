@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "chokidar": "^3.5.2",
+    "chokidar": "^5.0.0",
     "glob": "^7.1.7",
     "globby": "^11.0.4",
     "scule": "^0.2.1",
