@@ -17,9 +17,9 @@ jobs:
         node: [14]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v6
         id: cache
         with:
           path: "node_modules"
@@ -33,4 +33,4 @@ jobs:
         run: yarn test
 
       - name: Coverage
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v7
