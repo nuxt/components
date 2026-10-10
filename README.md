@@ -1,3 +1,6 @@
+> [!NOTE]
+> This repository is archived. `@nuxt/components` was designed for Nuxt 2, which reached end of life on June 30, 2024. Nuxt 3+ scans and auto-imports [components](https://nuxt.com/docs/directory-structure/app/components) out of the box.
+
 ![@nuxt/components](https://user-images.githubusercontent.com/904724/99790294-2f75d300-2b24-11eb-8114-0a2569913fae.png)
 
 # @nuxt/components
